@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0f5b22a191115bb641bcde1ee2380d95 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style='position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+     background: rgba(0,0,0,0.85); color: white; padding: 15px;
+     border-radius: 10px; border: 2px solid #4488FF; font-family: Arial;'>
+    <h3 style='margin: 0 0 10px 0; color: #4488FF;'>🚢 BATIMETRIX</h3>
+    <b>Guzergah:</b> Istanbul → Trabzon<br>
+    <b>Mesafe:</b> ~740 km<br>
+    <b>Analiz Noktasi:</b> 11<br>
+    <b>Ort. Drag:</b> 0.1323<br>
+    <b>Ort. Tasarruf:</b> %11.0<br>
+    <hr style='border-color: #4488FF;'>
+    <span style='color:#00FF88'>●</span> Verimli (&lt;0.15)<br>
+    <span style='color:#FFFF00'>●</span> Normal (0.15-0.25)<br>
+    <span style='color:#FF8800'>●</span> Dikkat (0.25-0.40)<br>
+    <span style='color:#FF0000'>●</span> Kritik (&gt;0.40)
+</div>
+    
+            <div class="folium-map" id="map_0f5b22a191115bb641bcde1ee2380d95" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0f5b22a191115bb641bcde1ee2380d95 = L.map(
+                "map_0f5b22a191115bb641bcde1ee2380d95",
+                {
+                    center: [41.5, 34.5],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 7,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5230bac8e3ac4b0559887f88c49a1f1c = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5230bac8e3ac4b0559887f88c49a1f1c.addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+            var circle_marker_915697b64932f170209140ac29f535e8 = L.circleMarker(
+                [41.1, 29.05],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_4c106b37d3b09350a14d7c0cb418860c = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_75c8c7fcc8bb552e1a912289e6f2b685 = $(`<div id="html_75c8c7fcc8bb552e1a912289e6f2b685" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Istanbul Bogazi</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1417<br>         <b>Yakit Tasarrufu:</b> %10.7<br>         <b>Derinlik:</b> 35m<br>         <b>Dalga:</b> 0.4m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_4c106b37d3b09350a14d7c0cb418860c.setContent(html_75c8c7fcc8bb552e1a912289e6f2b685);
+            
+        
+
+        circle_marker_915697b64932f170209140ac29f535e8.bindPopup(popup_4c106b37d3b09350a14d7c0cb418860c)
+        ;
+
+        
+    
+    
+            circle_marker_915697b64932f170209140ac29f535e8.bindTooltip(
+                `<div>
+                     Istanbul Bogazi | Drag: 0.142 | Tasarruf: %10.7
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f4d7aecd0ef1ab82ce5cc3967295e71a = L.circleMarker(
+                [41.3, 29.5],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_9fe763c85b7413958f52998dd66b301f = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_c5ee963acb1d6b1187983a3790aeedc4 = $(`<div id="html_c5ee963acb1d6b1187983a3790aeedc4" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Karadeniz Girisi</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1274<br>         <b>Yakit Tasarrufu:</b> %11.2<br>         <b>Derinlik:</b> 120m<br>         <b>Dalga:</b> 0.8m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_9fe763c85b7413958f52998dd66b301f.setContent(html_c5ee963acb1d6b1187983a3790aeedc4);
+            
+        
+
+        circle_marker_f4d7aecd0ef1ab82ce5cc3967295e71a.bindPopup(popup_9fe763c85b7413958f52998dd66b301f)
+        ;
+
+        
+    
+    
+            circle_marker_f4d7aecd0ef1ab82ce5cc3967295e71a.bindTooltip(
+                `<div>
+                     Karadeniz Girisi | Drag: 0.127 | Tasarruf: %11.2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1e98b38f4c6b1893782912a20d35bd60 = L.circleMarker(
+                [41.8, 30.5],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_315c04412d61e19297074f23361f6498 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_5b9befad5e6644d4bc2199411911b857 = $(`<div id="html_5b9befad5e6644d4bc2199411911b857" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Bati Karadeniz</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1295<br>         <b>Yakit Tasarrufu:</b> %11.1<br>         <b>Derinlik:</b> 650m<br>         <b>Dalga:</b> 1.2m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_315c04412d61e19297074f23361f6498.setContent(html_5b9befad5e6644d4bc2199411911b857);
+            
+        
+
+        circle_marker_1e98b38f4c6b1893782912a20d35bd60.bindPopup(popup_315c04412d61e19297074f23361f6498)
+        ;
+
+        
+    
+    
+            circle_marker_1e98b38f4c6b1893782912a20d35bd60.bindTooltip(
+                `<div>
+                     Bati Karadeniz | Drag: 0.130 | Tasarruf: %11.1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_420fe1db774289a128da05acd1854ce1 = L.circleMarker(
+                [41.6, 31.8],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_cebf7d72bbc8d632ad85ec380d950522 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_03d029cb8fbab1520eadd41f6615e4e7 = $(`<div id="html_03d029cb8fbab1520eadd41f6615e4e7" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Zonguldak Aciklari</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1318<br>         <b>Yakit Tasarrufu:</b> %11.0<br>         <b>Derinlik:</b> 850m<br>         <b>Dalga:</b> 1.5m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_cebf7d72bbc8d632ad85ec380d950522.setContent(html_03d029cb8fbab1520eadd41f6615e4e7);
+            
+        
+
+        circle_marker_420fe1db774289a128da05acd1854ce1.bindPopup(popup_cebf7d72bbc8d632ad85ec380d950522)
+        ;
+
+        
+    
+    
+            circle_marker_420fe1db774289a128da05acd1854ce1.bindTooltip(
+                `<div>
+                     Zonguldak Aciklari | Drag: 0.132 | Tasarruf: %11.0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1bbde0eb02648a892803600cb33746db = L.circleMarker(
+                [42.1, 32.5],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_7233f121b0076811452a330a3fa280b2 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_8d5281dedf2b54ce5e6f63efd363076a = $(`<div id="html_8d5281dedf2b54ce5e6f63efd363076a" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Orta Karadeniz</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1341<br>         <b>Yakit Tasarrufu:</b> %11.0<br>         <b>Derinlik:</b> 1100m<br>         <b>Dalga:</b> 1.8m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_7233f121b0076811452a330a3fa280b2.setContent(html_8d5281dedf2b54ce5e6f63efd363076a);
+            
+        
+
+        circle_marker_1bbde0eb02648a892803600cb33746db.bindPopup(popup_7233f121b0076811452a330a3fa280b2)
+        ;
+
+        
+    
+    
+            circle_marker_1bbde0eb02648a892803600cb33746db.bindTooltip(
+                `<div>
+                     Orta Karadeniz | Drag: 0.134 | Tasarruf: %11.0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_aa6f40e18fc9acccba4eef7747225c59 = L.circleMarker(
+                [42.0, 35.1],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_d44131df2ebc3fe802594e33c0fb1253 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_56f042b190b734d1f7e197307dbbdb60 = $(`<div id="html_56f042b190b734d1f7e197307dbbdb60" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Sinop Burnu</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1327<br>         <b>Yakit Tasarrufu:</b> %11.0<br>         <b>Derinlik:</b> 950m<br>         <b>Dalga:</b> 1.6m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_d44131df2ebc3fe802594e33c0fb1253.setContent(html_56f042b190b734d1f7e197307dbbdb60);
+            
+        
+
+        circle_marker_aa6f40e18fc9acccba4eef7747225c59.bindPopup(popup_d44131df2ebc3fe802594e33c0fb1253)
+        ;
+
+        
+    
+    
+            circle_marker_aa6f40e18fc9acccba4eef7747225c59.bindTooltip(
+                `<div>
+                     Sinop Burnu | Drag: 0.133 | Tasarruf: %11.0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8cacf7f8179c40423a636c0a5cd494c0 = L.circleMarker(
+                [41.7, 36.2],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_cc449e130bbe025a8af5eae5c8e1dab6 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_aeb5307feeb049d1f3176d69850fbc5c = $(`<div id="html_aeb5307feeb049d1f3176d69850fbc5c" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Samsun Aciklari</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1347<br>         <b>Yakit Tasarrufu:</b> %11.0<br>         <b>Derinlik:</b> 800m<br>         <b>Dalga:</b> 1.9m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_cc449e130bbe025a8af5eae5c8e1dab6.setContent(html_aeb5307feeb049d1f3176d69850fbc5c);
+            
+        
+
+        circle_marker_8cacf7f8179c40423a636c0a5cd494c0.bindPopup(popup_cc449e130bbe025a8af5eae5c8e1dab6)
+        ;
+
+        
+    
+    
+            circle_marker_8cacf7f8179c40423a636c0a5cd494c0.bindTooltip(
+                `<div>
+                     Samsun Aciklari | Drag: 0.135 | Tasarruf: %11.0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e114718539dd4b204a7a9a4ab1fbc8cd = L.circleMarker(
+                [41.1, 37.8],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_0980e277d3a8c7eb076de36854bbf4d6 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_6d230cc78f3b4ffff6dff1e96d2bc98c = $(`<div id="html_6d230cc78f3b4ffff6dff1e96d2bc98c" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Ordu Aciklari</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1330<br>         <b>Yakit Tasarrufu:</b> %11.0<br>         <b>Derinlik:</b> 750m<br>         <b>Dalga:</b> 1.7m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_0980e277d3a8c7eb076de36854bbf4d6.setContent(html_6d230cc78f3b4ffff6dff1e96d2bc98c);
+            
+        
+
+        circle_marker_e114718539dd4b204a7a9a4ab1fbc8cd.bindPopup(popup_0980e277d3a8c7eb076de36854bbf4d6)
+        ;
+
+        
+    
+    
+            circle_marker_e114718539dd4b204a7a9a4ab1fbc8cd.bindTooltip(
+                `<div>
+                     Ordu Aciklari | Drag: 0.133 | Tasarruf: %11.0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d1cfb7a171d9e84b3322035e65e1bd2c = L.circleMarker(
+                [41.0, 38.5],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_0d1fcb612649666e961864ec486e9d89 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_685d09a28866cf4e6e823c10c88e5048 = $(`<div id="html_685d09a28866cf4e6e823c10c88e5048" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Giresun Aciklari</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1314<br>         <b>Yakit Tasarrufu:</b> %11.1<br>         <b>Derinlik:</b> 700m<br>         <b>Dalga:</b> 1.5m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_0d1fcb612649666e961864ec486e9d89.setContent(html_685d09a28866cf4e6e823c10c88e5048);
+            
+        
+
+        circle_marker_d1cfb7a171d9e84b3322035e65e1bd2c.bindPopup(popup_0d1fcb612649666e961864ec486e9d89)
+        ;
+
+        
+    
+    
+            circle_marker_d1cfb7a171d9e84b3322035e65e1bd2c.bindTooltip(
+                `<div>
+                     Giresun Aciklari | Drag: 0.131 | Tasarruf: %11.1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bdfe4052dcd9aeabab82d504266d6a23 = L.circleMarker(
+                [41.0, 39.5],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_4bb3fb0de6c927e8f21abc6e70e86586 = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_b3f62db739beda45eca583abcb7306d7 = $(`<div id="html_b3f62db739beda45eca583abcb7306d7" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Trabzon Aciklari</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1336<br>         <b>Yakit Tasarrufu:</b> %11.0<br>         <b>Derinlik:</b> 650m<br>         <b>Dalga:</b> 1.8m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_4bb3fb0de6c927e8f21abc6e70e86586.setContent(html_b3f62db739beda45eca583abcb7306d7);
+            
+        
+
+        circle_marker_bdfe4052dcd9aeabab82d504266d6a23.bindPopup(popup_4bb3fb0de6c927e8f21abc6e70e86586)
+        ;
+
+        
+    
+    
+            circle_marker_bdfe4052dcd9aeabab82d504266d6a23.bindTooltip(
+                `<div>
+                     Trabzon Aciklari | Drag: 0.134 | Tasarruf: %11.0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e28d78704a44b9ec3c529d15391ed7a3 = L.circleMarker(
+                [41.0, 39.73],
+                {"bubblingMouseEvents": true, "color": "#00FF88", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00FF88", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+        var popup_aba4b402d7ef46883f3036dc06b67bea = L.popup({
+  "maxWidth": 220,
+});
+
+        
+            
+                var html_c1f6bf953fd1c095beb699a65e9832b2 = $(`<div id="html_c1f6bf953fd1c095beb699a65e9832b2" style="width: 100.0%; height: 100.0%;">     <div style='font-family: Arial; width: 200px;'>         <h4 style='color: #00FF88; margin: 0;'>Trabzon Limani</h4>         <hr style='margin: 5px 0;'>         <b>Drag Skoru:</b> 0.1252<br>         <b>Yakit Tasarrufu:</b> %11.2<br>         <b>Derinlik:</b> 200m<br>         <b>Dalga:</b> 0.8m<br>         <b>Durum:</b> ✅ Verimli     </div>     </div>`)[0];
+                popup_aba4b402d7ef46883f3036dc06b67bea.setContent(html_c1f6bf953fd1c095beb699a65e9832b2);
+            
+        
+
+        circle_marker_e28d78704a44b9ec3c529d15391ed7a3.bindPopup(popup_aba4b402d7ef46883f3036dc06b67bea)
+        ;
+
+        
+    
+    
+            circle_marker_e28d78704a44b9ec3c529d15391ed7a3.bindTooltip(
+                `<div>
+                     Trabzon Limani | Drag: 0.125 | Tasarruf: %11.2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_09cff0580e302965d74fa3de36b0171c = L.polyline(
+                [[41.1, 29.05], [41.3, 29.5], [41.8, 30.5], [41.6, 31.8], [42.1, 32.5], [42.0, 35.1], [41.7, 36.2], [41.1, 37.8], [41.0, 38.5], [41.0, 39.5], [41.0, 39.73]],
+                {"bubblingMouseEvents": true, "color": "#4488FF", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#4488FF", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+            poly_line_09cff0580e302965d74fa3de36b0171c.bindTooltip(
+                `<div>
+                     Istanbul - Trabzon Guzergahi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_da21c8e71193f588d4813bb1614f4228 = L.marker(
+                [41.1, 29.05],
+                {
+}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+            var icon_dc2e01bd995183b9310222afbc0eeecf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "ship",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6040b0f965fa75885f3ab6c3fa81a4db = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3b0d56cefd7cf991ee7aa85a7a2beb67 = $(`<div id="html_3b0d56cefd7cf991ee7aa85a7a2beb67" style="width: 100.0%; height: 100.0%;">KALKIS: Istanbul Bogazi</div>`)[0];
+                popup_6040b0f965fa75885f3ab6c3fa81a4db.setContent(html_3b0d56cefd7cf991ee7aa85a7a2beb67);
+            
+        
+
+        marker_da21c8e71193f588d4813bb1614f4228.bindPopup(popup_6040b0f965fa75885f3ab6c3fa81a4db)
+        ;
+
+        
+    
+    
+                marker_da21c8e71193f588d4813bb1614f4228.setIcon(icon_dc2e01bd995183b9310222afbc0eeecf);
+            
+    
+            var marker_fce5d30331bd0911877c861bab7ea75c = L.marker(
+                [41.0, 39.73],
+                {
+}
+            ).addTo(map_0f5b22a191115bb641bcde1ee2380d95);
+        
+    
+            var icon_8408a8014d84093801a8379d62df6eb9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "anchor",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_043f56980a63e42180bc70baf617fa0e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_52a5f4ca2172dc65a7c22bf32aaab7fd = $(`<div id="html_52a5f4ca2172dc65a7c22bf32aaab7fd" style="width: 100.0%; height: 100.0%;">VARIS: Trabzon Limani</div>`)[0];
+                popup_043f56980a63e42180bc70baf617fa0e.setContent(html_52a5f4ca2172dc65a7c22bf32aaab7fd);
+            
+        
+
+        marker_fce5d30331bd0911877c861bab7ea75c.bindPopup(popup_043f56980a63e42180bc70baf617fa0e)
+        ;
+
+        
+    
+    
+                marker_fce5d30331bd0911877c861bab7ea75c.setIcon(icon_8408a8014d84093801a8379d62df6eb9);
+            
+</script>
+</html>
