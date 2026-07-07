@@ -13,30 +13,30 @@ print("Terra/Aqua uydusu baglaniyor...\n")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512), nn.LayerNorm(512),
                 nn.GELU(), nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar:
+        h = self.input_layer(x)
+        for k in self.layers:
             h = h + k(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!")
+print("Model loaded!")
 
 # --- MODIS SST Verisi Cek ---
 print("\nMODIS deniz yüzeyi sicakligi aranıyor...")
@@ -51,14 +51,14 @@ params = {
 
 r = requests.get(url, headers=headers, params=params, timeout=30)
 granules = r.json().get("feed", {}).get("entry", [])
-print(f"MODIS SST: {len(granules)} granul bulundu!")
+print(f"MODIS SST: {len(granules)} granul found!")
 
 if len(granules) == 0:
     # Alternatif koleksiyon dene
     params["short_name"] = "MODIS_T-JPL-L2P-v2019.0"
     r2 = requests.get(url, headers=headers, params=params, timeout=30)
     granules = r2.json().get("feed", {}).get("entry", [])
-    print(f"MODIS Terra SST: {len(granules)} granul bulundu!")
+    print(f"MODIS Terra SST: {len(granules)} granul found!")
 
 for g in granules[:3]:
     print(f"  - {g.get('title', '')[:60]}")
@@ -73,7 +73,7 @@ def sst_vizkozite(sst_c):
     # Gerçek fizik formülü
     return 1.792e-6 * np.exp(-0.0369 * sst_c)
 
-def tahmin_sst(lat, lon, derinlik, ssh, swh, hiz, tastak, sst):
+def tahmin_sst(lat, lon, depth, ssh, swh, speed, draft, sst):
     """SST dahil drag tahmini"""
     # Vizkozite etkisini normalize et
     nu = sst_vizkozite(sst)
@@ -82,11 +82,11 @@ def tahmin_sst(lat, lon, derinlik, ssh, swh, hiz, tastak, sst):
     inp = torch.tensor([[
         (lat+70)/150,
         (lon+180)/360,
-        derinlik/6000,
+        depth/6000,
         (ssh+2)/4,
         swh/20,
-        hiz/25,
-        tastak/22
+        speed/25,
+        draft/22
     ]]).float()
     with torch.no_grad():
         drag_base = model(inp).item()
@@ -99,18 +99,18 @@ def tahmin_sst(lat, lon, derinlik, ssh, swh, hiz, tastak, sst):
 print(f"{'Mevsim':<12} {'SST(C)':>7} {'Viskozite':>12} {'Drag':>8} {'Tasarruf':>9} {'Not'}")
 print("-" * 65)
 
-mevsimler = [
+seasons = [
     ("Kis (Oca)",   6.0,  "En soguk — yuksek viskozite"),
     ("Ilkbahar",   12.0,  "Isinma donemi"),
     ("Yaz (Tem)",  26.0,  "En sicak — dusuk viskozite"),
     ("Sonbahar",   18.0,  "Soguma donemi"),
 ]
 
-for mevsim, sst, not_ in mevsimler:
+for season, sst, not_ in seasons:
     drag, nu = tahmin_sst(42.1, 31.5, 920, 0.08, 1.5, 12.0, 8.5, sst)
-    tasarruf = max(0, (0.5 - drag) * 30)
-    print(f"{mevsim:<12} {sst:>6.1f}C {nu:>12.2e} {drag:>8.4f} "
-          f"%{tasarruf:>7.1f}  {not_}")
+    savings = max(0, (0.5 - drag) * 30)
+    print(f"{season:<12} {sst:>6.1f}C {nu:>12.2e} {drag:>8.4f} "
+          f"%{savings:>7.1f}  {not_}")
 
 # --- 3 Uydu Ozet ---
 print("\n" + "=" * 65)
@@ -139,8 +139,8 @@ print()
 drag_kis, _  = tahmin_sst(42.1, 31.5, 920, 0.08, 1.5, 12.0, 8.5, 6.0)
 drag_yaz, _  = tahmin_sst(42.1, 31.5, 920, 0.08, 1.0, 12.0, 8.5, 26.0)
 
-print(f"📊 Karadeniz Kis Drag  : {drag_kis:.4f} (%{max(0,(0.5-drag_kis)*30):.1f} tasarruf)")
-print(f"📊 Karadeniz Yaz Drag  : {drag_yaz:.4f} (%{max(0,(0.5-drag_yaz)*30):.1f} tasarruf)")
+print(f"📊 Karadeniz Kis Drag  : {drag_kis:.4f} (%{max(0,(0.5-drag_kis)*30):.1f} savings)")
+print(f"📊 Karadeniz Yaz Drag  : {drag_yaz:.4f} (%{max(0,(0.5-drag_yaz)*30):.1f} savings)")
 print(f"📈 Mevsimsel Fark      : {abs(drag_kis-drag_yaz):.4f}")
 print()
 print("✅ Batimetrix artik 3 NASA uydusu kullaniyor!")

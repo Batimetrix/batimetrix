@@ -12,35 +12,35 @@ print("=== Batimetrix Grafik Gorselleştirme ===")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512), nn.LayerNorm(512),
                 nn.GELU(), nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar:
+        h = self.input_layer(x)
+        for k in self.layers:
             h = h + k(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!")
+print("Model loaded!")
 
-def tahmin(lat, lon, derinlik, ssh, swh, hiz, tastak):
+def tahmin(lat, lon, depth, ssh, swh, speed, draft):
     inp = torch.tensor([[
-        (lat+70)/150, (lon+180)/360, derinlik/6000,
-        (ssh+2)/4, swh/20, hiz/25, tastak/22
+        (lat+70)/150, (lon+180)/360, depth/6000,
+        (ssh+2)/4, swh/20, speed/25, draft/22
     ]]).float()
     with torch.no_grad():
         return model(inp).item()
@@ -67,7 +67,7 @@ gs = gridspec.GridSpec(3, 3, figure=fig, hspace=0.45, wspace=0.35)
 ax1 = fig.add_subplot(gs[0, :2])
 ax1.set_facecolor('#0D1F35')
 
-guzergah = [
+route = [
     ("Istanbul\nBogazi",   41.10, 29.05,  35, 0.05, 0.4, 12, 8.5),
     ("Kara.Giris",         41.30, 29.50, 120, 0.07, 0.8, 12, 8.5),
     ("Bati KB",            41.80, 30.50, 650, 0.08, 1.2, 12, 8.5),
@@ -81,8 +81,8 @@ guzergah = [
     ("Trabzon\nLimani",    41.00, 39.73, 200, 0.06, 0.8, 12, 8.5),
 ]
 
-isimler = [g[0] for g in guzergah]
-draglar = [tahmin(*g[1:]) for g in guzergah]
+isimler = [g[0] for g in route]
+draglar = [tahmin(*g[1:]) for g in route]
 tasarruflar = [max(0, (0.5 - d) * 30) for d in draglar]
 renkler = [GREEN if d < 0.15 else GOLD if d < 0.25 else RED for d in draglar]
 
@@ -117,7 +117,7 @@ for i, (d, t) in enumerate(zip(draglar, tasarruflar)):
 ax2 = fig.add_subplot(gs[0, 2])
 ax2.set_facecolor('#0D1F35')
 
-gemi_tipleri = {
+vessel_types = {
     "VLCC\nTanker":    (22.0, 15.0),
     "LNG\nCarrier":    (12.0, 19.5),
     "Panamax\nKont.":  (13.5, 20.0),
@@ -126,10 +126,10 @@ gemi_tipleri = {
     "RoRo\nGemisi":    ( 8.0, 22.0),
 }
 
-gemi_isimler = list(gemi_tipleri.keys())
+gemi_isimler = list(vessel_types.keys())
 gemi_draglar = []
-for isim, (tastak, hiz) in gemi_tipleri.items():
-    d = tahmin(42.1, 31.5, 920, 0.08, 1.5, hiz, tastak)
+for name, (draft, speed) in vessel_types.items():
+    d = tahmin(42.1, 31.5, 920, 0.08, 1.5, speed, draft)
     gemi_draglar.append(d)
 
 gemi_renkler = [BLUE, TEAL, GOLD, RED, GREEN, '#9B59B6']
@@ -221,9 +221,9 @@ profiller = [
     ("Handy (10m)",        10.0, GREEN),
     ("RoRo (8m)",           8.0, BLUE),
 ]
-for isim, tastak, renk in profiller:
-    draglar_hiz = [tahmin(42.1, 31.5, 920, 0.08, 1.5, h, tastak) for h in hiz_dizi]
-    ax5.plot(hiz_dizi, draglar_hiz, color=renk, linewidth=2.5, label=isim)
+for name, draft, color in profiller:
+    draglar_hiz = [tahmin(42.1, 31.5, 920, 0.08, 1.5, h, draft) for h in hiz_dizi]
+    ax5.plot(hiz_dizi, draglar_hiz, color=color, linewidth=2.5, label=name)
 
 ax5.set_title('Hız vs Drag\n(Gemi Tipi Etkisi)', color='white', fontsize=10)
 ax5.set_xlabel('Hız (knot)', color=TEAL, fontsize=9)
@@ -250,12 +250,12 @@ tastak_ler = [22.0, 18.0, 12.0, 13.5, 8.0, 10.0, 8.5]
 renkler2   = [RED, '#8E44AD', BLUE, GOLD, '#E67E22', GREEN, TEAL]
 
 tasarruf_ler = []
-for dwt, hiz, tastak in zip(dwt_ler, hiz_ler, tastak_ler):
-    drag = tahmin(42.1, 31.5, 920, 0.08, 1.5, hiz, tastak)
-    gunluk = dwt * 0.000012 * (hiz ** 2.5)
+for dwt, speed, draft in zip(dwt_ler, hiz_ler, tastak_ler):
+    drag = tahmin(42.1, 31.5, 920, 0.08, 1.5, speed, draft)
+    gunluk = dwt * 0.000012 * (speed ** 2.5)
     yillik = gunluk * 280 * 650
-    oran   = max(0, (0.5 - drag) * 0.30)
-    tasarruf_ler.append(yillik * oran / 1_000_000)
+    ratio   = max(0, (0.5 - drag) * 0.30)
+    tasarruf_ler.append(yillik * ratio / 1_000_000)
 
 x2 = range(len(gemi_isim2))
 bars2 = ax6.bar(x2, tasarruf_ler, color=renkler2, alpha=0.85,
@@ -294,20 +294,20 @@ ozet_metin = [
     ("ORT. TASARRUF", "%11.0", GREEN),
     ("EN İYİ GEMİ", "VLCC Tanker", RED),
     ("YILLIK KAZAN", "$15.7M / gemi", GOLD),
-    ("BATIMETRIX FİYAT", "%20 tasarruf", TEAL),
+    ("BATIMETRIX FİYAT", "%20 savings", TEAL),
     ("","",""),
     ("github.com/", "Batimetrix/batimetrix", GRAY),
 ]
 
 y_pos = 0.95
-for baslik, deger, renk in ozet_metin:
+for baslik, deger, color in ozet_metin:
     if not baslik:
         y_pos -= 0.04
         continue
     ax7.text(0.05, y_pos, baslik + ":", fontsize=8,
              color=GRAY, transform=ax7.transAxes, fontweight='bold')
     ax7.text(0.05, y_pos - 0.06, deger, fontsize=9,
-             color=renk, transform=ax7.transAxes, fontweight='bold')
+             color=color, transform=ax7.transAxes, fontweight='bold')
     y_pos -= 0.13
 
 ax7.set_title('Özet', color='white', fontsize=11, pad=10)
@@ -316,5 +316,5 @@ ax7.add_patch(plt.Rectangle((0, 0), 1, 1, fill=False,
 
 plt.savefig("batimetrix_grafik.png", dpi=150, bbox_inches='tight',
             facecolor='#0A1628', edgecolor='none')
-print("\nGrafik kaydedildi: batimetrix_grafik.png")
-print("Gorsellestirme tamamlandi!")
+print("\nGrafik saved: batimetrix_grafik.png")
+print("Gorsellestirme completed!")

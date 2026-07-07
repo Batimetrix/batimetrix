@@ -10,29 +10,29 @@ print("=== Batimetrix — GERCEK NASA SWOT Egitimi ===")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512), nn.LayerNorm(512),
                 nn.GELU(), nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar:
+        h = self.input_layer(x)
+        for k in self.layers:
             h = h + k(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
-print("Model yuklendi!")
+print("Model loaded!")
 
 # --- SWOT Verisi Oku ---
 print("SWOT verisi okunuyor...")
@@ -140,9 +140,9 @@ for i in range(min(5, len(lat))):
 ]]).float()    
     with torch.no_grad():
         drag = model(inp).item()
-    tasarruf = max(0, (0.5 - drag) * 30)
+    savings = max(0, (0.5 - drag) * 30)
     print(f"({la:.2f}N {lo:.2f}E)          "
-          f"{s:>8.3f} {sa:>8.4f} {drag:>8.4f} %{tasarruf:>8.1f}")
+          f"{s:>8.3f} {sa:>8.4f} {drag:>8.4f} %{savings:>8.1f}")
 
 print(f"\nKullanilan gercek NASA SWOT noktasi: {n_max:,}")
-print("GERCEK NASA SWOT verisiyle egitim tamamlandi! 🚀")
+print("GERCEK NASA SWOT verisiyle egitim completed! 🚀")

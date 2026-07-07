@@ -8,115 +8,115 @@ print("=== Batimetrix — Gercekci Gemi Tipi Analizi ===")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512), nn.LayerNorm(512),
                 nn.GELU(), nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar:
+        h = self.input_layer(x)
+        for k in self.layers:
             h = h + k(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!\n")
+print("Model loaded!\n")
 
 # --- GERCEKCI Gemi Yakıt Profilleri ---
 # Kaynak: Clarkson Research, MAN Energy Solutions, Lloyd's Register
-gemi_tipleri = {
+vessel_types = {
     "VLCC Tanker": {
-        "tastak": 22.0, "hiz": 15.0, "dwt": 300000,
-        "gercek_gunluk_ton": 120,   # ton/gun (gercek olcum)
-        "aciklama": "Very Large Crude Carrier",
+        "draft": 22.0, "speed": 15.0, "dwt": 300000,
+        "real_daily_tons": 120,   # ton/gun (gercek olcum)
+        "description": "Very Large Crude Carrier",
         "emoji": "🛢️"
     },
     "Panamax Konteyner": {
-        "tastak": 13.5, "hiz": 20.0, "dwt": 65000,
-        "gercek_gunluk_ton": 80,    # ton/gun
-        "aciklama": "Panama Kanali max konteyner",
+        "draft": 13.5, "speed": 20.0, "dwt": 65000,
+        "real_daily_tons": 80,    # ton/gun
+        "description": "Panama Kanali max konteyner",
         "emoji": "📦"
     },
     "Capesize Bulk": {
-        "tastak": 18.0, "hiz": 14.5, "dwt": 180000,
-        "gercek_gunluk_ton": 40,    # ton/gun
-        "aciklama": "Buyuk bulk carrier",
+        "draft": 18.0, "speed": 14.5, "dwt": 180000,
+        "real_daily_tons": 40,    # ton/gun
+        "description": "Buyuk bulk carrier",
         "emoji": "⚓"
     },
     "LNG Carrier": {
-        "tastak": 12.0, "hiz": 19.5, "dwt": 80000,
-        "gercek_gunluk_ton": 65,    # ton/gun
-        "aciklama": "Sivilastirilmis dogal gaz",
+        "draft": 12.0, "speed": 19.5, "dwt": 80000,
+        "real_daily_tons": 65,    # ton/gun
+        "description": "Sivilastirilmis dogal gaz",
         "emoji": "🔵"
     },
     "Kuru Yuk (Handy)": {
-        "tastak": 10.0, "hiz": 14.0, "dwt": 35000,
-        "gercek_gunluk_ton": 25,    # ton/gun
-        "aciklama": "Orta boy kuru yuk",
+        "draft": 10.0, "speed": 14.0, "dwt": 35000,
+        "real_daily_tons": 25,    # ton/gun
+        "description": "Orta boy kuru yuk",
         "emoji": "📫"
     },
     "Feeder Konteyner": {
-        "tastak": 7.5, "hiz": 16.0, "dwt": 15000,
-        "gercek_gunluk_ton": 18,    # ton/gun
-        "aciklama": "Kucuk liman besleyici",
+        "draft": 7.5, "speed": 16.0, "dwt": 15000,
+        "real_daily_tons": 18,    # ton/gun
+        "description": "Kucuk liman besleyici",
         "emoji": "🚢"
     },
     "RoRo Gemisi": {
-        "tastak": 8.0, "hiz": 22.0, "dwt": 25000,
-        "gercek_gunluk_ton": 35,    # ton/gun
-        "aciklama": "Arac tasiyan gemi",
+        "draft": 8.0, "speed": 22.0, "dwt": 25000,
+        "real_daily_tons": 35,    # ton/gun
+        "description": "Arac tasiyan gemi",
         "emoji": "🚗"
     },
     "Karadeniz Kargo": {
-        "tastak": 8.5, "hiz": 12.0, "dwt": 8000,
-        "gercek_gunluk_ton": 12,    # ton/gun
-        "aciklama": "Tipik Karadeniz kargo — pilot hedef",
+        "draft": 8.5, "speed": 12.0, "dwt": 8000,
+        "real_daily_tons": 12,    # ton/gun
+        "description": "Tipik Karadeniz kargo — pilot hedef",
         "emoji": "🎯"
     },
 }
 
-def tahmin(lat, lon, derinlik, ssh, swh, hiz, tastak):
+def tahmin(lat, lon, depth, ssh, swh, speed, draft):
     inp = torch.tensor([[
-        (lat+70)/150, (lon+180)/360, derinlik/6000,
-        (ssh+2)/4, swh/20, hiz/25, tastak/22
+        (lat+70)/150, (lon+180)/360, depth/6000,
+        (ssh+2)/4, swh/20, speed/25, draft/22
     ]]).float()
     with torch.no_grad():
         return model(inp).item()
 
-def gercekci_hesap(profil, drag):
+def gercekci_hesap(profile, drag):
     """
-    Gercekci yakit ve tasarruf hesabi
+    Gercekci fuel ve savings hesabi
     Kaynak: Clarkson Research, DNV GL, Lloyd's Register
     """
-    yakit_fiyat = 650       # USD/ton (VLSFO 2026)
-    sefer_gun   = 280       # yillik sefer gunu
-    tasarruf_oran = max(0, (0.5 - drag) * 0.25)  # max %12.5
+    fuel_price = 650       # USD/ton (VLSFO 2026)
+    voyage_days   = 280       # yillik sefer gunu
+    savings_rate = max(0, (0.5 - drag) * 0.25)  # max %12.5
 
-    # Gercek gunluk yakit (literaturden)
-    gunluk_ton = profil["gercek_gunluk_ton"]
+    # Gercek gunluk fuel (literaturden)
+    gunluk_ton = profile["real_daily_tons"]
 
-    yillik_yakit_ton = gunluk_ton * sefer_gun
-    yillik_yakit_usd = yillik_yakit_ton * yakit_fiyat
-    tasarruf_ton     = yillik_yakit_ton * tasarruf_oran
-    tasarruf_usd     = tasarruf_ton * yakit_fiyat
-    batimetrix_gelir = tasarruf_usd * 0.20  # tasarrufun %20si
+    annual_fuel_tons = gunluk_ton * voyage_days
+    annual_fuel_usd = annual_fuel_tons * fuel_price
+    savings_tons     = annual_fuel_tons * savings_rate
+    savings_usd     = savings_tons * fuel_price
+    batimetrix_gelir = savings_usd * 0.20  # tasarrufun %20si
 
     return {
         "gunluk_ton":       gunluk_ton,
-        "yillik_usd":       yillik_yakit_usd,
-        "tasarruf_oran":    tasarruf_oran * 100,
-        "tasarruf_usd":     tasarruf_usd,
+        "yillik_usd":       annual_fuel_usd,
+        "savings_rate":    savings_rate * 100,
+        "savings_usd":     savings_usd,
         "batimetrix_gelir": batimetrix_gelir,
     }
 
@@ -130,21 +130,21 @@ en_kazancli = None
 en_kazancli_deger = 0
 tum_sonuclar = {}
 
-for isim, profil in gemi_tipleri.items():
+for name, profile in vessel_types.items():
     drag = tahmin(42.1, 31.5, 920, 0.08, 1.5,
-                 profil["hiz"], profil["tastak"])
-    h = gercekci_hesap(profil, drag)
-    tum_sonuclar[isim] = h
+                 profile["speed"], profile["draft"])
+    h = gercekci_hesap(profile, drag)
+    tum_sonuclar[name] = h
 
     if h["batimetrix_gelir"] > en_kazancli_deger:
         en_kazancli_deger = h["batimetrix_gelir"]
-        en_kazancli = isim
+        en_kazancli = name
 
-    emoji = profil["emoji"]
-    print(f"{emoji} {isim:<20} {h['gunluk_ton']:>8}t/gun "
+    emoji = profile["emoji"]
+    print(f"{emoji} {name:<20} {h['gunluk_ton']:>8}t/gun "
           f"${h['yillik_usd']:>11,.0f} "
-          f"%{h['tasarruf_oran']:>8.1f} "
-          f"${h['tasarruf_usd']:>10,.0f} "
+          f"%{h['savings_rate']:>8.1f} "
+          f"${h['savings_usd']:>10,.0f} "
           f"${h['batimetrix_gelir']:>10,.0f}")
 
 print("=" * 95)
@@ -161,10 +161,10 @@ print("Batimetrix payi: Tasarrufun %20'si")
 
 # --- Pitch Ozeti ---
 print("\n=== PITCH OZETI (GERCEKCI) ===")
-for isim, h in tum_sonuclar.items():
-    emoji = gemi_tipleri[isim]["emoji"]
-    print(f"{emoji} {isim:<22}: "
-          f"${h['tasarruf_usd']:>8,.0f} tasarruf → "
+for name, h in tum_sonuclar.items():
+    emoji = vessel_types[name]["emoji"]
+    print(f"{emoji} {name:<22}: "
+          f"${h['savings_usd']:>8,.0f} savings → "
           f"${h['batimetrix_gelir']:>7,.0f}/yil Batimetrix")
 
-print("\nGercekci analiz tamamlandi!")
+print("\nGercekci analiz completed!")

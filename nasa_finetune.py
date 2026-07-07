@@ -13,12 +13,12 @@ print("=== Batimetrix — NASA SWOT Fine-Tuning ===")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512),
             nn.LayerNorm(512),
             nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512),
                 nn.LayerNorm(512),
@@ -26,7 +26,7 @@ class GucluPINN(nn.Module):
                 nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128),
             nn.GELU(),
             nn.Linear(128, 32),
@@ -36,15 +36,15 @@ class GucluPINN(nn.Module):
         )
 
     def forward(self, x):
-        h = self.giris(x)
-        for katman in self.katmanlar:
+        h = self.input_layer(x)
+        for katman in self.layers:
             h = h + katman(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Guclu model yuklendi!")
+print("Guclu model loaded!")
 
 # --- NASA SWOT Granul Metadata ---
 print("\nNASA SWOT granulleri cekiliyor...")
@@ -57,7 +57,7 @@ params = {
 }
 r = requests.get(url, headers=headers, params=params, timeout=30)
 granules = r.json().get("feed", {}).get("entry", [])
-print(f"{len(granules)} SWOT granulu bulundu!")
+print(f"{len(granules)} SWOT granulu found!")
 
 # --- SWOT Metadata'dan Gercek Nokta Uret ---
 print("\nSWOT gecis verilerinden egitim noktasi olusturuluyor...")
@@ -82,13 +82,13 @@ for g in granules:
         ssh = 0.05 * np.sin(lat * 0.5) + 0.03 * np.cos(lon * 0.3) + \
               0.02 * np.sin(saat * 0.26) + np.random.normal(0, 0.01)
         swh = 1.2 + 0.5 * np.abs(np.sin(gun * 0.2)) + np.random.exponential(0.3)
-        derinlik = 200 + 800 * np.exp(-abs(lat - 42) * 2)
+        depth = 200 + 800 * np.exp(-abs(lat - 42) * 2)
         
         swot_noktalar.append({
             "lat": lat, "lon": lon,
             "ssh": float(np.clip(ssh, -0.5, 0.5)),
             "swh": float(np.clip(swh, 0.3, 4.0)),
-            "derinlik": float(derinlik),
+            "depth": float(depth),
             "zaman": zaman
         })
 
@@ -105,14 +105,14 @@ for n in swot_noktalar:
     Re = (speed_ms_arr * draft / 1.35e-6)
     Cf = 0.075 / (np.log10(Re) - 2) ** 2
     wave_f = 1.0 + 0.20 * (n["swh"] / 3.0) ** 1.8
-    depth_f = 1.0 + 0.5 * np.exp(-n["derinlik"] / 30.0)
+    depth_f = 1.0 + 0.5 * np.exp(-n["depth"] / 30.0)
     drag_raw = Cf * speed_ms_arr**2 * draft * wave_f * depth_f
     drag = float(np.clip(drag_raw / 0.001, 0, 1))
     
     X_list.append([
         (n["lat"] + 70) / 150,
         (n["lon"] + 180) / 360,
-        n["derinlik"] / 6000,
+        n["depth"] / 6000,
         (n["ssh"] + 2) / 4,
         n["swh"] / 20,
         12.0 / 25,
@@ -140,7 +140,7 @@ for epoch in range(1, 21):
         print(f"Epoch {epoch:2d}/20 | Kayip: {loss.item():.6f}")
 
 torch.save(model.state_dict(), "batimetrix_nasa.pt")
-print("\nNASA fine-tuned model kaydedildi: batimetrix_nasa.pt")
+print("\nNASA fine-tuned model saved: batimetrix_nasa.pt")
 
 # --- Final Test ---
 model.eval()
@@ -156,18 +156,18 @@ test_noktalari = [
     ("SWOT Gecis 5 - Trabzon",  41.0, 39.5, 0.10, 1.9),
 ]
 
-for isim, lat, lon, ssh, swh in test_noktalari:
+for name, lat, lon, ssh, swh in test_noktalari:
     inp = torch.tensor([[
         (lat+70)/150, (lon+180)/360, 900/6000,
         (ssh+2)/4, swh/20, 12.0/25, 8.5/22
     ]])
     with torch.no_grad():
         drag = model(inp).item()
-    tasarruf = max(0, (0.5 - drag) * 30)
-    print(f"{isim:<25} {ssh:>6.2f} {swh:>6.1f} {drag:>8.4f} %{tasarruf:>8.1f}")
+    savings = max(0, (0.5 - drag) * 30)
+    print(f"{name:<25} {ssh:>6.2f} {swh:>6.1f} {drag:>8.4f} %{savings:>8.1f}")
 
 print("\n=== OZET ===")
 print("Model: batimetrix_nasa.pt")
 print("Egitim: Sentetik (100K) + NASA SWOT metadata (100 nokta)")
 print("Durum: Gercek NASA verisiyle fine-tune edildi!")
-print("\nNASA fine-tuning tamamlandi!")
+print("\nNASA fine-tuning completed!")

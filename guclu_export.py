@@ -10,12 +10,12 @@ print("=== Batimetrix Guclu Model ONNX Export ===")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512),
             nn.LayerNorm(512),
             nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512),
                 nn.LayerNorm(512),
@@ -23,7 +23,7 @@ class GucluPINN(nn.Module):
                 nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128),
             nn.GELU(),
             nn.Linear(128, 32),
@@ -33,15 +33,15 @@ class GucluPINN(nn.Module):
         )
 
     def forward(self, x):
-        h = self.giris(x)
-        for katman in self.katmanlar:
+        h = self.input_layer(x)
+        for katman in self.layers:
             h = h + katman(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print(f"Model yuklendi: {sum(p.numel() for p in model.parameters()):,} parametre")
+print(f"Model loaded: {sum(params.numel() for params in model.parameters()):,} parametre")
 
 print("ONNX export yapiliyor...")
 dummy = torch.zeros(1, 7)
@@ -88,14 +88,14 @@ print(f"{'Eski (batimetrix.onnx)':<25} {'151,681':>12} {eski:>9.1f}KB")
 print(f"{'Yeni (guclu.onnx)':<25} {'1,657,025':>12} {boyut:>9.1f}KB")
 
 print("\n=== KARADENIZ SON TEST (ONNX) ===")
-def tahmin_onnx(lat, lon, derinlik, ssh, swh, hiz, tastak):
+def tahmin_onnx(lat, lon, depth, ssh, swh, speed, draft):
     inp = np.array([[
-        (lat+70)/150, (lon+180)/360, derinlik/6000,
-        (ssh+2)/4, swh/20, hiz/25, tastak/22
+        (lat+70)/150, (lon+180)/360, depth/6000,
+        (ssh+2)/4, swh/20, speed/25, draft/22
     ]], dtype=np.float32)
     return sess.run(["drag_score"], {"features": inp})[0][0][0]
 
-senaryolar = [
+scenarios = [
     ("Karadeniz - Sakin",   42.1,  31.5,  920, 0.08, 1.2, 12.0, 8.5),
     ("Istanbul Bogazi",     41.1,  29.0,   35, 0.05, 0.3,  8.0, 7.0),
     ("Atlantik Firtina",    52.0, -20.0, 3200, 0.45, 8.5, 10.0, 10.0),
@@ -104,11 +104,11 @@ senaryolar = [
 
 print(f"\n{'Senaryo':<25} {'Drag':>8} {'Tasarruf':>10} {'Durum'}")
 print("-" * 55)
-for isim, la, lo, de, ss, sw, sp, dr in senaryolar:
+for name, la, lo, de, ss, sw, sp, dr in scenarios:
     drag = tahmin_onnx(la, lo, de, ss, sw, sp, dr)
-    tasarruf = max(0, (0.5 - drag) * 30)
-    durum = "Verimli" if drag < 0.3 else "Dikkat"
-    print(f"{isim:<25} {drag:>8.4f} %{tasarruf:>8.1f}  [{durum}]")
+    savings = max(0, (0.5 - drag) * 30)
+    status = "Verimli" if drag < 0.3 else "Dikkat"
+    print(f"{name:<25} {drag:>8.4f} %{savings:>8.1f}  [{status}]")
 
 print("\nbatimetrix_guclu.onnx Rust tarafina hazir!")
-print("ONNX export tamamlandi!")
+print("ONNX export completed!")

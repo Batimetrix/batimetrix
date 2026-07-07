@@ -14,30 +14,30 @@ print("2 NASA uydusu gercek veri ile modele besleniyor!\n")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512), nn.LayerNorm(512),
                 nn.GELU(), nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar:
+        h = self.input_layer(x)
+        for k in self.layers:
             h = h + k(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!")
+print("Model loaded!")
 
 # ============================================================
 # ADIM 1: GPM Gercek Veri — Yagis → SWH
@@ -52,7 +52,7 @@ gpm_r = requests.get(url, headers=headers, params={
     "sort_key": "-start_date",
 }, timeout=30)
 gpm_granules = gpm_r.json().get("feed", {}).get("entry", [])
-print(f"GPM: {len(gpm_granules)} granul bulundu!")
+print(f"GPM: {len(gpm_granules)} granul found!")
 
 # GPM granullerinden yagis tahmini
 def gpm_swh_tahmini(granules):
@@ -68,34 +68,34 @@ def gpm_swh_tahmini(granules):
     
     # Granul araligini analiz et
     if n >= 5:
-        yagis_yogunluk = 15.0  # mm/saat — orta siddetli
+        precipitation_intensity = 15.0  # mm/saat — orta siddetli
     elif n >= 3:
-        yagis_yogunluk = 5.0   # mm/saat — hafif
+        precipitation_intensity = 5.0   # mm/saat — hafif
     else:
-        yagis_yogunluk = 1.0   # mm/saat — cok hafif
+        precipitation_intensity = 1.0   # mm/saat — cok hafif
     
     # Yagis → Beaufort → SWH (deneysel iliski)
     # Ref: WMO Sea State Code
-    if yagis_yogunluk < 2:
+    if precipitation_intensity < 2:
         beaufort = 2
         swh = 0.3
-    elif yagis_yogunluk < 5:
+    elif precipitation_intensity < 5:
         beaufort = 3
         swh = 0.9
-    elif yagis_yogunluk < 10:
+    elif precipitation_intensity < 10:
         beaufort = 4
         swh = 1.5
-    elif yagis_yogunluk < 20:
+    elif precipitation_intensity < 20:
         beaufort = 5
         swh = 2.5
-    elif yagis_yogunluk < 30:
+    elif precipitation_intensity < 30:
         beaufort = 6
         swh = 4.0
     else:
         beaufort = 7
         swh = 5.5
     
-    return swh, yagis_yogunluk
+    return swh, precipitation_intensity
 
 gpm_swh, gpm_yagis = gpm_swh_tahmini(gpm_granules)
 print(f"GPM Yagis Yogunlugu : {gpm_yagis:.1f} mm/saat")
@@ -113,7 +113,7 @@ modis_r = requests.get(url, headers=headers, params={
     "sort_key": "-start_date",
 }, timeout=30)
 modis_granules = modis_r.json().get("feed", {}).get("entry", [])
-print(f"MODIS: {len(modis_granules)} granul bulundu!")
+print(f"MODIS: {len(modis_granules)} granul found!")
 
 # MODIS SST tahmini (Karadeniz mevsimsel ortalama)
 def modis_sst_tahmini(granules):
@@ -173,7 +173,7 @@ print(f"  GPM  SWH : {gpm_swh:.1f} m ({len(gpm_granules)} granul)")
 print(f"  MODIS SST: {modis_sst:.1f}°C ({len(modis_granules)} granul)")
 
 # Guzergah analizi
-guzergah = [
+route = [
     ("Istanbul Bogazi",  41.10, 29.05,  35),
     ("Bati Karadeniz",   41.80, 30.50, 650),
     ("Orta Karadeniz",   42.10, 32.50,1100),
@@ -185,13 +185,13 @@ guzergah = [
 print(f"\n{'Nokta':<22} {'Drag':>8} {'Tasarruf':>9} {'Durum'}")
 print("-" * 55)
 
-sonuclar = []
-for isim, lat, lon, derinlik in guzergah:
-    # 3 uydu verisi birlesik giris
+results = []
+for name, lat, lon, depth in route:
+    # 3 uydu verisi birlesik input_layer
     inp = torch.tensor([[
         (lat+70)/150,
         (lon+180)/360,
-        derinlik/6000,
+        depth/6000,
         (swot_ssh+2)/4,      # SWOT SSH
         gpm_swh/20,          # GPM SWH
         12.0/25,
@@ -205,22 +205,22 @@ for isim, lat, lon, derinlik in guzergah:
     nu_norm = (nu - 8e-7) / (1.8e-6 - 8e-7)
     drag = drag_base * (1.0 + 0.08 * nu_norm)
     
-    tasarruf = max(0, (0.5 - drag) * 30)
-    durum = "✅ Verimli" if drag < 0.25 else "⚠️ Dikkat"
-    sonuclar.append(drag)
+    savings = max(0, (0.5 - drag) * 30)
+    status = "✅ Verimli" if drag < 0.25 else "⚠️ Dikkat"
+    results.append(drag)
     
-    print(f"{isim:<22} {drag:>8.4f} %{tasarruf:>7.1f}  {durum}")
+    print(f"{name:<22} {drag:>8.4f} %{savings:>7.1f}  {status}")
 
-ort_drag = sum(sonuclar) / len(sonuclar)
-ort_tasarruf = sum(max(0, (0.5-d)*30) for d in sonuclar) / len(sonuclar)
+avg_drag = sum(results) / len(results)
+avg_savings = sum(max(0, (0.5-d)*30) for d in results) / len(results)
 
 print("\n" + "=" * 55)
-print(f"Ortalama Drag     : {ort_drag:.4f}")
-print(f"Ortalama Tasarruf : %{ort_tasarruf:.1f}")
+print(f"Ortalama Drag     : {avg_drag:.4f}")
+print(f"Ortalama Tasarruf : %{avg_savings:.1f}")
 
 print("\n=== 3 NASA UYDUSU BIRLESIK SISTEM ===")
 print(f"🛰️  SWOT  → SSH  : {swot_ssh:.3f} m")
 print(f"🌧️  GPM   → SWH  : {gpm_swh:.1f} m ({gpm_yagis:.0f} mm/saat)")
 print(f"🌡️  MODIS → SST  : {modis_sst:.1f}°C (ν={nu:.2e})")
-print(f"\n✅ Gercek NASA verisiyle 3 uydu entegrasyonu tamamlandi!")
-print(f"   Drag: {ort_drag:.4f} | Tasarruf: %{ort_tasarruf:.1f}")
+print(f"\n✅ Gercek NASA verisiyle 3 uydu entegrasyonu completed!")
+print(f"   Drag: {avg_drag:.4f} | Tasarruf: %{avg_savings:.1f}")

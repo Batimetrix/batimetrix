@@ -25,7 +25,7 @@ print(f"Status: {r.status_code}")
 if r.status_code == 200:
     data = r.json()
     granules = data.get("feed", {}).get("entry", [])
-    print(f"{len(granules)} GPM granulu bulundu!")
+    print(f"{len(granules)} GPM granulu found!")
     for g in granules:
         print(f"  - {g.get('title', 'isimsiz')}")
         print(f"    Zaman: {g.get('time_start', '?')} → {g.get('time_end', '?')}")
@@ -38,7 +38,7 @@ else:
     print(f"Status: {r2.status_code}")
     if r2.status_code == 200:
         granules = r2.json().get("feed", {}).get("entry", [])
-        print(f"{len(granules)} GPM granulu bulundu!")
+        print(f"{len(granules)} GPM granulu found!")
         for g in granules:
             print(f"  - {g.get('title', 'isimsiz')}")
 
@@ -55,4 +55,4 @@ if r3.status_code == 200:
     for k in koleksiyonlar:
         print(f"  [{k.get('short_name', '?')}] {k.get('title', '?')[:60]}")
 
-print("\nGPM test tamamlandi!")
+print("\nGPM test completed!")

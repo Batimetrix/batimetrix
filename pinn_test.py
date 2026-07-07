@@ -26,4 +26,4 @@ if drag_skoru < 0.5:
     print("Durum: Dusuk direnc - gemi verimli ilerleyebilir")
 else:
     print("Durum: Yuksek direnc - pervane optimizasyonu onerilir")
-print("\nBatimetrix ilk test tamamlandi!")
+print("\nBatimetrix ilk test completed!")

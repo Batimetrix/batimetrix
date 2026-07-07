@@ -17,7 +17,7 @@ r = requests.get(url, headers=headers, params=params, timeout=30)
 
 if r.status_code == 200:
     granules = r.json().get("feed", {}).get("entry", [])
-    print(f"{len(granules)} granül bulundu!")
+    print(f"{len(granules)} granül found!")
     for g in granules:
         print(f"  - {g.get('title', 'isimsiz')}")
 else:

@@ -59,7 +59,7 @@ class PINN(nn.Module):
 model     = PINN()
 optimizer = optim.AdamW(model.parameters(), lr=1e-3)
 loss_fn   = nn.MSELoss()
-print(f"Model hazir: {sum(p.numel() for p in model.parameters()):,} parametre")
+print(f"Model hazir: {sum(params.numel() for params in model.parameters()):,} parametre")
 
 # --- Egitim dongusu ---
 print("\nEgitim baslıyor (50 epoch)...")
@@ -90,24 +90,24 @@ for epoch in range(1, 51):
 # --- Test ---
 print("\n=== Gemi Testi ===")
 model.eval()
-senaryolar = [
+scenarios = [
     ("Karadeniz - sakin deniz",  42.1, 31.5, 850,  0.05, 0.8, 12, 8.5),
     ("Karadeniz - firtina",      42.1, 31.5, 850,  0.15, 4.2, 10, 8.5),
     ("Akdeniz - sığ su",         36.5, 28.2, 45,   0.02, 1.1, 14, 9.0),
     ("Atlantik - derin okyanus", 45.0, -20.0, 3800, 0.20, 6.5, 18, 12.0),
 ]
 
-for isim, lat, lon, depth, ssh, swh, speed, draft in senaryolar:
+for name, lat, lon, depth, ssh, swh, speed, draft in scenarios:
     inp = torch.tensor([[
         lat/90, (lon+180)/360, depth/4000,
         (ssh+1)/2, swh/15, speed/25, draft/25
     ]])
     with torch.no_grad():
         skor = model(inp).item()
-    durum = "Verimli" if skor < 0.4 else ("Dikkat" if skor < 0.7 else "Kritik")
-    print(f"{isim:<35} Drag: {skor:.4f} [{durum}]")
+    status = "Verimli" if skor < 0.4 else ("Dikkat" if skor < 0.7 else "Kritik")
+    print(f"{name:<35} Drag: {skor:.4f} [{status}]")
 
 # Modeli kaydet
 torch.save(model.state_dict(), "batimetrix_model.pt")
-print("\nModel kaydedildi: batimetrix_model.pt")
-print("Egitim tamamlandi!")
+print("\nModel saved: batimetrix_model.pt")
+print("Egitim completed!")

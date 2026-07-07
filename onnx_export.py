@@ -24,7 +24,7 @@ class PINN(nn.Module):
 model = PINN()
 model.load_state_dict(torch.load("batimetrix_model.pt", weights_only=True))
 model.eval()
-print("PyTorch modeli yuklendi!")
+print("PyTorch modeli loaded!")
 
 # --- ONNX export ---
 print("ONNX formatina donusturuluyor...")
@@ -76,20 +76,20 @@ else:
 
 # --- Son test ---
 print("\n=== Karadeniz Son Testi (ONNX ile) ===")
-senaryolar = [
+scenarios = [
     ("Istanbul Bogazi", 41.2, 29.1, 850),
     ("Orta Karadeniz",  42.2, 32.0, 1200),
     ("Trabzon aciklari",41.0, 39.5, 950),
 ]
 
-for isim, lat, lon, derinlik in senaryolar:
+for name, lat, lon, depth in scenarios:
     inp = np.array([[
-        lat/90, (lon+180)/360, derinlik/4000,
+        lat/90, (lon+180)/360, depth/4000,
         0.54, 0.10, 0.48, 0.34
     ]], dtype=np.float32)
     drag = sess.run(["drag_score"], {"features": inp})[0][0][0]
-    durum = "Verimli" if drag < 0.3 else "Dikkat"
-    print(f"{isim:<20} Drag: {drag:.4f} [{durum}]")
+    status = "Verimli" if drag < 0.3 else "Dikkat"
+    print(f"{name:<20} Drag: {drag:.4f} [{status}]")
 
 print("\nbatimetrix.onnx Rust tarafina kopyalanmaya hazir!")
-print("ONNX export tamamlandi!")
+print("ONNX export completed!")

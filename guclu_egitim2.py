@@ -48,12 +48,12 @@ print(f"Veri hazir: {X_t.shape}\n")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512),
             nn.LayerNorm(512),
             nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512),
                 nn.LayerNorm(512),
@@ -61,7 +61,7 @@ class GucluPINN(nn.Module):
                 nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128),
             nn.GELU(),
             nn.Linear(128, 32),
@@ -71,13 +71,13 @@ class GucluPINN(nn.Module):
         )
 
     def forward(self, x):
-        h = self.giris(x)
-        for katman in self.katmanlar:
+        h = self.input_layer(x)
+        for katman in self.layers:
             h = h + katman(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model     = GucluPINN()
-params    = sum(p.numel() for p in model.parameters())
+params    = sum(params.numel() for params in model.parameters())
 print(f"Model: {params:,} parametre")
 
 optimizer = optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-5)
@@ -137,10 +137,10 @@ model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
 
 print(f"\n=== FINAL TEST ===")
-def tahmin(lat, lon, derinlik, ssh, swh, hiz, tastak):
+def tahmin(lat, lon, depth, ssh, swh, speed, draft):
     inp = torch.tensor([[
-        (lat+70)/150, (lon+180)/360, derinlik/6000,
-        (ssh+2)/4, swh/20, hiz/25, tastak/22
+        (lat+70)/150, (lon+180)/360, depth/6000,
+        (ssh+2)/4, swh/20, speed/25, draft/22
     ]])
     with torch.no_grad():
         return model(inp).item()
@@ -155,12 +155,12 @@ testler = [
 
 print(f"\n{'Senaryo':<25} {'Drag':>8} {'Tasarruf':>10}")
 print("-" * 45)
-for isim, la, lo, de, ss, sw, sp, dr in testler:
+for name, la, lo, de, ss, sw, sp, dr in testler:
     drag = tahmin(la, lo, de, ss, sw, sp, dr)
-    tasarruf = max(0, (0.5 - drag) * 30)
-    print(f"{isim:<25} {drag:>8.4f} %{tasarruf:>8.1f}")
+    savings = max(0, (0.5 - drag) * 30)
+    print(f"{name:<25} {drag:>8.4f} %{savings:>8.1f}")
 
 print(f"\nEn iyi kayip : {en_iyi:.6f}")
 print(f"Toplam sure  : {time.time()-baslangic:.0f} saniye")
 print(f"Model        : batimetrix_guclu.pt")
-print("\nEgitim tamamlandi!")
+print("\nEgitim completed!")

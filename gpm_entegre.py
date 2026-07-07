@@ -13,30 +13,30 @@ print("2 NASA uydusu birlikte kullaniliyor!\n")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512), nn.LayerNorm(512),
                 nn.GELU(), nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar:
+        h = self.input_layer(x)
+        for k in self.layers:
             h = h + k(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!")
+print("Model loaded!")
 
 # --- SWOT Verisi Cek ---
 print("\n[1/2] NASA SWOT verisi cekiliyor...")
@@ -49,7 +49,7 @@ swot_params = {
 }
 r_swot = requests.get(url, headers=headers, params=swot_params, timeout=30)
 swot_granules = r_swot.json().get("feed", {}).get("entry", [])
-print(f"SWOT: {len(swot_granules)} granul bulundu!")
+print(f"SWOT: {len(swot_granules)} granul found!")
 
 # --- GPM Verisi Cek ---
 print("[2/2] NASA GPM firtina verisi cekiliyor...")
@@ -61,7 +61,7 @@ gpm_params = {
 }
 r_gpm = requests.get(url, headers=headers, params=gpm_params, timeout=30)
 gpm_granules = r_gpm.json().get("feed", {}).get("entry", [])
-print(f"GPM: {len(gpm_granules)} granul bulundu!")
+print(f"GPM: {len(gpm_granules)} granul found!")
 
 # --- Veri Ozeti ---
 print("\n=== NASA VERİ OZETI ===")
@@ -75,29 +75,29 @@ def gpm_yagis_tahmini(gpm_granules, lat, lon):
         return 0.0, "Veri yok"
     
     # Granul sayisi ve son zaman bazli basit model
-    yogunluk = len(gpm_granules) * 2.5  # mm/saat tahmini
-    yogunluk = min(yogunluk, 50.0)  # max 50 mm/saat
+    intensity = len(gpm_granules) * 2.5  # mm/saat tahmini
+    intensity = min(intensity, 50.0)  # max 50 mm/saat
     
-    if yogunluk < 5:
-        durum = "Acik"
-        swh_etkisi = 0.5
-    elif yogunluk < 15:
-        durum = "Hafif Yagis"
-        swh_etkisi = 1.5
-    elif yogunluk < 30:
-        durum = "Orta Firtina"
-        swh_etkisi = 3.5
+    if intensity < 5:
+        status = "Acik"
+        swh_effect = 0.5
+    elif intensity < 15:
+        status = "Hafif Yagis"
+        swh_effect = 1.5
+    elif intensity < 30:
+        status = "Orta Firtina"
+        swh_effect = 3.5
     else:
-        durum = "Siddetli Firtina"
-        swh_etkisi = 7.0
+        status = "Siddetli Firtina"
+        swh_effect = 7.0
     
-    return swh_etkisi, durum
+    return swh_effect, status
 
 # --- Karadeniz Guzergah Analizi (SWOT + GPM) ---
 print("\n=== SWOT + GPM KARADENIZ ANALİZİ ===")
 print("Her nokta icin 2 NASA uydusu birlikte kullaniliyor\n")
 
-guzergah = [
+route = [
     ("Istanbul Bogazi",    41.10, 29.05,  35, 0.05),
     ("Bati Karadeniz",     41.80, 30.50, 650, 0.08),
     ("Orta Karadeniz",     42.10, 32.50,1100, 0.09),
@@ -110,16 +110,16 @@ print(f"{'Nokta':<22} {'SSH':>6} {'GPM Durum':<16} {'SWH':>5} "
       f"{'Drag':>8} {'Tasarruf':>9} {'Risk'}")
 print("-" * 90)
 
-sonuclar = []
-for isim, lat, lon, derinlik, ssh in guzergah:
-    # GPM'den hava durumu tahmini
-    swh, hava = gpm_yagis_tahmini(gpm_granules, lat, lon)
+results = []
+for name, lat, lon, depth, ssh in route:
+    # GPM'den weather durumu tahmini
+    swh, weather = gpm_yagis_tahmini(gpm_granules, lat, lon)
     
     # SWOT SSH + GPM SWH ile model tahmini
     inp = torch.tensor([[
         (lat+70)/150,
         (lon+180)/360,
-        derinlik/6000,
+        depth/6000,
         (ssh+2)/4,
         swh/20,
         12.0/25,
@@ -129,7 +129,7 @@ for isim, lat, lon, derinlik, ssh in guzergah:
     with torch.no_grad():
         drag = model(inp).item()
     
-    tasarruf = max(0, (0.5 - drag) * 30)
+    savings = max(0, (0.5 - drag) * 30)
     
     if drag < 0.20:
         risk = "✅ Dusuk"
@@ -138,23 +138,23 @@ for isim, lat, lon, derinlik, ssh in guzergah:
     else:
         risk = "🔴 Yuksek"
     
-    sonuclar.append({
-        "isim": isim, "drag": drag,
-        "tasarruf": tasarruf, "hava": hava, "swh": swh
+    results.append({
+        "name": name, "drag": drag,
+        "savings": savings, "weather": weather, "swh": swh
     })
     
-    print(f"{isim:<22} {ssh:>6.2f} {hava:<16} {swh:>5.1f} "
-          f"{drag:>8.4f} %{tasarruf:>7.1f}  {risk}")
+    print(f"{name:<22} {ssh:>6.2f} {weather:<16} {swh:>5.1f} "
+          f"{drag:>8.4f} %{savings:>7.1f}  {risk}")
 
 # --- Ozet ---
 print("\n" + "=" * 90)
-ort_drag = sum(s["drag"] for s in sonuclar) / len(sonuclar)
-ort_tasarruf = sum(s["tasarruf"] for s in sonuclar) / len(sonuclar)
+avg_drag = sum(s["drag"] for s in results) / len(results)
+avg_savings = sum(s["savings"] for s in results) / len(results)
 
 print(f"\n📡 SWOT Uydusu     : {len(swot_granules)} gecis — SSH verisi")
 print(f"🌧️  GPM Uydusu      : {len(gpm_granules)} kayit — Firtina/yagis verisi")
-print(f"📊 Ortalama Drag   : {ort_drag:.4f}")
-print(f"⛽ Yakit Tasarrufu : %{ort_tasarruf:.1f}")
+print(f"📊 Ortalama Drag   : {avg_drag:.4f}")
+print(f"⛽ Yakit Tasarrufu : %{avg_savings:.1f}")
 print(f"\n🚀 Batimetrix artik 2 NASA uydusu kullaniyor:")
 print(f"   SWOT  → Deniz yüzey yuksekligi (SSH)")
 print(f"   GPM   → Firtina ve yagis tahmini (SWH)")

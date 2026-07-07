@@ -9,25 +9,25 @@ app = Flask(__name__)
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU())
-        self.katmanlar = nn.ModuleList([
+        self.input_layer = nn.Sequential(nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU())
+        self.layers = nn.ModuleList([
             nn.Sequential(nn.Linear(512, 512), nn.LayerNorm(512), nn.GELU(), nn.Dropout(0.05))
             for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar: h = h + k(h)
-        return self.cikis(h)
+        h = self.input_layer(x)
+        for k in self.layers: h = h + k(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!")
+print("Model loaded!")
 
 # --- CII Parametreleri ---
 CII_REF = {
@@ -39,32 +39,32 @@ CII_REF = {
     "Karadeniz Kargo":   {"a": 588.0,  "c": 0.3885},
 }
 GEMI_PROFIL = {
-    "VLCC Tanker":       {"tastak": 22.0, "hiz": 15.0, "dwt": 300000, "yakit": 120},
-    "Panamax Konteyner": {"tastak": 13.5, "hiz": 20.0, "dwt":  65000, "yakit":  80},
-    "Capesize Bulk":     {"tastak": 18.0, "hiz": 14.5, "dwt": 180000, "yakit":  40},
-    "LNG Carrier":       {"tastak": 12.0, "hiz": 19.5, "dwt":  80000, "yakit":  65},
-    "Kuru Yuk (Handy)":  {"tastak": 10.0, "hiz": 14.0, "dwt":  35000, "yakit":  25},
-    "Karadeniz Kargo":   {"tastak":  8.5, "hiz": 12.0, "dwt":   8000, "yakit":  12},
+    "VLCC Tanker":       {"draft": 22.0, "speed": 15.0, "dwt": 300000, "fuel": 120},
+    "Panamax Konteyner": {"draft": 13.5, "speed": 20.0, "dwt":  65000, "fuel":  80},
+    "Capesize Bulk":     {"draft": 18.0, "speed": 14.5, "dwt": 180000, "fuel":  40},
+    "LNG Carrier":       {"draft": 12.0, "speed": 19.5, "dwt":  80000, "fuel":  65},
+    "Kuru Yuk (Handy)":  {"draft": 10.0, "speed": 14.0, "dwt":  35000, "fuel":  25},
+    "Karadeniz Kargo":   {"draft":  8.5, "speed": 12.0, "dwt":   8000, "fuel":  12},
 }
 
-def tahmin_drag(lat, lon, derinlik, ssh, swh, hiz, tastak):
+def tahmin_drag(lat, lon, depth, ssh, swh, speed, draft):
     inp = torch.tensor([[
-        (lat+70)/150, (lon+180)/360, derinlik/6000,
-        (ssh+2)/4, swh/20, hiz/25, tastak/22
+        (lat+70)/150, (lon+180)/360, depth/6000,
+        (ssh+2)/4, swh/20, speed/25, draft/22
     ]]).float()
     with torch.no_grad():
         return model(inp).item()
 
-def hesapla_cii(gemi_adi, dwt, yakit_gun, mesafe_nm, sefer_gun):
-    p = CII_REF.get(gemi_adi, {"a": 588.0, "c": 0.3885})
-    ref = p["a"] * (dwt ** (-p["c"])) * (1 - 11/100)
-    co2_g = yakit_gun * sefer_gun * 3.151 * 1_000_000
+def hesapla_cii(vessel_name, dwt, fuel_per_day, mesafe_nm, voyage_days):
+    params = CII_REF.get(vessel_name, {"a": 588.0, "c": 0.3885})
+    ref = params["a"] * (dwt ** (-params["c"])) * (1 - 11/100)
+    co2_g = fuel_per_day * voyage_days * 3.151 * 1_000_000
     cii = co2_g / (dwt * mesafe_nm)
-    oran = cii / ref
-    if   oran <= 0.86: return "A", cii, ref
-    elif oran <= 0.94: return "B", cii, ref
-    elif oran <= 1.06: return "C", cii, ref
-    elif oran <= 1.18: return "D", cii, ref
+    ratio = cii / ref
+    if   ratio <= 0.86: return "A", cii, ref
+    elif ratio <= 0.94: return "B", cii, ref
+    elif ratio <= 1.06: return "C", cii, ref
+    elif ratio <= 1.18: return "D", cii, ref
     else:              return "E", cii, ref
 
 HTML = """
@@ -171,13 +171,13 @@ HTML = """
   .cii-label { font-size:13px; color:#7F8C8D; margin-top:4px; }
 
   /* GUZERGAH */
-  .guzergah-table { width:100%; border-collapse:collapse; font-size:12px; }
-  .guzergah-table th {
+  .route-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .route-table th {
     background:#1B4F72; color:#1ABC9C; padding:10px 12px;
     text-align:left; font-size:11px; text-transform:uppercase;
   }
-  .guzergah-table td { padding:10px 12px; border-bottom:1px solid #1B4F7233; }
-  .guzergah-table tr:hover td { background:#1B4F7222; }
+  .route-table td { padding:10px 12px; border-bottom:1px solid #1B4F7233; }
+  .route-table tr:hover td { background:#1B4F7222; }
   .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
   .dot.green { background:#1ABC9C; }
   .dot.gold  { background:#F39C12; }
@@ -247,7 +247,7 @@ HTML = """
 
         <div class="form-group">
           <label>VESSEL TYPE</label>
-          <select id="gemi_tipi">
+          <select id="vessel_type">
             <option>Karadeniz Kargo</option>
             <option>Kuru Yuk (Handy)</option>
             <option>Panamax Konteyner</option>
@@ -259,7 +259,7 @@ HTML = """
 
         <div class="form-group">
           <label>ROUTE</label>
-          <select id="guzergah">
+          <select id="route">
             <option value="istanbul_trabzon">Istanbul → Trabzon</option>
             <option value="istanbul_novorossiysk">Istanbul → Novorossiysk</option>
             <option value="odessa_istanbul">Odessa → Istanbul</option>
@@ -272,11 +272,11 @@ HTML = """
         <div class="row">
           <div class="form-group">
             <label>SPEED (KNOTS)</label>
-            <input type="number" id="hiz" value="12" min="5" max="25">
+            <input type="number" id="speed" value="12" min="5" max="25">
           </div>
           <div class="form-group">
             <label>DRAFT (M)</label>
-            <input type="number" id="tastak" value="8.5" min="3" max="22" step="0.5">
+            <input type="number" id="draft" value="8.5" min="3" max="22" step="0.5">
           </div>
         </div>
 
@@ -293,7 +293,7 @@ HTML = """
 
         <div class="form-group">
           <label>ANNUAL VOYAGE DAYS</label>
-          <input type="number" id="sefer_gun" value="280" min="100" max="365">
+          <input type="number" id="voyage_days" value="280" min="100" max="365">
         </div>
 
         <button class="btn" onclick="analiz()">
@@ -384,7 +384,7 @@ HTML = """
         <!-- Güzergah Tablosu -->
         <div class="card">
           <h2>🗺️ Route Analysis</h2>
-          <table class="guzergah-table">
+          <table class="route-table">
             <thead>
               <tr>
                 <th>Waypoint</th>
@@ -416,43 +416,43 @@ HTML = """
 <script>
 const GUZERGAHLAR = {
   istanbul_trabzon: [
-    {isim:"Istanbul Bogazi",   lat:41.10,lon:29.05,derinlik: 35,ssh:0.05},
-    {isim:"Kara.Giris",        lat:41.30,lon:29.50,derinlik:120,ssh:0.07},
-    {isim:"Bati Karadeniz",    lat:41.80,lon:30.50,derinlik:650,ssh:0.08},
-    {isim:"Zonguldak",         lat:41.60,lon:31.80,derinlik:850,ssh:0.08},
-    {isim:"Sinop",             lat:42.00,lon:35.10,derinlik:950,ssh:0.10},
-    {isim:"Samsun",            lat:41.70,lon:36.20,derinlik:800,ssh:0.11},
-    {isim:"Trabzon",           lat:41.00,lon:39.73,derinlik:200,ssh:0.06},
+    {name:"Istanbul Bogazi",   lat:41.10,lon:29.05,depth: 35,ssh:0.05},
+    {name:"Kara.Giris",        lat:41.30,lon:29.50,depth:120,ssh:0.07},
+    {name:"Bati Karadeniz",    lat:41.80,lon:30.50,depth:650,ssh:0.08},
+    {name:"Zonguldak",         lat:41.60,lon:31.80,depth:850,ssh:0.08},
+    {name:"Sinop",             lat:42.00,lon:35.10,depth:950,ssh:0.10},
+    {name:"Samsun",            lat:41.70,lon:36.20,depth:800,ssh:0.11},
+    {name:"Trabzon",           lat:41.00,lon:39.73,depth:200,ssh:0.06},
   ],
   istanbul_novorossiysk: [
-    {isim:"Istanbul Bogazi",   lat:41.10,lon:29.05,derinlik: 35,ssh:0.05},
-    {isim:"Bati KB",           lat:41.80,lon:30.50,derinlik:650,ssh:0.08},
-    {isim:"Orta KB",           lat:42.10,lon:33.00,derinlik:1100,ssh:0.09},
-    {isim:"Novorossiysk",      lat:44.72,lon:37.77,derinlik:120,ssh:0.06},
+    {name:"Istanbul Bogazi",   lat:41.10,lon:29.05,depth: 35,ssh:0.05},
+    {name:"Bati KB",           lat:41.80,lon:30.50,depth:650,ssh:0.08},
+    {name:"Orta KB",           lat:42.10,lon:33.00,depth:1100,ssh:0.09},
+    {name:"Novorossiysk",      lat:44.72,lon:37.77,depth:120,ssh:0.06},
   ],
   odessa_istanbul: [
-    {isim:"Odessa",            lat:46.48,lon:30.73,derinlik: 80,ssh:0.07},
-    {isim:"Bati KB",           lat:44.00,lon:31.00,derinlik:800,ssh:0.10},
-    {isim:"Orta KB",           lat:42.50,lon:32.00,derinlik:1100,ssh:0.09},
-    {isim:"Istanbul Bogazi",   lat:41.10,lon:29.05,derinlik: 35,ssh:0.05},
+    {name:"Odessa",            lat:46.48,lon:30.73,depth: 80,ssh:0.07},
+    {name:"Bati KB",           lat:44.00,lon:31.00,depth:800,ssh:0.10},
+    {name:"Orta KB",           lat:42.50,lon:32.00,depth:1100,ssh:0.09},
+    {name:"Istanbul Bogazi",   lat:41.10,lon:29.05,depth: 35,ssh:0.05},
   ],
   batumi_constanta: [
-    {isim:"Batumi",            lat:41.65,lon:41.64,derinlik:150,ssh:0.07},
-    {isim:"Dogu KB",           lat:42.00,lon:38.00,derinlik:900,ssh:0.09},
-    {isim:"Orta KB",           lat:42.20,lon:33.00,derinlik:1100,ssh:0.08},
-    {isim:"Constanta",         lat:44.17,lon:28.65,derinlik: 60,ssh:0.06},
+    {name:"Batumi",            lat:41.65,lon:41.64,depth:150,ssh:0.07},
+    {name:"Dogu KB",           lat:42.00,lon:38.00,depth:900,ssh:0.09},
+    {name:"Orta KB",           lat:42.20,lon:33.00,depth:1100,ssh:0.08},
+    {name:"Constanta",         lat:44.17,lon:28.65,depth: 60,ssh:0.06},
   ],
   karadeniz_sakin: [
-    {isim:"Nokta 1",           lat:41.50,lon:30.00,derinlik:600,ssh:0.06},
-    {isim:"Nokta 2",           lat:41.80,lon:32.00,derinlik:900,ssh:0.08},
-    {isim:"Nokta 3",           lat:42.10,lon:34.00,derinlik:1100,ssh:0.09},
-    {isim:"Nokta 4",           lat:42.00,lon:36.00,derinlik:950,ssh:0.10},
+    {name:"Nokta 1",           lat:41.50,lon:30.00,depth:600,ssh:0.06},
+    {name:"Nokta 2",           lat:41.80,lon:32.00,depth:900,ssh:0.08},
+    {name:"Nokta 3",           lat:42.10,lon:34.00,depth:1100,ssh:0.09},
+    {name:"Nokta 4",           lat:42.00,lon:36.00,depth:950,ssh:0.10},
   ],
   atlantik: [
-    {isim:"Biscay",            lat:45.00,lon:-5.00,derinlik:2800,ssh:0.25},
-    {isim:"Mid-Atlantic",      lat:48.00,lon:-15.00,derinlik:3500,ssh:0.35},
-    {isim:"Deep Atlantic",     lat:50.00,lon:-25.00,derinlik:4200,ssh:0.40},
-    {isim:"N.Atlantic",        lat:52.00,lon:-30.00,derinlik:3800,ssh:0.38},
+    {name:"Biscay",            lat:45.00,lon:-5.00,depth:2800,ssh:0.25},
+    {name:"Mid-Atlantic",      lat:48.00,lon:-15.00,depth:3500,ssh:0.35},
+    {name:"Deep Atlantic",     lat:50.00,lon:-25.00,depth:4200,ssh:0.40},
+    {name:"N.Atlantic",        lat:52.00,lon:-30.00,depth:3800,ssh:0.38},
   ],
 };
 
@@ -465,30 +465,30 @@ const CII_REF = {
   "Karadeniz Kargo":   {a:588.0,  c:0.3885},
 };
 const GEMI_PROFIL = {
-  "VLCC Tanker":       {dwt:300000, yakit:120},
-  "Panamax Konteyner": {dwt: 65000, yakit: 80},
-  "Capesize Bulk":     {dwt:180000, yakit: 40},
-  "LNG Carrier":       {dwt: 80000, yakit: 65},
-  "Kuru Yuk (Handy)":  {dwt: 35000, yakit: 25},
-  "Karadeniz Kargo":   {dwt:  8000, yakit: 12},
+  "VLCC Tanker":       {dwt:300000, fuel:120},
+  "Panamax Konteyner": {dwt: 65000, fuel: 80},
+  "Capesize Bulk":     {dwt:180000, fuel: 40},
+  "LNG Carrier":       {dwt: 80000, fuel: 65},
+  "Kuru Yuk (Handy)":  {dwt: 35000, fuel: 25},
+  "Karadeniz Kargo":   {dwt:  8000, fuel: 12},
 };
 
-function ciiNotu(oran) {
-  if (oran <= 0.86) return "A";
-  if (oran <= 0.94) return "B";
-  if (oran <= 1.06) return "C";
-  if (oran <= 1.18) return "D";
+function ciiNotu(ratio) {
+  if (ratio <= 0.86) return "A";
+  if (ratio <= 0.94) return "B";
+  if (ratio <= 1.06) return "C";
+  if (ratio <= 1.18) return "D";
   return "E";
 }
 
 async function analiz() {
-  const gemi   = document.getElementById("gemi_tipi").value;
-  const rota   = document.getElementById("guzergah").value;
-  const hiz    = parseFloat(document.getElementById("hiz").value);
-  const tastak = parseFloat(document.getElementById("tastak").value);
+  const gemi   = document.getElementById("vessel_type").value;
+  const route   = document.getElementById("route").value;
+  const speed    = parseFloat(document.getElementById("speed").value);
+  const draft = parseFloat(document.getElementById("draft").value);
   const swh    = parseFloat(document.getElementById("swh").value);
   const sst    = parseFloat(document.getElementById("sst").value);
-  const gun    = parseInt(document.getElementById("sefer_gun").value);
+  const gun    = parseInt(document.getElementById("voyage_days").value);
 
   document.getElementById("loading").style.display = "block";
   document.getElementById("results").style.display = "none";
@@ -496,7 +496,7 @@ async function analiz() {
   const res = await fetch("/analiz", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({gemi, rota, hiz, tastak, swh, sst, sefer_gun: gun})
+    body: JSON.stringify({gemi, route, speed, draft, swh, sst, voyage_days: gun})
   });
   const data = await res.json();
 
@@ -505,9 +505,9 @@ async function analiz() {
 
   // Ana metrikler
   document.getElementById("drag_val").textContent     = data.drag.toFixed(4);
-  document.getElementById("tasarruf_val").textContent = "%" + data.tasarruf.toFixed(1);
-  document.getElementById("para_val").textContent     = "$" + (data.para_tasarruf/1000).toFixed(0) + "K";
-  document.getElementById("co2_val").textContent      = data.co2_azalma.toFixed(0) + "t";
+  document.getElementById("tasarruf_val").textContent = "%" + data.savings.toFixed(1);
+  document.getElementById("para_val").textContent     = "$" + (data.cost_savings/1000).toFixed(0) + "K";
+  document.getElementById("co2_val").textContent      = data.co2_reduction.toFixed(0) + "t";
 
   // Progress
   const dragPct = Math.min(data.drag * 100, 100);
@@ -535,18 +535,18 @@ async function analiz() {
   // Güzergah tablosu
   const tbody = document.getElementById("guzergah_tbody");
   tbody.innerHTML = "";
-  data.noktalar.forEach(n => {
-    const renk = n.drag < 0.20 ? "green" : n.drag < 0.35 ? "gold" : "red";
-    const durum = n.drag < 0.20 ? "✅ Efficient" : n.drag < 0.35 ? "⚠️ Normal" : "🔴 High Drag";
+  data.waypoints.forEach(n => {
+    const color = n.drag < 0.20 ? "green" : n.drag < 0.35 ? "gold" : "red";
+    const status = n.drag < 0.20 ? "✅ Efficient" : n.drag < 0.35 ? "⚠️ Normal" : "🔴 High Drag";
     tbody.innerHTML += `
       <tr>
-        <td><span class="dot ${renk}"></span>${n.isim}</td>
-        <td>${n.derinlik}m</td>
+        <td><span class="dot ${color}"></span>${n.name}</td>
+        <td>${n.depth}m</td>
         <td>${n.ssh.toFixed(3)}</td>
         <td>${n.swh.toFixed(1)}</td>
-        <td style="color:${renk==='green'?'#1ABC9C':renk==='gold'?'#F39C12':'#E74C3C'};font-weight:700">${n.drag.toFixed(4)}</td>
-        <td style="color:#1ABC9C">%${n.tasarruf.toFixed(1)}</td>
-        <td>${durum}</td>
+        <td style="color:${color==='green'?'#1ABC9C':color==='gold'?'#F39C12':'#E74C3C'};font-weight:700">${n.drag.toFixed(4)}</td>
+        <td style="color:#1ABC9C">%${n.savings.toFixed(1)}</td>
+        <td>${status}</td>
       </tr>`;
   });
 }
@@ -563,92 +563,92 @@ def index():
 def analiz():
     d = request.json
     gemi     = d["gemi"]
-    rota     = d["rota"]
-    hiz      = float(d["hiz"])
-    tastak   = float(d["tastak"])
+    route     = d["route"]
+    speed      = float(d["speed"])
+    draft   = float(d["draft"])
     swh      = float(d["swh"])
     sst      = float(d.get("sst", 22))
-    sefer_gun= int(d["sefer_gun"])
+    voyage_days= int(d["voyage_days"])
 
     # Güzergah noktaları
     GUZERGAHLAR = {
         "istanbul_trabzon": [
-            {"isim":"Istanbul Bogazi","lat":41.10,"lon":29.05,"derinlik":35,"ssh":0.05},
-            {"isim":"Kara.Giris","lat":41.30,"lon":29.50,"derinlik":120,"ssh":0.07},
-            {"isim":"Bati Karadeniz","lat":41.80,"lon":30.50,"derinlik":650,"ssh":0.08},
-            {"isim":"Zonguldak","lat":41.60,"lon":31.80,"derinlik":850,"ssh":0.08},
-            {"isim":"Sinop","lat":42.00,"lon":35.10,"derinlik":950,"ssh":0.10},
-            {"isim":"Samsun","lat":41.70,"lon":36.20,"derinlik":800,"ssh":0.11},
-            {"isim":"Trabzon","lat":41.00,"lon":39.73,"derinlik":200,"ssh":0.06},
+            {"name":"Istanbul Bogazi","lat":41.10,"lon":29.05,"depth":35,"ssh":0.05},
+            {"name":"Kara.Giris","lat":41.30,"lon":29.50,"depth":120,"ssh":0.07},
+            {"name":"Bati Karadeniz","lat":41.80,"lon":30.50,"depth":650,"ssh":0.08},
+            {"name":"Zonguldak","lat":41.60,"lon":31.80,"depth":850,"ssh":0.08},
+            {"name":"Sinop","lat":42.00,"lon":35.10,"depth":950,"ssh":0.10},
+            {"name":"Samsun","lat":41.70,"lon":36.20,"depth":800,"ssh":0.11},
+            {"name":"Trabzon","lat":41.00,"lon":39.73,"depth":200,"ssh":0.06},
         ],
         "istanbul_novorossiysk": [
-            {"isim":"Istanbul Bogazi","lat":41.10,"lon":29.05,"derinlik":35,"ssh":0.05},
-            {"isim":"Bati KB","lat":41.80,"lon":30.50,"derinlik":650,"ssh":0.08},
-            {"isim":"Orta KB","lat":42.10,"lon":33.00,"derinlik":1100,"ssh":0.09},
-            {"isim":"Novorossiysk","lat":44.72,"lon":37.77,"derinlik":120,"ssh":0.06},
+            {"name":"Istanbul Bogazi","lat":41.10,"lon":29.05,"depth":35,"ssh":0.05},
+            {"name":"Bati KB","lat":41.80,"lon":30.50,"depth":650,"ssh":0.08},
+            {"name":"Orta KB","lat":42.10,"lon":33.00,"depth":1100,"ssh":0.09},
+            {"name":"Novorossiysk","lat":44.72,"lon":37.77,"depth":120,"ssh":0.06},
         ],
         "odessa_istanbul": [
-            {"isim":"Odessa","lat":46.48,"lon":30.73,"derinlik":80,"ssh":0.07},
-            {"isim":"Bati KB","lat":44.00,"lon":31.00,"derinlik":800,"ssh":0.10},
-            {"isim":"Orta KB","lat":42.50,"lon":32.00,"derinlik":1100,"ssh":0.09},
-            {"isim":"Istanbul Bogazi","lat":41.10,"lon":29.05,"derinlik":35,"ssh":0.05},
+            {"name":"Odessa","lat":46.48,"lon":30.73,"depth":80,"ssh":0.07},
+            {"name":"Bati KB","lat":44.00,"lon":31.00,"depth":800,"ssh":0.10},
+            {"name":"Orta KB","lat":42.50,"lon":32.00,"depth":1100,"ssh":0.09},
+            {"name":"Istanbul Bogazi","lat":41.10,"lon":29.05,"depth":35,"ssh":0.05},
         ],
         "batumi_constanta": [
-            {"isim":"Batumi","lat":41.65,"lon":41.64,"derinlik":150,"ssh":0.07},
-            {"isim":"Dogu KB","lat":42.00,"lon":38.00,"derinlik":900,"ssh":0.09},
-            {"isim":"Orta KB","lat":42.20,"lon":33.00,"derinlik":1100,"ssh":0.08},
-            {"isim":"Constanta","lat":44.17,"lon":28.65,"derinlik":60,"ssh":0.06},
+            {"name":"Batumi","lat":41.65,"lon":41.64,"depth":150,"ssh":0.07},
+            {"name":"Dogu KB","lat":42.00,"lon":38.00,"depth":900,"ssh":0.09},
+            {"name":"Orta KB","lat":42.20,"lon":33.00,"depth":1100,"ssh":0.08},
+            {"name":"Constanta","lat":44.17,"lon":28.65,"depth":60,"ssh":0.06},
         ],
         "karadeniz_sakin": [
-            {"isim":"Nokta 1","lat":41.50,"lon":30.00,"derinlik":600,"ssh":0.06},
-            {"isim":"Nokta 2","lat":41.80,"lon":32.00,"derinlik":900,"ssh":0.08},
-            {"isim":"Nokta 3","lat":42.10,"lon":34.00,"derinlik":1100,"ssh":0.09},
-            {"isim":"Nokta 4","lat":42.00,"lon":36.00,"derinlik":950,"ssh":0.10},
+            {"name":"Nokta 1","lat":41.50,"lon":30.00,"depth":600,"ssh":0.06},
+            {"name":"Nokta 2","lat":41.80,"lon":32.00,"depth":900,"ssh":0.08},
+            {"name":"Nokta 3","lat":42.10,"lon":34.00,"depth":1100,"ssh":0.09},
+            {"name":"Nokta 4","lat":42.00,"lon":36.00,"depth":950,"ssh":0.10},
         ],
         "atlantik": [
-            {"isim":"Biscay","lat":45.00,"lon":-5.00,"derinlik":2800,"ssh":0.25},
-            {"isim":"Mid-Atlantic","lat":48.00,"lon":-15.00,"derinlik":3500,"ssh":0.35},
-            {"isim":"Deep Atlantic","lat":50.00,"lon":-25.00,"derinlik":4200,"ssh":0.40},
-            {"isim":"N.Atlantic","lat":52.00,"lon":-30.00,"derinlik":3800,"ssh":0.38},
+            {"name":"Biscay","lat":45.00,"lon":-5.00,"depth":2800,"ssh":0.25},
+            {"name":"Mid-Atlantic","lat":48.00,"lon":-15.00,"depth":3500,"ssh":0.35},
+            {"name":"Deep Atlantic","lat":50.00,"lon":-25.00,"depth":4200,"ssh":0.40},
+            {"name":"N.Atlantic","lat":52.00,"lon":-30.00,"depth":3800,"ssh":0.38},
         ],
     }
 
-    noktalar = GUZERGAHLAR.get(rota, GUZERGAHLAR["istanbul_trabzon"])
-    profil   = GEMI_PROFIL.get(gemi, {"dwt": 8000, "yakit": 12})
+    waypoints = GUZERGAHLAR.get(route, GUZERGAHLAR["istanbul_trabzon"])
+    profile   = GEMI_PROFIL.get(gemi, {"dwt": 8000, "fuel": 12})
 
     # Her nokta için drag hesapla
-    sonuc_noktalar = []
-    drag_toplam = 0
-    for n in noktalar:
-        drag = tahmin_drag(n["lat"], n["lon"], n["derinlik"],
-                           n["ssh"], swh, hiz, tastak)
-        tas  = max(0, (0.5 - drag) * 30)
-        drag_toplam += drag
-        sonuc_noktalar.append({
-            "isim": n["isim"], "derinlik": n["derinlik"],
+    result_waypoints = []
+    drag_total = 0
+    for n in waypoints:
+        drag = tahmin_drag(n["lat"], n["lon"], n["depth"],
+                           n["ssh"], swh, speed, draft)
+        sav  = max(0, (0.5 - drag) * 30)
+        drag_total += drag
+        result_waypoints.append({
+            "name": n["name"], "depth": n["depth"],
             "ssh": n["ssh"], "swh": swh,
-            "drag": round(drag, 4), "tasarruf": round(tas, 1)
+            "drag": round(drag, 4), "savings": round(sav, 1)
         })
 
-    ort_drag     = drag_toplam / len(noktalar)
-    tas_oran     = max(0, (0.5 - ort_drag) * 0.25)
-    yakit_gun    = profil["yakit"]
-    dwt          = profil["dwt"]
-    yakit_fiyat  = 650
-    sefer_mesafe = 5000
+    avg_drag     = drag_total / len(waypoints)
+    savings_rate     = max(0, (0.5 - avg_drag) * 0.25)
+    fuel_per_day    = profile["fuel"]
+    dwt          = profile["dwt"]
+    fuel_price  = 650
+    voyage_distance = 5000
 
     # Yıllık hesaplar
-    yillik_yakit_usd = yakit_gun * sefer_gun * yakit_fiyat
-    para_tasarruf    = yillik_yakit_usd * tas_oran
-    co2_azalma       = yakit_gun * tas_oran * sefer_gun * 3.151
+    annual_fuel_usd = fuel_per_day * voyage_days * fuel_price
+    cost_savings    = annual_fuel_usd * savings_rate
+    co2_reduction       = fuel_per_day * savings_rate * voyage_days * 3.151
 
     # CII
-    p_cii   = CII_REF.get(gemi, {"a": 588.0, "c": 0.3885})
-    req_cii = p_cii["a"] * (dwt ** (-p_cii["c"])) * (1 - 11/100)
-    co2_b_g = yakit_gun * sefer_gun * 3.151 * 1_000_000
-    co2_a_g = yakit_gun * (1-tas_oran) * sefer_gun * 3.151 * 1_000_000
-    cii_b   = co2_b_g / (dwt * sefer_mesafe)
-    cii_a   = co2_a_g / (dwt * sefer_mesafe)
+    cii_params   = CII_REF.get(gemi, {"a": 588.0, "c": 0.3885})
+    required_cii = cii_params["a"] * (dwt ** (-cii_params["c"])) * (1 - 11/100)
+    co2_baseline_g = fuel_per_day * voyage_days * 3.151 * 1_000_000
+    co2_optimized_g = fuel_per_day * (1-savings_rate) * voyage_days * 3.151 * 1_000_000
+    cii_b   = co2_baseline_g / (dwt * voyage_distance)
+    cii_a   = co2_optimized_g / (dwt * voyage_distance)
 
     def cii_not(v, r):
         o = v/r
@@ -659,15 +659,15 @@ def analiz():
         return "E"
 
     return jsonify({
-        "drag":        round(ort_drag, 4),
-        "tasarruf":    round(tas_oran * 100, 1),
-        "para_tasarruf": round(para_tasarruf, 0),
-        "co2_azalma":  round(co2_azalma, 1),
-        "cii_before":  cii_not(cii_b, req_cii),
-        "cii_after":   cii_not(cii_a, req_cii),
+        "drag":        round(avg_drag, 4),
+        "savings":    round(savings_rate * 100, 1),
+        "cost_savings": round(cost_savings, 0),
+        "co2_reduction":  round(co2_reduction, 1),
+        "cii_before":  cii_not(cii_b, required_cii),
+        "cii_after":   cii_not(cii_a, required_cii),
         "cii_b_val":   round(cii_b, 3),
         "cii_a_val":   round(cii_a, 3),
-        "noktalar":    sonuc_noktalar,
+        "waypoints":    result_waypoints,
     })
 
 if __name__ == "__main__":

@@ -22,7 +22,7 @@ ssh_var = None
 for v in ds.variables:
     if any(x in v.lower() for x in ["ssh", "sea_surface", "height", "ssha"]):
         ssh_var = v
-        print(f"\nSSH degiskeni bulundu: {v}")
+        print(f"\nSSH degiskeni found: {v}")
         break
 
 if ssh_var:

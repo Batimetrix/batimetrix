@@ -8,30 +8,30 @@ print("IMO Carbon Intensity Indicator entegrasyonu\n")
 class GucluPINN(nn.Module):
     def __init__(self):
         super().__init__()
-        self.giris = nn.Sequential(
+        self.input_layer = nn.Sequential(
             nn.Linear(7, 512), nn.LayerNorm(512), nn.GELU(),
         )
-        self.katmanlar = nn.ModuleList([
+        self.layers = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(512, 512), nn.LayerNorm(512),
                 nn.GELU(), nn.Dropout(0.05),
             ) for _ in range(6)
         ])
-        self.cikis = nn.Sequential(
+        self.output_layer = nn.Sequential(
             nn.Linear(512, 128), nn.GELU(),
             nn.Linear(128, 32), nn.GELU(),
             nn.Linear(32, 1), nn.Sigmoid()
         )
     def forward(self, x):
-        h = self.giris(x)
-        for k in self.katmanlar:
+        h = self.input_layer(x)
+        for k in self.layers:
             h = h + k(h)
-        return self.cikis(h)
+        return self.output_layer(h)
 
 model = GucluPINN()
 model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!")
+print("Model loaded!")
 
 # --- GERCEK IMO CII Parametreleri (MEPC.337(76) Tablo 1) ---
 # Birim: g CO2 / (DWT · deniz mili)
@@ -48,7 +48,7 @@ CII_REF = {
 # 2026 azaltma faktoru: %11
 Z_2026 = 11.0
 
-# Not sinir katsayilari (MEPC.354(78))
+# Not limit katsayilari (MEPC.354(78))
 SINIR = {
     "Tanker":        {"d1": 0.82, "d2": 0.93, "d3": 1.08, "d4": 1.28},
     "Bulk Carrier":  {"d1": 0.86, "d2": 0.94, "d3": 1.06, "d4": 1.18},
@@ -66,55 +66,55 @@ GEMI_SINIR_TIP = {
     "Karadeniz Kargo":   "General Cargo",
 }
 
-def required_cii(gemi_adi, dwt):
-    p   = CII_REF.get(gemi_adi, {"a": 588.0, "c": 0.3885})
-    ref = p["a"] * (dwt ** (-p["c"]))
+def required_cii(vessel_name, dwt):
+    params   = CII_REF.get(vessel_name, {"a": 588.0, "c": 0.3885})
+    ref = params["a"] * (dwt ** (-params["c"]))
     return ref * (1 - Z_2026 / 100)
 
-def attained_cii(gunluk_yakit_ton, sefer_gun, dwt, mesafe_nm, yakit="VLSFO"):
+def attained_cii(daily_fuel_tons, voyage_days, dwt, mesafe_nm, fuel="VLSFO"):
     CF = {"HFO": 3.114, "VLSFO": 3.151, "MGO": 3.206, "LNG": 2.750}
-    co2_ton  = gunluk_yakit_ton * sefer_gun * CF.get(yakit, 3.151)
+    co2_ton  = daily_fuel_tons * voyage_days * CF.get(fuel, 3.151)
     co2_gram = co2_ton * 1_000_000
     return co2_gram / (dwt * mesafe_nm)
 
-def cii_notu(attained, required, gemi_adi):
-    s    = SINIR.get(GEMI_SINIR_TIP.get(gemi_adi, "General Cargo"),
+def cii_notu(attained, required, vessel_name):
+    s    = SINIR.get(GEMI_SINIR_TIP.get(vessel_name, "General Cargo"),
                      SINIR["General Cargo"])
-    oran = attained / required
-    if   oran <= s["d1"]: return "A", oran, "🟢 Mukemmel"
-    elif oran <= s["d2"]: return "B", oran, "🟢 İyi"
-    elif oran <= s["d3"]: return "C", oran, "🟡 Kabul"
-    elif oran <= s["d4"]: return "D", oran, "🟠 Dikkat"
-    else:                 return "E", oran, "🔴 Kritik"
+    ratio = attained / required
+    if   ratio <= s["d1"]: return "A", ratio, "🟢 Mukemmel"
+    elif ratio <= s["d2"]: return "B", ratio, "🟢 İyi"
+    elif ratio <= s["d3"]: return "C", ratio, "🟡 Kabul"
+    elif ratio <= s["d4"]: return "D", ratio, "🟠 Dikkat"
+    else:                 return "E", ratio, "🔴 Kritik"
 
-def analiz(gemi_adi, dwt, hiz, tastak, yakit_gun,
-           mesafe_nm, sefer_gun, yakit_turu="VLSFO"):
+def analiz(vessel_name, dwt, speed, draft, fuel_per_day,
+           mesafe_nm, voyage_days, fuel_type="VLSFO"):
 
     inp = torch.tensor([[
         (42.1+70)/150, (31.5+180)/360, 920/6000,
-        0.54, 0.10, hiz/25, tastak/22
+        0.54, 0.10, speed/25, draft/22
     ]]).float()
     with torch.no_grad():
         drag = model(inp).item()
 
-    tasarruf_oran = max(0, (0.5 - drag) * 0.25)
-    yakit_opt     = yakit_gun * (1 - tasarruf_oran)
+    savings_rate = max(0, (0.5 - drag) * 0.25)
+    yakit_opt     = fuel_per_day * (1 - savings_rate)
 
-    req   = required_cii(gemi_adi, dwt)
-    cii_b = attained_cii(yakit_gun, sefer_gun, dwt, mesafe_nm, yakit_turu)
-    cii_o = attained_cii(yakit_opt, sefer_gun, dwt, mesafe_nm, yakit_turu)
+    req   = required_cii(vessel_name, dwt)
+    cii_b = attained_cii(fuel_per_day, voyage_days, dwt, mesafe_nm, fuel_type)
+    cii_o = attained_cii(yakit_opt, voyage_days, dwt, mesafe_nm, fuel_type)
 
     CF    = 3.151
-    azalma_ton = (yakit_gun - yakit_opt) * sefer_gun * CF
+    azalma_ton = (fuel_per_day - yakit_opt) * voyage_days * CF
 
-    nb, ob, ab = cii_notu(cii_b, req, gemi_adi)
-    no, oo, ao = cii_notu(cii_o, req, gemi_adi)
+    nb, ratio_base, label_base = cii_notu(cii_b, req, vessel_name)
+    no, ratio_opt, label_opt = cii_notu(cii_o, req, vessel_name)
 
-    return dict(drag=drag, tasarruf=tasarruf_oran*100,
-                azalma=azalma_ton, req=req,
+    return dict(drag=drag, savings=savings_rate*100,
+                reduction=azalma_ton, req=req,
                 cii_b=cii_b, cii_o=cii_o,
-                nb=nb, no=no, ab=ab, ao=ao,
-                ob=ob, oo=oo, degisti=nb!=no)
+                nb=nb, no=no, label_base=label_base, label_opt=label_opt,
+                ratio_base=ratio_base, ratio_opt=ratio_opt, changed=nb!=no)
 
 # --- Filo ---
 filo = [
@@ -129,12 +129,12 @@ print(f"\n{'Gemi':<22} {'%Tas':>5} {'CO2↓':>7} "
       f"{'Req CII':>9} {'Mevcut':>12} {'Batimetrix':>12} {'Not↑?':>8}")
 print("-" * 82)
 
-sonuclar = []
+results = []
 for g in filo:
     r = analiz(*g)
-    sonuclar.append((g[0], r))
-    d = "✅ EVET" if r["degisti"] else "—"
-    print(f"{g[0]:<22} {r['tasarruf']:>5.1f} {r['azalma']:>6.0f}t "
+    results.append((g[0], r))
+    d = "✅ EVET" if r["changed"] else "—"
+    print(f"{g[0]:<22} {r['savings']:>5.1f} {r['reduction']:>6.0f}t "
           f"{r['req']:>9.3f} "
           f"{r['nb']:>2}({r['cii_b']:>6.2f}) "
           f"{r['no']:>2}({r['cii_o']:>6.2f}) "
@@ -143,21 +143,21 @@ for g in filo:
 print("-" * 82)
 
 print("\n=== DETAYLI RAPOR ===\n")
-iyilesen = []
-for isim, r in sonuclar:
-    print(f"🚢 {isim}")
-    print(f"   Tasarruf      : %{r['tasarruf']:.1f}  |  CO2 Azalma: {r['azalma']:.0f} ton")
+improved = []
+for name, r in results:
+    print(f"🚢 {name}")
+    print(f"   Tasarruf      : %{r['savings']:.1f}  |  CO2 Azalma: {r['reduction']:.0f} ton")
     print(f"   Required CII  : {r['req']:.3f} g/(DWT·nm)")
-    print(f"   Attained (mev): {r['cii_b']:.3f}  → {r['nb']}  {r['ab']}")
-    print(f"   Attained (opt): {r['cii_o']:.3f}  → {r['no']}  {r['ao']}")
-    if r["degisti"]:
+    print(f"   Attained (mev): {r['cii_b']:.3f}  → {r['nb']}  {r['label_base']}")
+    print(f"   Attained (opt): {r['cii_o']:.3f}  → {r['no']}  {r['label_opt']}")
+    if r["changed"]:
         print(f"   ✅ NOT İYİLEŞTİ: {r['nb']} → {r['no']}")
-        iyilesen.append(isim)
+        improved.append(name)
     print()
 
 print("=" * 60)
-print(f"Not iyilestiren gemi: {len(iyilesen)}/{len(filo)}")
-for g in iyilesen:
+print(f"Not iyilestiren gemi: {len(improved)}/{len(filo)}")
+for g in improved:
     print(f"  → {g}")
 
 print("""
@@ -167,4 +167,4 @@ print("""
    Batimetrix ile CII notu bir kademe yukarı çıkar.
    Bu bir tercih değil — YASAL ZORUNLULUK.
 """)
-print("CII modulu tamamlandi!")
+print("CII modulu completed!")

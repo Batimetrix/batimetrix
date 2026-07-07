@@ -22,7 +22,7 @@ class PINN(nn.Module):
 model = PINN()
 model.load_state_dict(torch.load("batimetrix_model.pt", weights_only=True))
 model.eval()
-print("Model yuklendi!")
+print("Model loaded!")
 
 # --- GEBCO API ---
 def gebco_derinlik(lat, lon):
@@ -38,7 +38,7 @@ def gebco_derinlik(lat, lon):
 
 # --- Karadeniz guzergahi ---
 print("\nKaradeniz guzergahi test ediliyor...")
-guzergah = [
+route = [
     ("Istanbul Bogazi cikisi", 41.2, 29.1),
     ("Bati Karadeniz",         42.0, 30.5),
     ("Orta Karadeniz",         42.2, 32.0),
@@ -50,13 +50,13 @@ guzergah = [
 print(f"\n{'Nokta':<25} {'Derinlik':>10} {'Drag':>8} {'Durum'}")
 print("-" * 60)
 
-sonuclar = []
-for isim, lat, lon in guzergah:
-    derinlik = gebco_derinlik(lat, lon)
+results = []
+for name, lat, lon in route:
+    depth = gebco_derinlik(lat, lon)
     inp = torch.tensor([[
         lat / 90,
         (lon + 180) / 360,
-        derinlik / 4000,
+        depth / 4000,
         0.54,
         0.10,
         0.48,
@@ -64,11 +64,11 @@ for isim, lat, lon in guzergah:
     ]])
     with torch.no_grad():
         drag = model(inp).item()
-    durum = "Verimli" if drag < 0.3 else ("Dikkat" if drag < 0.6 else "Kritik")
-    sonuclar.append(drag)
-    print(f"{isim:<25} {derinlik:>9.0f}m {drag:>8.4f} [{durum}]")
+    status = "Verimli" if drag < 0.3 else ("Dikkat" if drag < 0.6 else "Kritik")
+    results.append(drag)
+    print(f"{name:<25} {depth:>9.0f}m {drag:>8.4f} [{status}]")
 
-ort = sum(sonuclar) / len(sonuclar)
+ort = sum(results) / len(results)
 print(f"\nOrtalama drag    : {ort:.4f}")
 print(f"Yakit tasarrufu  : %{(1 - ort) * 15:.1f}")
-print("\nGEBCO testi tamamlandi!")
+print("\nGEBCO testi completed!")
