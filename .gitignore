@@ -1,0 +1,17 @@
+# Model files - regenerate with guclu_egitim2.py
+*.pt
+*.onnx
+*.onnx.data
+*.nc
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+
+# Temp files
+*.log
+*.tmpc
