@@ -95,7 +95,7 @@ oute_map.py | Multi-route interactive map generator (folium) |
 pip install torch numpy netCDF4 requests folium matplotlib flask
 python training_v2.py        # train the PINN model
 python app.py                # launch the web dashboard
-# open http://127.0.0.1:5000
+# open http://127.0.0.1:5001
 \
 > NASA data access requires a free [Earthdata account](https://urs.earthdata.nasa.gov/).
 
