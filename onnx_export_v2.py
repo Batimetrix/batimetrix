@@ -39,14 +39,14 @@ class GucluPINN(nn.Module):
         return self.output_layer(h)
 
 model = GucluPINN()
-model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
+model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
 model.eval()
 print(f"Model loaded: {sum(params.numel() for params in model.parameters()):,} parametre")
 
 print("ONNX export yapiliyor...")
 dummy = torch.zeros(1, 7)
 torch.onnx.export(
-    model, dummy, "batimetrix_guclu.onnx",
+    model, dummy, "batimetrix_model_v2.onnx",
     export_params=True,
     opset_version=17,
     input_names=["features"],
@@ -57,11 +57,11 @@ torch.onnx.export(
     }
 )
 
-boyut = os.path.getsize("batimetrix_guclu.onnx") / 1024
-print(f"batimetrix_guclu.onnx olusturuldu! ({boyut:.1f} KB)")
+boyut = os.path.getsize("batimetrix_model_v2.onnx") / 1024
+print(f"batimetrix_model_v2.onnx created! ({boyut:.1f} KB)")
 
 print("\nONNX dogrulaniyor...")
-onnx_model = onnx.load("batimetrix_guclu.onnx")
+onnx_model = onnx.load("batimetrix_model_v2.onnx")
 onnx.checker.check_model(onnx_model)
 print("ONNX gecerli!")
 
@@ -69,7 +69,7 @@ print("\nPyTorch vs ONNX karsilastirma...")
 test = np.random.rand(5, 7).astype(np.float32)
 with torch.no_grad():
     pt_out = model(torch.from_numpy(test)).numpy()
-sess = ort.InferenceSession("batimetrix_guclu.onnx")
+sess = ort.InferenceSession("batimetrix_model_v2.onnx")
 ort_out = sess.run(["drag_score"], {"features": test})[0]
 fark = np.abs(pt_out - ort_out).max()
 print(f"Maksimum sapma: {fark:.2e}")
@@ -110,5 +110,5 @@ for name, la, lo, de, ss, sw, sp, dr in scenarios:
     status = "Verimli" if drag < 0.3 else "Dikkat"
     print(f"{name:<25} {drag:>8.4f} %{savings:>8.1f}  [{status}]")
 
-print("\nbatimetrix_guclu.onnx Rust tarafina hazir!")
+print("\nbatimetrix_model_v2.onnx Rust tarafina ready!")
 print("ONNX export completed!")

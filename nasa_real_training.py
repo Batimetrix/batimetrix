@@ -31,12 +31,12 @@ class GucluPINN(nn.Module):
         return self.output_layer(h)
 
 model = GucluPINN()
-model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
+model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
 print("Model loaded!")
 
 # --- SWOT Verisi Oku ---
 print("SWOT verisi okunuyor...")
-ds = nc.Dataset("swot_karadeniz.nc", "r")
+ds = nc.Dataset("swot_blacksea.nc", "r")
 lat  = np.array(ds.variables["latitude"][:],    dtype=np.float64)
 lon  = np.array(ds.variables["longitude"][:],   dtype=np.float64)
 ssh  = np.array(ds.variables["ssh_karin"][:],   dtype=np.float64)
@@ -120,8 +120,8 @@ for epoch in range(1, 31):
     if epoch % 5 == 0:
         print(f"Epoch {epoch:2d}/30 | Kayip: {toplam/n_batch:.6f}")
 
-torch.save(model.state_dict(), "batimetrix_swot_gercek.pt")
-print("\nModel: batimetrix_swot_gercek.pt")
+torch.save(model.state_dict(), "batimetrix_swot_real.pt")
+print("\nModel: batimetrix_swot_real.pt")
 
 # --- Final Test ---
 model.eval()

@@ -1,5 +1,4 @@
 # Model files - regenerate with guclu_egitim2.py
-*.pt
 *.onnx
 *.onnx.data
 *.nc

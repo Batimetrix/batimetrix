@@ -46,7 +46,7 @@ X = np.column_stack([
 
 X_t = torch.from_numpy(X)
 y_t = torch.from_numpy(drag)
-print(f"Veri hazir: {X_t.shape} | Drag aralik: {drag.min():.3f} - {drag.max():.3f}\n")
+print(f"Veri ready: {X_t.shape} | Drag aralik: {drag.min():.3f} - {drag.max():.3f}\n")
 
 # --- Guclu Model ---
 class GucluPINN(nn.Module):

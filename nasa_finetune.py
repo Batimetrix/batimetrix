@@ -42,7 +42,7 @@ class GucluPINN(nn.Module):
         return self.output_layer(h)
 
 model = GucluPINN()
-model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
+model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
 model.eval()
 print("Guclu model loaded!")
 
@@ -92,7 +92,7 @@ for g in granules:
             "zaman": zaman
         })
 
-print(f"{len(swot_noktalar)} SWOT tabanli nokta olusturuldu!")
+print(f"{len(swot_noktalar)} SWOT tabanli nokta created!")
 
 # --- Fine-Tuning Verisi Hazirla ---
 speed_ms_arr = 12.0 * 0.5144

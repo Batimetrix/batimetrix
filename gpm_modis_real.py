@@ -35,7 +35,7 @@ class GucluPINN(nn.Module):
         return self.output_layer(h)
 
 model = GucluPINN()
-model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
+model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
 model.eval()
 print("Model loaded!")
 
@@ -104,7 +104,7 @@ print(f"GPM SWH Tahmini     : {gpm_swh:.1f} m")
 # ============================================================
 # ADIM 2: MODIS Gercek SST Verisi
 # ============================================================
-print("\n[2/3] MODIS SST granulleri kontrol ediliyor...")
+print("\n[2/3] MODIS SST granulleri checking...")
 
 modis_r = requests.get(url, headers=headers, params={
     "short_name": "MODIS_A-JPL-L2P-v2019.0",

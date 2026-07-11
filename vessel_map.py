@@ -30,7 +30,7 @@ class GucluPINN(nn.Module):
         return self.output_layer(h)
 
 model = GucluPINN()
-model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
+model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
 model.eval()
 print("Model loaded!")
 
@@ -196,4 +196,4 @@ harita.get_root().html.add_child(folium.Element(panel_html))
 harita.save("batimetrix_gemi_harita.html")
 print(f"\nHarita saved: batimetrix_gemi_harita.html")
 print(f"Toplam yillik savings potansiyeli: ${total_savings_usd:,.0f}")
-print("\nTarayicida ac: batimetrix_gemi_harita.html")
+print("\nOpen in browser: batimetrix_gemi_harita.html")

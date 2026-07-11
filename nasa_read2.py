@@ -3,7 +3,7 @@ import numpy as np
 
 print("=== SWOT NetCDF Gercek Veri Okuma ===")
 
-DOSYA = "swot_karadeniz.nc"
+DOSYA = "swot_blacksea.nc"
 
 print(f"Aciliyor: {DOSYA}")
 ds = nc.Dataset(DOSYA, "r")

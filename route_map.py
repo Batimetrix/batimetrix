@@ -30,7 +30,7 @@ class GucluPINN(nn.Module):
         return self.output_layer(h)
 
 model = GucluPINN()
-model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
+model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
 model.eval()
 print("Model loaded!")
 
@@ -152,8 +152,8 @@ bilgi_html = f"""
 harita.get_root().html.add_child(folium.Element(bilgi_html))
 
 # Kaydet
-harita.save("batimetrix_harita.html")
-print(f"\nHarita saved: batimetrix_harita.html")
+harita.save("batimetrix_map.html")
+print(f"\nHarita saved: batimetrix_map.html")
 print(f"Ortalama drag    : {ortalama_drag:.4f}")
 print(f"Ortalama savings: %{toplam_tasarruf:.1f}")
-print("\nTarayicida ac: batimetrix_harita.html")
+print("\nOpen in browser: batimetrix_map.html")

@@ -7,9 +7,9 @@ import torch.optim as optim
 print("=== SWOT NetCDF Gercek Veri Okuma ===")
 
 # --- NetCDF Ac ---
-print("swot_karadeniz.nc aciliyor...")
+print("swot_blacksea.nc opening...")
 ds = xr.open_dataset(
-    r"C:\Users\ACER\OneDrive\Masaüstü\Batimetrix\shore\swot_karadeniz.nc"
+    r"C:\Users\ACER\OneDrive\Masaüstü\Batimetrix\shore\swot_blacksea.nc"
 )
 
 print("\nDosya icerigi:")

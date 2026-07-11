@@ -91,13 +91,13 @@ SOZLUK = {
     "inp": "inp",
 
     # Print mesajlari
-    "Model yuklendi!": "Model loaded!",
-    "Model yuklendi": "Model loaded",
+    "Model loaded!": "Model loaded!",
+    "Model loaded": "Model loaded",
     "tamamlandi": "completed",
     "tamamlandi!": "completed!",
     "bulundu": "found",
     "kaydedildi": "saved",
-    "yuklendi": "loaded",
+    "loaded": "loaded",
     "Harita kaydedildi": "Map saved",
     "Grafik kaydedildi": "Chart saved",
     "Gemi tipi analizi tamamlandi": "Vessel type analysis completed",

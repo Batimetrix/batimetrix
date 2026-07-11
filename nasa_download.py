@@ -25,15 +25,15 @@ print(f"Status: {r.status_code}")
 print(f"Content-Type: {r.headers.get('Content-Type', 'bilinmiyor')}")
 
 boyut = int(r.headers.get('Content-Length', 0))
-print(f"Dosya boyutu: {boyut/1024/1024:.1f} MB")
+print(f"File size: {boyut/1024/1024:.1f} MB")
 
 if r.status_code == 200 and boyut > 0:
     print("Indiriliyor...")
-    with open("swot_karadeniz.nc", "wb") as f:
+    with open("swot_blacksea.nc", "wb") as f:
         for chunk in r.iter_content(chunk_size=8192):
             f.write(chunk)
-    gercek_boyut = os.path.getsize("swot_karadeniz.nc") / 1024 / 1024
-    print(f"Kaydedildi: swot_karadeniz.nc ({gercek_boyut:.1f} MB)")
+    gercek_boyut = os.path.getsize("swot_blacksea.nc") / 1024 / 1024
+    print(f"Saved: swot_blacksea.nc ({gercek_boyut:.1f} MB)")
 else:
     print(f"Indirme basarisiz: {r.status_code}")
     print(r.text[:300])

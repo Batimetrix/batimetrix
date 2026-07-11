@@ -43,7 +43,7 @@ X = np.column_stack([
 
 X_t = torch.from_numpy(X)
 y_t = torch.from_numpy(drag)
-print(f"Veri hazir: {X_t.shape}\n")
+print(f"Veri ready: {X_t.shape}\n")
 
 class GucluPINN(nn.Module):
     def __init__(self):
@@ -120,7 +120,7 @@ for epoch in range(1, 101):
     if ort < en_iyi:
         en_iyi = ort
         sabir  = 0
-        torch.save(model.state_dict(), "batimetrix_guclu.pt")
+        torch.save(model.state_dict(), "batimetrix_model_v2.pt")
     else:
         sabir += 1
 
@@ -133,7 +133,7 @@ for epoch in range(1, 101):
         print(f"\nErken durdurma: epoch {epoch}")
         break
 
-model.load_state_dict(torch.load("batimetrix_guclu.pt", weights_only=True))
+model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
 model.eval()
 
 print(f"\n=== FINAL TEST ===")
@@ -162,5 +162,5 @@ for name, la, lo, de, ss, sw, sp, dr in testler:
 
 print(f"\nEn iyi kayip : {en_iyi:.6f}")
 print(f"Toplam sure  : {time.time()-baslangic:.0f} saniye")
-print(f"Model        : batimetrix_guclu.pt")
+print(f"Model        : batimetrix_model_v2.pt")
 print("\nEgitim completed!")

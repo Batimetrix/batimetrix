@@ -43,7 +43,7 @@ torch.onnx.export(
         "drag_score": {0: "batch_size"},
     }
 )
-print("batimetrix.onnx olusturuldu!")
+print("batimetrix.onnx created!")
 
 # --- Boyut bilgisi ---
 import os
@@ -70,7 +70,7 @@ fark = np.abs(pt_out - ort_out).max()
 print(f"Maksimum sapma: {fark:.2e}")
 
 if fark < 1e-4:
-    print("Dogrulama BASARILI - Rust icin hazir!")
+    print("Dogrulama BASARILI - Rust icin ready!")
 else:
     print("UYARI: Sapma yuksek")
 
@@ -91,5 +91,5 @@ for name, lat, lon, depth in scenarios:
     status = "Verimli" if drag < 0.3 else "Dikkat"
     print(f"{name:<20} Drag: {drag:.4f} [{status}]")
 
-print("\nbatimetrix.onnx Rust tarafina kopyalanmaya hazir!")
+print("\nbatimetrix.onnx Rust tarafina kopyalanmaya ready!")
 print("ONNX export completed!")

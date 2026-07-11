@@ -40,7 +40,7 @@ X = np.column_stack([
 
 X_t = torch.from_numpy(X)
 y_t = torch.from_numpy(drag)
-print(f"Veri hazir: {X_t.shape}")
+print(f"Veri ready: {X_t.shape}")
 
 # --- Model ---
 class PINN(nn.Module):
@@ -59,7 +59,7 @@ class PINN(nn.Module):
 model     = PINN()
 optimizer = optim.AdamW(model.parameters(), lr=1e-3)
 loss_fn   = nn.MSELoss()
-print(f"Model hazir: {sum(params.numel() for params in model.parameters()):,} parametre")
+print(f"Model ready: {sum(params.numel() for params in model.parameters()):,} parametre")
 
 # --- Egitim dongusu ---
 print("\nEgitim baslıyor (50 epoch)...")

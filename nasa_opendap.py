@@ -18,7 +18,7 @@ session = requests.Session()
 session.headers.update({"Authorization": f"Bearer {TOKEN}"})
 
 # Once metadata kontrol
-print("OPeNDAP metadata kontrol ediliyor...")
+print("OPeNDAP metadata checking...")
 r = session.get(OPENDAP_URL + ".das", timeout=30)
 print(f"Status: {r.status_code}")
 
