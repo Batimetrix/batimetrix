@@ -24,10 +24,15 @@ class GucluPINN(nn.Module):
         for k in self.layers: h = h + k(h)
         return self.output_layer(h)
 
-model = GucluPINN()
-model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
-model.eval()
-print("Model loaded!")
+model = None
+try:
+    model = GucluPINN()
+    model.load_state_dict(torch.load("batimetrix_model_v2.pt", weights_only=True))
+    model.eval()
+    print("Model loaded!")
+except Exception as e:
+    print(f"Model not found, using physics formula: {e}")
+    model = None
 
 # --- CII Parametreleri ---
 CII_REF = {
@@ -48,12 +53,20 @@ GEMI_PROFIL = {
 }
 
 def tahmin_drag(lat, lon, depth, ssh, swh, speed, draft):
-    inp = torch.tensor([[
-        (lat+70)/150, (lon+180)/360, depth/6000,
-        (ssh+2)/4, swh/20, speed/25, draft/22
-    ]]).float()
-    with torch.no_grad():
-        return model(inp).item()
+    if model is not None:
+        inp = torch.tensor([[
+            (lat+70)/150, (lon+180)/360, depth/6000,
+            (ssh+2)/4, swh/20, speed/25, draft/22
+        ]]).float()
+        with torch.no_grad():
+            return model(inp).item()
+    else:
+        re = (speed * 0.5144) * draft / 1.05e-6
+        cf = 0.075 / ((np.log10(re) - 2) ** 2) if re > 0 else 0.002
+        wave_factor = 1 + 0.015 * swh ** 1.5
+        depth_factor = 1 + 0.1 * max(0, 1 - depth/50)
+        drag = cf * wave_factor * depth_factor * (speed/10) ** 1.8
+        return min(max(drag * 15, 0.05), 0.95)
 
 def hesapla_cii(vessel_name, dwt, fuel_per_day, mesafe_nm, voyage_days):
     params = CII_REF.get(vessel_name, {"a": 588.0, "c": 0.3885})
