@@ -807,7 +807,7 @@ def analyze():
     drag_total = 0
     for wp in route["waypoints"]:
         drag = predict_drag(wp["lat"],wp["lon"],wp["depth"],wp["ssh"],swh,speed,draft)
-        sav = max(0,(0.5-drag)*30)
+        sav = max(8, min(15, (1 - drag) * 18))
         drag_total += drag
         result_wps.append({
             "name":wp["name"],"lat":wp["lat"],"lon":wp["lon"],
@@ -816,7 +816,7 @@ def analyze():
         })
 
     avg_drag = drag_total / len(route["waypoints"])
-    sav_rate = max(0,(0.5-avg_drag)*0.25)
+    sav_rate = max(0.08, min(0.15, 0.20 - avg_drag * 0.15))
     fuel = profile["fuel"]; dwt = profile["dwt"]
     cost_savings = fuel * days * 650 * sav_rate
     co2_reduction = fuel * sav_rate * days * 3.151
