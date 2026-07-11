@@ -617,7 +617,7 @@ function showTab(id, el){
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
   document.getElementById(id).style.display="block";
   el.classList.add("active");
-  if(map) setTimeout(function(){map.invalidateSize();},100);
+  if(!map && id==="map_tab"){initMap();} if(map) setTimeout(function(){map.invalidateSize();},100);
 }
 
 function destroyChart(id){
