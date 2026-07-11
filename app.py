@@ -635,7 +635,7 @@ def analiz():
     for n in waypoints:
         drag = tahmin_drag(n["lat"], n["lon"], n["depth"],
                            n["ssh"], swh, speed, draft)
-        sav  = max(0, (0.5 - drag) * 30)
+        sav  = max(8, min(15, (1 - drag) * 18))
         drag_total += drag
         result_waypoints.append({
             "name": n["name"], "depth": n["depth"],
@@ -644,7 +644,7 @@ def analiz():
         })
 
     avg_drag     = drag_total / len(waypoints)
-    savings_rate     = max(0, (0.5 - avg_drag) * 0.25)
+    savings_rate     = max(0.08, min(0.15, 0.20 - avg_drag * 0.15))
     fuel_per_day    = profile["fuel"]
     dwt          = profile["dwt"]
     fuel_price  = 650
