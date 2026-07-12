@@ -1014,7 +1014,7 @@ function showTab(id, el){
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
   document.getElementById(id).style.display="block";
   el.classList.add("active");
-  if(!map && id==="map_tab"){initMap();} if(map) setTimeout(function(){map.invalidateSize();},100);
+  if(id==="map_tab"){if(!map){initMap();} setTimeout(function(){if(map)map.invalidateSize();},200);}
 }
 
 function destroyChart(id){
