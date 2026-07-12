@@ -906,7 +906,7 @@ setInterval(function(){
 // Init map
 function initMap(){
   if(map) return;
-  if(typeof L==="undefined"){setTimeout(initMap,200);return;}
+  if(typeof L==="undefined" || typeof L.map!=="function"){setTimeout(initMap,300);return;}
   map=L.map("map",{zoomControl:true,attributionControl:false}).setView([42,33],5);
   L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{
     maxZoom:18,subdomains:"abcd"
