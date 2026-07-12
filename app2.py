@@ -105,6 +105,328 @@ ROUTES = {
             {"name":"N.Atlantic","lat":52.00,"lon":-30.00,"depth":3800,"ssh":0.38},
         ]
     },
+    "shanghai_rotterdam": {
+        "name": "Shanghai → Rotterdam",
+        "waypoints": [
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Indian Ocean","lat":5.0,"lon":75.0,"depth":3800,"ssh":0.2},
+            {"name":"Suez","lat":29.97,"lon":32.55,"depth":20,"ssh":0.05},
+            {"name":"Mediterranean","lat":36.0,"lon":15.0,"depth":2500,"ssh":0.12},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "shanghai_losangeles": {
+        "name": "Shanghai → Los Angeles",
+        "waypoints": [
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+            {"name":"Pacific West","lat":35.0,"lon":150.0,"depth":5500,"ssh":0.3},
+            {"name":"Mid-Pacific","lat":38.0,"lon":180.0,"depth":5800,"ssh":0.35},
+            {"name":"Pacific East","lat":35.0,"lon":-140.0,"depth":4500,"ssh":0.28},
+            {"name":"Los Angeles","lat":33.74,"lon":-118.27,"depth":20,"ssh":0.06},
+        ]
+    },
+    "singapore_shanghai": {
+        "name": "Singapore → Shanghai",
+        "waypoints": [
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+            {"name":"South China Sea","lat":10.0,"lon":110.0,"depth":4000,"ssh":0.15},
+            {"name":"Taiwan Strait","lat":24.0,"lon":119.0,"depth":60,"ssh":0.12},
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+        ]
+    },
+    "rotterdam_newyork": {
+        "name": "Rotterdam → New York",
+        "waypoints": [
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+            {"name":"English Channel","lat":50.0,"lon":-1.0,"depth":50,"ssh":0.1},
+            {"name":"North Atlantic","lat":48.0,"lon":-30.0,"depth":4200,"ssh":0.35},
+            {"name":"Grand Banks","lat":44.0,"lon":-50.0,"depth":100,"ssh":0.25},
+            {"name":"New York","lat":40.6,"lon":-74.05,"depth":20,"ssh":0.06},
+        ]
+    },
+    "santos_rotterdam": {
+        "name": "Santos → Rotterdam",
+        "waypoints": [
+            {"name":"Santos","lat":-23.98,"lon":-46.3,"depth":15,"ssh":0.07},
+            {"name":"South Atlantic","lat":-15.0,"lon":-30.0,"depth":4500,"ssh":0.22},
+            {"name":"Equator Atlantic","lat":0.0,"lon":-25.0,"depth":4000,"ssh":0.18},
+            {"name":"Canary Islands","lat":28.0,"lon":-18.0,"depth":3500,"ssh":0.15},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "dubai_singapore": {
+        "name": "Dubai → Singapore",
+        "waypoints": [
+            {"name":"Dubai","lat":25.27,"lon":55.3,"depth":20,"ssh":0.05},
+            {"name":"Arabian Sea","lat":18.0,"lon":62.0,"depth":3500,"ssh":0.16},
+            {"name":"Indian Ocean","lat":8.0,"lon":75.0,"depth":3800,"ssh":0.18},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "mumbai_suez": {
+        "name": "Mumbai → Suez",
+        "waypoints": [
+            {"name":"Mumbai","lat":18.94,"lon":72.83,"depth":15,"ssh":0.06},
+            {"name":"Arabian Sea","lat":18.0,"lon":62.0,"depth":3500,"ssh":0.16},
+            {"name":"Gulf of Aden","lat":12.5,"lon":45.0,"depth":2000,"ssh":0.14},
+            {"name":"Red Sea","lat":20.0,"lon":38.0,"depth":1800,"ssh":0.12},
+            {"name":"Suez","lat":29.97,"lon":32.55,"depth":20,"ssh":0.05},
+        ]
+    },
+    "durban_singapore": {
+        "name": "Durban → Singapore",
+        "waypoints": [
+            {"name":"Durban","lat":-29.87,"lon":31.03,"depth":20,"ssh":0.1},
+            {"name":"Indian Ocean South","lat":-20.0,"lon":55.0,"depth":4200,"ssh":0.22},
+            {"name":"Indian Ocean","lat":-5.0,"lon":80.0,"depth":4000,"ssh":0.18},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "panama_losangeles": {
+        "name": "Panama → Los Angeles",
+        "waypoints": [
+            {"name":"Panama Canal","lat":9.08,"lon":-79.68,"depth":20,"ssh":0.06},
+            {"name":"Pacific Central","lat":15.0,"lon":-95.0,"depth":3800,"ssh":0.2},
+            {"name":"Baja California","lat":25.0,"lon":-112.0,"depth":3000,"ssh":0.16},
+            {"name":"Los Angeles","lat":33.74,"lon":-118.27,"depth":20,"ssh":0.06},
+        ]
+    },
+    "tokyo_losangeles": {
+        "name": "Tokyo → Los Angeles",
+        "waypoints": [
+            {"name":"Tokyo","lat":35.65,"lon":139.84,"depth":20,"ssh":0.07},
+            {"name":"Pacific NW","lat":40.0,"lon":160.0,"depth":5500,"ssh":0.32},
+            {"name":"Mid-Pacific","lat":42.0,"lon":-175.0,"depth":5800,"ssh":0.35},
+            {"name":"Pacific NE","lat":38.0,"lon":-140.0,"depth":4500,"ssh":0.28},
+            {"name":"Los Angeles","lat":33.74,"lon":-118.27,"depth":20,"ssh":0.06},
+        ]
+    },
+    "hamburg_newyork": {
+        "name": "Hamburg → New York",
+        "waypoints": [
+            {"name":"Hamburg","lat":53.55,"lon":9.99,"depth":15,"ssh":0.04},
+            {"name":"North Sea","lat":55.0,"lon":3.0,"depth":50,"ssh":0.1},
+            {"name":"North Atlantic","lat":52.0,"lon":-30.0,"depth":4000,"ssh":0.35},
+            {"name":"New York","lat":40.6,"lon":-74.05,"depth":20,"ssh":0.06},
+        ]
+    },
+    "melbourne_shanghai": {
+        "name": "Melbourne → Shanghai",
+        "waypoints": [
+            {"name":"Melbourne","lat":-37.84,"lon":144.92,"depth":20,"ssh":0.12},
+            {"name":"Coral Sea","lat":-18.0,"lon":155.0,"depth":3500,"ssh":0.2},
+            {"name":"Philippine Sea","lat":10.0,"lon":130.0,"depth":5000,"ssh":0.22},
+            {"name":"East China Sea","lat":28.0,"lon":125.0,"depth":150,"ssh":0.12},
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+        ]
+    },
+    "jeddah_rotterdam": {
+        "name": "Jeddah → Rotterdam",
+        "waypoints": [
+            {"name":"Jeddah","lat":21.49,"lon":39.19,"depth":30,"ssh":0.06},
+            {"name":"Red Sea","lat":25.0,"lon":36.0,"depth":1800,"ssh":0.12},
+            {"name":"Suez","lat":29.97,"lon":32.55,"depth":20,"ssh":0.05},
+            {"name":"Mediterranean","lat":36.0,"lon":15.0,"depth":2500,"ssh":0.12},
+            {"name":"Gibraltar","lat":36.14,"lon":-5.35,"depth":300,"ssh":0.08},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "busan_losangeles": {
+        "name": "Busan → Los Angeles",
+        "waypoints": [
+            {"name":"Busan","lat":35.1,"lon":129.04,"depth":20,"ssh":0.07},
+            {"name":"Pacific NW","lat":42.0,"lon":160.0,"depth":5500,"ssh":0.32},
+            {"name":"Mid-Pacific","lat":44.0,"lon":-175.0,"depth":5800,"ssh":0.35},
+            {"name":"Los Angeles","lat":33.74,"lon":-118.27,"depth":20,"ssh":0.06},
+        ]
+    },
+    "gibraltar_piraeus": {
+        "name": "Gibraltar → Piraeus",
+        "waypoints": [
+            {"name":"Gibraltar","lat":36.14,"lon":-5.35,"depth":300,"ssh":0.08},
+            {"name":"Alboran Sea","lat":36.5,"lon":-2.0,"depth":1500,"ssh":0.1},
+            {"name":"Sardinia","lat":38.5,"lon":8.0,"depth":2800,"ssh":0.14},
+            {"name":"Ionian Sea","lat":37.5,"lon":18.0,"depth":3000,"ssh":0.13},
+            {"name":"Piraeus","lat":37.94,"lon":23.65,"depth":40,"ssh":0.06},
+        ]
+    },
+    "hongkong_singapore": {
+        "name": "Hong Kong → Singapore",
+        "waypoints": [
+            {"name":"Hong Kong","lat":22.3,"lon":114.17,"depth":25,"ssh":0.08},
+            {"name":"South China Sea","lat":15.0,"lon":113.0,"depth":4000,"ssh":0.15},
+            {"name":"Natuna Sea","lat":4.0,"lon":108.0,"depth":80,"ssh":0.1},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "newyork_santos": {
+        "name": "New York → Santos",
+        "waypoints": [
+            {"name":"New York","lat":40.6,"lon":-74.05,"depth":20,"ssh":0.06},
+            {"name":"Caribbean","lat":20.0,"lon":-65.0,"depth":4000,"ssh":0.18},
+            {"name":"Equator Atlantic","lat":0.0,"lon":-40.0,"depth":4200,"ssh":0.16},
+            {"name":"Santos","lat":-23.98,"lon":-46.3,"depth":15,"ssh":0.07},
+        ]
+    },
+    "capetown_singapore": {
+        "name": "Cape Town → Singapore",
+        "waypoints": [
+            {"name":"Cape Town","lat":-33.91,"lon":18.42,"depth":30,"ssh":0.12},
+            {"name":"Indian Ocean SW","lat":-25.0,"lon":50.0,"depth":4500,"ssh":0.24},
+            {"name":"Indian Ocean","lat":-5.0,"lon":80.0,"depth":4000,"ssh":0.18},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "yokohama_singapore": {
+        "name": "Yokohama → Singapore",
+        "waypoints": [
+            {"name":"Yokohama","lat":35.44,"lon":139.64,"depth":20,"ssh":0.07},
+            {"name":"Philippine Sea","lat":20.0,"lon":130.0,"depth":5000,"ssh":0.22},
+            {"name":"South China Sea","lat":10.0,"lon":115.0,"depth":4000,"ssh":0.15},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "antwerp_newyork": {
+        "name": "Antwerp → New York",
+        "waypoints": [
+            {"name":"Antwerp","lat":51.24,"lon":4.42,"depth":20,"ssh":0.04},
+            {"name":"English Channel","lat":50.0,"lon":-2.0,"depth":50,"ssh":0.1},
+            {"name":"North Atlantic","lat":47.0,"lon":-35.0,"depth":4200,"ssh":0.35},
+            {"name":"New York","lat":40.6,"lon":-74.05,"depth":20,"ssh":0.06},
+        ]
+    },
+    "valencia_suez": {
+        "name": "Valencia → Suez",
+        "waypoints": [
+            {"name":"Valencia","lat":39.44,"lon":-0.32,"depth":25,"ssh":0.06},
+            {"name":"Mediterranean W","lat":38.0,"lon":5.0,"depth":2500,"ssh":0.12},
+            {"name":"Mediterranean E","lat":35.0,"lon":20.0,"depth":3000,"ssh":0.13},
+            {"name":"Suez","lat":29.97,"lon":32.55,"depth":20,"ssh":0.05},
+        ]
+    },
+    "qingdao_rotterdam": {
+        "name": "Qingdao → Rotterdam",
+        "waypoints": [
+            {"name":"Qingdao","lat":36.07,"lon":120.38,"depth":20,"ssh":0.06},
+            {"name":"East China Sea","lat":30.0,"lon":124.0,"depth":120,"ssh":0.1},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Suez","lat":29.97,"lon":32.55,"depth":20,"ssh":0.05},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "colombo_singapore": {
+        "name": "Colombo → Singapore",
+        "waypoints": [
+            {"name":"Colombo","lat":6.94,"lon":79.84,"depth":20,"ssh":0.08},
+            {"name":"Bay of Bengal","lat":8.0,"lon":88.0,"depth":3500,"ssh":0.16},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "houston_rotterdam": {
+        "name": "Houston → Rotterdam",
+        "waypoints": [
+            {"name":"Houston","lat":29.73,"lon":-94.98,"depth":15,"ssh":0.06},
+            {"name":"Gulf of Mexico","lat":26.0,"lon":-88.0,"depth":2000,"ssh":0.14},
+            {"name":"North Atlantic","lat":40.0,"lon":-45.0,"depth":4500,"ssh":0.3},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "seattle_tokyo": {
+        "name": "Seattle → Tokyo",
+        "waypoints": [
+            {"name":"Seattle","lat":47.6,"lon":-122.33,"depth":20,"ssh":0.07},
+            {"name":"Pacific NE","lat":48.0,"lon":-150.0,"depth":4500,"ssh":0.28},
+            {"name":"Pacific NW","lat":45.0,"lon":175.0,"depth":5500,"ssh":0.32},
+            {"name":"Tokyo","lat":35.65,"lon":139.84,"depth":20,"ssh":0.07},
+        ]
+    },
+    "piraeus_alexandria": {
+        "name": "Piraeus → Alexandria",
+        "waypoints": [
+            {"name":"Piraeus","lat":37.94,"lon":23.65,"depth":40,"ssh":0.06},
+            {"name":"Aegean Sea","lat":36.0,"lon":26.0,"depth":1000,"ssh":0.1},
+            {"name":"East Med","lat":33.0,"lon":28.0,"depth":2500,"ssh":0.12},
+            {"name":"Alexandria","lat":31.2,"lon":29.92,"depth":20,"ssh":0.05},
+        ]
+    },
+    "vancouver_shanghai": {
+        "name": "Vancouver → Shanghai",
+        "waypoints": [
+            {"name":"Vancouver","lat":49.29,"lon":-123.11,"depth":25,"ssh":0.07},
+            {"name":"Pacific NE","lat":50.0,"lon":-155.0,"depth":4500,"ssh":0.28},
+            {"name":"Pacific NW","lat":45.0,"lon":170.0,"depth":5500,"ssh":0.32},
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+        ]
+    },
+    "istanbul_piraeus": {
+        "name": "Istanbul → Piraeus",
+        "waypoints": [
+            {"name":"Istanbul Strait","lat":41.1,"lon":29.05,"depth":35,"ssh":0.05},
+            {"name":"Dardanelles","lat":40.2,"lon":26.4,"depth":60,"ssh":0.07},
+            {"name":"Aegean Sea","lat":39.0,"lon":25.0,"depth":1000,"ssh":0.1},
+            {"name":"Piraeus","lat":37.94,"lon":23.65,"depth":40,"ssh":0.06},
+        ]
+    },
+    "kobe_singapore": {
+        "name": "Kobe → Singapore",
+        "waypoints": [
+            {"name":"Kobe","lat":34.68,"lon":135.2,"depth":20,"ssh":0.07},
+            {"name":"East China Sea","lat":28.0,"lon":125.0,"depth":150,"ssh":0.12},
+            {"name":"South China Sea","lat":12.0,"lon":115.0,"depth":4000,"ssh":0.15},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "algeciras_newyork": {
+        "name": "Algeciras → New York",
+        "waypoints": [
+            {"name":"Algeciras","lat":36.13,"lon":-5.45,"depth":300,"ssh":0.08},
+            {"name":"Atlantic Mid","lat":38.0,"lon":-25.0,"depth":4000,"ssh":0.3},
+            {"name":"Grand Banks","lat":42.0,"lon":-48.0,"depth":150,"ssh":0.25},
+            {"name":"New York","lat":40.6,"lon":-74.05,"depth":20,"ssh":0.06},
+        ]
+    },
+    "dalian_singapore": {
+        "name": "Dalian → Singapore",
+        "waypoints": [
+            {"name":"Dalian","lat":38.92,"lon":121.63,"depth":20,"ssh":0.06},
+            {"name":"Yellow Sea","lat":34.0,"lon":123.0,"depth":80,"ssh":0.1},
+            {"name":"East China Sea","lat":28.0,"lon":124.0,"depth":120,"ssh":0.11},
+            {"name":"South China Sea","lat":12.0,"lon":114.0,"depth":4000,"ssh":0.15},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "felixstowe_singapore": {
+        "name": "Felixstowe → Singapore",
+        "waypoints": [
+            {"name":"Felixstowe","lat":51.96,"lon":1.31,"depth":20,"ssh":0.05},
+            {"name":"Gibraltar","lat":36.14,"lon":-5.35,"depth":300,"ssh":0.08},
+            {"name":"Suez","lat":29.97,"lon":32.55,"depth":20,"ssh":0.05},
+            {"name":"Indian Ocean","lat":8.0,"lon":70.0,"depth":3800,"ssh":0.18},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "longbeach_yokohama": {
+        "name": "Long Beach → Yokohama",
+        "waypoints": [
+            {"name":"Long Beach","lat":33.75,"lon":-118.19,"depth":20,"ssh":0.06},
+            {"name":"Pacific E","lat":38.0,"lon":-140.0,"depth":4500,"ssh":0.28},
+            {"name":"Mid-Pacific","lat":42.0,"lon":-175.0,"depth":5800,"ssh":0.35},
+            {"name":"Yokohama","lat":35.44,"lon":139.64,"depth":20,"ssh":0.07},
+        ]
+    },
+    "genoa_alexandria": {
+        "name": "Genoa → Alexandria",
+        "waypoints": [
+            {"name":"Genoa","lat":44.41,"lon":8.93,"depth":25,"ssh":0.06},
+            {"name":"Tyrrhenian Sea","lat":40.0,"lon":12.0,"depth":3000,"ssh":0.13},
+            {"name":"Ionian Sea","lat":36.0,"lon":18.0,"depth":3500,"ssh":0.14},
+            {"name":"Alexandria","lat":31.2,"lon":29.92,"depth":20,"ssh":0.05},
+        ]
+    },
 }
 
 def predict_drag(lat,lon,depth,ssh,swh,speed,draft):
@@ -338,6 +660,40 @@ footer a{color:var(--teal);text-decoration:none}
         <option value="batumi_constanta">Batumi → Constanta</option>
         <option value="karadeniz_sakin">Black Sea — Calm</option>
         <option value="atlantik">North Atlantic — Storm</option>
+        <option value="shanghai_rotterdam">Shanghai → Rotterdam</option>
+        <option value="shanghai_losangeles">Shanghai → Los Angeles</option>
+        <option value="singapore_shanghai">Singapore → Shanghai</option>
+        <option value="rotterdam_newyork">Rotterdam → New York</option>
+        <option value="santos_rotterdam">Santos → Rotterdam</option>
+        <option value="dubai_singapore">Dubai → Singapore</option>
+        <option value="mumbai_suez">Mumbai → Suez</option>
+        <option value="durban_singapore">Durban → Singapore</option>
+        <option value="panama_losangeles">Panama → Los Angeles</option>
+        <option value="tokyo_losangeles">Tokyo → Los Angeles</option>
+        <option value="hamburg_newyork">Hamburg → New York</option>
+        <option value="melbourne_shanghai">Melbourne → Shanghai</option>
+        <option value="jeddah_rotterdam">Jeddah → Rotterdam</option>
+        <option value="busan_losangeles">Busan → Los Angeles</option>
+        <option value="gibraltar_piraeus">Gibraltar → Piraeus</option>
+        <option value="hongkong_singapore">Hong Kong → Singapore</option>
+        <option value="newyork_santos">New York → Santos</option>
+        <option value="capetown_singapore">Cape Town → Singapore</option>
+        <option value="yokohama_singapore">Yokohama → Singapore</option>
+        <option value="antwerp_newyork">Antwerp → New York</option>
+        <option value="valencia_suez">Valencia → Suez</option>
+        <option value="qingdao_rotterdam">Qingdao → Rotterdam</option>
+        <option value="colombo_singapore">Colombo → Singapore</option>
+        <option value="houston_rotterdam">Houston → Rotterdam</option>
+        <option value="seattle_tokyo">Seattle → Tokyo</option>
+        <option value="piraeus_alexandria">Piraeus → Alexandria</option>
+        <option value="vancouver_shanghai">Vancouver → Shanghai</option>
+        <option value="istanbul_piraeus">Istanbul → Piraeus</option>
+        <option value="kobe_singapore">Kobe → Singapore</option>
+        <option value="algeciras_newyork">Algeciras → New York</option>
+        <option value="dalian_singapore">Dalian → Singapore</option>
+        <option value="felixstowe_singapore">Felixstowe → Singapore</option>
+        <option value="longbeach_yokohama">Long Beach → Yokohama</option>
+        <option value="genoa_alexandria">Genoa → Alexandria</option>
       </select>
     </div>
 
