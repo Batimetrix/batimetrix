@@ -910,7 +910,7 @@ function initMap(){
   L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{
     maxZoom:18,subdomains:"abcd"
   }).addTo(map);
-  startAIS();
+  try{startAIS();}catch(e){console.log(e);}
 }
 
 var aisMarkers={};
