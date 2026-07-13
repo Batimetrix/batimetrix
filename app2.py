@@ -1132,7 +1132,6 @@ function renderResults(data){
   document.getElementById("prog_eff").textContent=(100-dp).toFixed(1)+"%";
 
   // Map
-  updateMap(data);
 }
 
 function runAnalysis(){
@@ -1171,6 +1170,11 @@ function runAnalysis(){
     document.getElementById("stat_cii").textContent=data.cii_before+"→"+data.cii_after;
 
     renderResults(data);
+    setTimeout(function(){
+      if(map){try{map.remove();}catch(e){} map=null; routeLayer=null; markerLayer=null;}
+      initMap();
+      updateMap(lastData);
+    },400);
   });
 }
 
