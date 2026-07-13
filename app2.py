@@ -475,6 +475,15 @@ header{position:sticky;top:0;z-index:1000;background:rgba(3,11,20,.95);backdrop-
 .lang-sel:focus{border-color:var(--teal)}
 .v-badge{background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:4px 10px;border-radius:20px;font-size:10px;font-family:'JetBrains Mono';letter-spacing:1px}
 
+/* WORLD CLOCK TICKER */
+.wct-wrap{background:#050F1C;border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;padding:5px 0;position:relative}
+.wct-track{display:inline-block;white-space:nowrap;animation:wctScroll 90s linear infinite}
+.wct-wrap:hover .wct-track{animation-play-state:paused}
+.wct-item{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--mute);margin:0 14px;letter-spacing:.5px}
+.wct-item b{color:var(--teal);font-weight:600}
+.wct-item.wct-hl b{color:#FFC107}
+.wct-item .wct-off{color:#2C3E50;font-size:9px;margin-left:4px}
+@keyframes wctScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 /* SAT BAR */
 .satbar{display:flex;gap:8px;padding:12px 24px;border-bottom:1px solid var(--line);background:var(--panel);overflow-x:auto}
 .sat{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--bg);border:1px solid var(--line);border-radius:8px;white-space:nowrap;flex-shrink:0}
@@ -625,6 +634,7 @@ footer a{color:var(--teal);text-decoration:none}
     <div class="v-badge">V3 PRO</div>
   </div>
 </header>
+<div class="wct-wrap"><div class="wct-track" id="wct_track"></div></div>
 
 <div class="satbar">
   <div class="sat"><div class="sat-dot"></div><div class="sat-name">SWOT</div><div class="sat-desc" data-i18n="sat_swot">Sea Surface Height</div></div>
@@ -1177,6 +1187,37 @@ function runAnalysis(){
     },400);
   });
 }
+
+// ===== WORLD CLOCKS (38 UTC offsets) =====
+var WCT_ZONES=[
+[-12,"BAKER IS."],[-11,"PAGO PAGO"],[-10,"HONOLULU"],[-9.5,"MARQUESAS"],[-9,"ANCHORAGE"],
+[-8,"LOS ANGELES"],[-7,"DENVER"],[-6,"MEXICO CITY"],[-5,"NEW YORK"],[-4,"SANTIAGO"],
+[-3.5,"ST. JOHN'S"],[-3,"SAO PAULO"],[-2,"S. GEORGIA"],[-1,"AZORES"],
+[0,"LONDON"],[1,"PARIS"],[2,"CAIRO"],[3,"ISTANBUL"],[3.5,"TEHRAN"],[4,"DUBAI"],
+[4.5,"KABUL"],[5,"KARACHI"],[5.5,"MUMBAI"],[5.75,"KATHMANDU"],[6,"DHAKA"],
+[6.5,"YANGON"],[7,"BANGKOK"],[8,"SHANGHAI"],[8.75,"EUCLA"],[9,"TOKYO"],
+[9.5,"ADELAIDE"],[10,"SYDNEY"],[10.5,"LORD HOWE"],[11,"HONIARA"],[12,"AUCKLAND"],
+[12.75,"CHATHAM"],[13,"NUKUALOFA"],[14,"KIRITIMATI"]
+];
+function wctFmt(off){
+  var h=Math.floor(Math.abs(off)),m=Math.round((Math.abs(off)-h)*60);
+  return (off<0?"-":"+")+h+(m?":"+(m<10?"0":"")+m:"");
+}
+function wctRender(){
+  var now=new Date();
+  var utcMs=now.getTime()+now.getTimezoneOffset()*60000;
+  var html="";
+  WCT_ZONES.forEach(function(z){
+    var t=new Date(utcMs+z[0]*3600000);
+    var hh=("0"+t.getHours()).slice(-2),mm=("0"+t.getMinutes()).slice(-2);
+    var hl=z[1]==="ISTANBUL"?" wct-hl":"";
+    html+='<span class="wct-item'+hl+'">'+z[1]+' <b>'+hh+":"+mm+'</b><span class="wct-off">UTC'+wctFmt(z[0])+'</span></span>';
+  });
+  var el=document.getElementById("wct_track");
+  if(el) el.innerHTML=html+html;
+}
+setInterval(wctRender,30000);
+wctRender();
 
 // Init on load
 window.onload=function(){
