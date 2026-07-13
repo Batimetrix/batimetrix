@@ -975,6 +975,7 @@ function previewRoute(){
 
 function updateMap(data){
   if(typeof L==="undefined"||typeof L.polyline!=="function"){setTimeout(function(){updateMap(data);},300);return;}
+  if(map){try{map.remove();}catch(e){} map=null; routeLayer=null; markerLayer=null;}
   initMap();
   if(routeLayer){map.removeLayer(routeLayer);}
   if(markerLayer){map.removeLayer(markerLayer);}
