@@ -880,7 +880,7 @@ footer a{color:var(--teal);text-decoration:none}
 
 <script>
 // ===== LANGUAGES =====
-var L={
+var LANG={
   en:{tagline:"Proactive Hydrodynamic Intelligence",sat_swot:"Sea Surface Height",sat_gpm:"Storm Prediction",sat_modis:"SST Viscosity",sat_gebco:"Bathymetry 2026",mission_params:"Mission Parameters",vessel_type:"Vessel Type",route_lbl:"Route",speed_lbl:"Speed (kn)",draft_lbl:"Draft (m)",wave_lbl:"Wave Ht (m)",temp_lbl:"Sea Temp °C",voyage_lbl:"Annual Voyage Days",run_btn:"⚡ Run Analysis",drag_score:"Drag Score",fuel_savings:"Fuel Savings",annual_savings:"Annual Savings",co2_cut:"CO2 Cut / yr",tab_map:"🗺️ Route Map",tab_analysis:"📊 Analysis",tab_cii:"⚖️ CII Rating",tab_table:"📋 Telemetry",map_title:"Route Map — Live Drag Overlay",drag_profile:"Drag Profile",drag_per_wp:"Drag per Waypoint",savings_per_wp:"Savings per Waypoint",depth_profile:"Depth Profile",drag_vs_depth:"Drag vs Depth",cii_title:"IMO CII Rating 2026",without_b:"Without Batimetrix",with_b:"With Batimetrix",telemetry:"Route Telemetry",th_waypoint:"Waypoint",th_depth:"Depth",th_savings:"Savings",th_status:"Status",fuel_eff:"Fuel Efficiency",analyzing:"RUNNING PINN INFERENCE...",empty_txt:"Select vessel, route and run analysis",cii_improved:"✅ CII rating improved with Batimetrix!",cii_same:"CII rating — further optimization possible",efficient:"EFFICIENT",nominal:"NOMINAL",high_drag:"HIGH DRAG"},
   tr:{tagline:"Proaktif Hidrodinamik Zeka",sat_swot:"Deniz Yüzey Yüksekliği",sat_gpm:"Fırtına Tahmini",sat_modis:"SST Viskozite",sat_gebco:"Batimetri 2026",mission_params:"Görev Parametreleri",vessel_type:"Gemi Tipi",route_lbl:"Güzergah",speed_lbl:"Hız (kn)",draft_lbl:"Taslak (m)",wave_lbl:"Dalga (m)",temp_lbl:"Deniz Sıcaklığı",voyage_lbl:"Yıllık Sefer Günü",run_btn:"⚡ Analizi Başlat",drag_score:"Sürüklenme Skoru",fuel_savings:"Yakıt Tasarrufu",annual_savings:"Yıllık Tasarruf",co2_cut:"CO2 Kesinti/yıl",tab_map:"🗺️ Harita",tab_analysis:"📊 Analiz",tab_cii:"⚖️ CII Notu",tab_table:"📋 Telemetri",map_title:"Güzergah Haritası",drag_profile:"Sürüklenme Profili",drag_per_wp:"Nokta Başı Drag",savings_per_wp:"Nokta Başı Tasarruf",depth_profile:"Derinlik Profili",drag_vs_depth:"Drag - Derinlik",cii_title:"IMO CII Notu 2026",without_b:"Batimetrix Olmadan",with_b:"Batimetrix İle",telemetry:"Güzergah Telemetrisi",th_waypoint:"Nokta",th_depth:"Derinlik",th_savings:"Tasarruf",th_status:"Durum",fuel_eff:"Yakıt Verimliliği",analyzing:"PINN ÇIKARIMI ÇALIŞIYOR...",empty_txt:"Gemi ve güzergah seçin, analizi başlatın",cii_improved:"✅ CII notu Batimetrix ile iyileşti!",cii_same:"CII notu — daha fazla optimizasyon mümkün",efficient:"VERİMLİ",nominal:"NORMAL",high_drag:"YÜKSEK DİRENÇ"},
   el:{tagline:"Προληπτική Υδροδυναμική Νοημοσύνη",sat_swot:"Ύψος Επιφάνειας",sat_gpm:"Πρόβλεψη Καταιγίδας",sat_modis:"Θερμοκρασία Θάλασσας",sat_gebco:"Βαθυμετρία 2026",mission_params:"Παράμετροι Αποστολής",vessel_type:"Τύπος Πλοίου",route_lbl:"Διαδρομή",speed_lbl:"Ταχύτητα (κόμβοι)",draft_lbl:"Βύθισμα (μ)",wave_lbl:"Ύψος Κύματος (μ)",temp_lbl:"Θερμ. Θάλασσας",voyage_lbl:"Ετήσιες Ημέρες Πλου",run_btn:"⚡ Εκτέλεση Ανάλυσης",drag_score:"Δείκτης Αντίστασης",fuel_savings:"Εξοικονόμηση",annual_savings:"Ετήσια Εξοικονόμηση",co2_cut:"Μείωση CO2/έτος",tab_map:"🗺️ Χάρτης",tab_analysis:"📊 Ανάλυση",tab_cii:"⚖️ CII",tab_table:"📋 Τηλεμετρία",map_title:"Χάρτης Διαδρομής",drag_profile:"Προφίλ Αντίστασης",drag_per_wp:"Αντίσταση ανά Σημείο",savings_per_wp:"Εξοικονόμηση ανά Σημείο",depth_profile:"Προφίλ Βάθους",drag_vs_depth:"Αντίσταση - Βάθος",cii_title:"Βαθμολογία IMO CII 2026",without_b:"Χωρίς Batimetrix",with_b:"Με Batimetrix",telemetry:"Τηλεμετρία Διαδρομής",th_waypoint:"Σημείο",th_depth:"Βάθος",th_savings:"Εξοικονόμηση",th_status:"Κατάσταση",fuel_eff:"Απόδοση Καυσίμου",analyzing:"ΕΚΤΕΛΕΣΗ PINN...",empty_txt:"Επιλέξτε πλοίο και διαδρομή",cii_improved:"✅ Η βαθμολογία CII βελτιώθηκε!",cii_same:"CII — δυνατή περαιτέρω βελτιστοποίηση",efficient:"ΑΠΟΔΟΤΙΚΟ",nominal:"ΚΑΝΟΝΙΚΟ",high_drag:"ΥΨΗΛΗ ΑΝΤΙΣΤΑΣΗ"},
@@ -1001,7 +1001,7 @@ function updateMap(data){
 
 function setLang(l){
   lang=l;
-  var t=L[l];
+  var t=LANG[l];
   document.querySelectorAll("[data-i18n]").forEach(function(el){
     var k=el.getAttribute("data-i18n");
     if(t[k]) el.textContent=t[k];
@@ -1038,7 +1038,7 @@ function makeChart(id,type,labels,datasets,opts){
 }
 
 function renderResults(data){
-  var t=L[lang];
+  var t=LANG[lang];
   var wps=data.waypoints;
   var labels=wps.map(w=>w.name);
   var drags=wps.map(w=>w.drag);
