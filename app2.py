@@ -996,7 +996,10 @@ function updateMap(data){
     markerLayer.addLayer(m);
   });
   markerLayer.addTo(map);
-  map.fitBounds(routeLayer.getBounds(),{padding:[30,30]});
+  setTimeout(function(){
+    map.invalidateSize();
+    map.fitBounds(routeLayer.getBounds(),{padding:[30,30]});
+  },300);
 }
 
 function setLang(l){
