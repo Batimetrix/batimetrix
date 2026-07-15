@@ -427,6 +427,209 @@ ROUTES = {
             {"name":"Alexandria","lat":31.2,"lon":29.92,"depth":20,"ssh":0.05},
         ]
     },
+    "porthedland_qingdao": {
+        "name": "Port Hedland → Qingdao (Iron Ore)",
+        "waypoints": [
+            {"name":"Port Hedland","lat":-20.31,"lon":118.58,"depth":15,"ssh":0.06},
+            {"name":"Timor Sea","lat":-11.0,"lon":123.0,"depth":2500,"ssh":0.14},
+            {"name":"Makassar Strait","lat":-2.0,"lon":118.0,"depth":2000,"ssh":0.12},
+            {"name":"Philippine Sea","lat":10.0,"lon":125.0,"depth":4500,"ssh":0.2},
+            {"name":"Taiwan Strait","lat":24.0,"lon":119.0,"depth":60,"ssh":0.12},
+            {"name":"Qingdao","lat":36.07,"lon":120.38,"depth":20,"ssh":0.06},
+        ]
+    },
+    "pontamadeira_qingdao": {
+        "name": "Ponta da Madeira → Qingdao (Vale Ore)",
+        "waypoints": [
+            {"name":"Ponta da Madeira","lat":-2.56,"lon":-44.37,"depth":25,"ssh":0.08},
+            {"name":"Equator Atlantic","lat":0.0,"lon":-30.0,"depth":4200,"ssh":0.16},
+            {"name":"Cape of Good Hope","lat":-35.0,"lon":20.0,"depth":3000,"ssh":0.28},
+            {"name":"Indian Ocean","lat":-25.0,"lon":60.0,"depth":4500,"ssh":0.22},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Qingdao","lat":36.07,"lon":120.38,"depth":20,"ssh":0.06},
+        ]
+    },
+    "newcastle_tokyo": {
+        "name": "Newcastle → Tokyo (Coal)",
+        "waypoints": [
+            {"name":"Newcastle AU","lat":-32.92,"lon":151.78,"depth":15,"ssh":0.1},
+            {"name":"Coral Sea","lat":-20.0,"lon":155.0,"depth":3500,"ssh":0.2},
+            {"name":"Philippine Sea","lat":10.0,"lon":140.0,"depth":5500,"ssh":0.24},
+            {"name":"Tokyo","lat":35.65,"lon":139.84,"depth":20,"ssh":0.07},
+        ]
+    },
+    "neworleans_shanghai": {
+        "name": "New Orleans → Shanghai (Grain)",
+        "waypoints": [
+            {"name":"New Orleans","lat":29.95,"lon":-90.07,"depth":15,"ssh":0.05},
+            {"name":"Gulf of Mexico","lat":25.0,"lon":-88.0,"depth":2000,"ssh":0.14},
+            {"name":"Panama Canal","lat":9.08,"lon":-79.68,"depth":20,"ssh":0.06},
+            {"name":"Pacific Central","lat":15.0,"lon":-110.0,"depth":3800,"ssh":0.2},
+            {"name":"Mid-Pacific","lat":25.0,"lon":-160.0,"depth":5500,"ssh":0.32},
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+        ]
+    },
+    "rastanura_ningbo": {
+        "name": "Ras Tanura → Ningbo (VLCC Crude)",
+        "waypoints": [
+            {"name":"Ras Tanura","lat":26.64,"lon":50.16,"depth":20,"ssh":0.04},
+            {"name":"Hormuz Strait","lat":26.57,"lon":56.25,"depth":60,"ssh":0.08},
+            {"name":"Arabian Sea","lat":18.0,"lon":62.0,"depth":3500,"ssh":0.16},
+            {"name":"Indian Ocean","lat":5.0,"lon":80.0,"depth":3800,"ssh":0.18},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Ningbo","lat":29.87,"lon":121.55,"depth":20,"ssh":0.06},
+        ]
+    },
+    "raslaffan_tokyo": {
+        "name": "Ras Laffan → Tokyo (LNG)",
+        "waypoints": [
+            {"name":"Ras Laffan","lat":25.92,"lon":51.55,"depth":20,"ssh":0.04},
+            {"name":"Hormuz Strait","lat":26.57,"lon":56.25,"depth":60,"ssh":0.08},
+            {"name":"Arabian Sea","lat":18.0,"lon":62.0,"depth":3500,"ssh":0.16},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"South China Sea","lat":12.0,"lon":115.0,"depth":4000,"ssh":0.15},
+            {"name":"Tokyo","lat":35.65,"lon":139.84,"depth":20,"ssh":0.07},
+        ]
+    },
+    "sabinepass_rotterdam": {
+        "name": "Sabine Pass → Rotterdam (US LNG)",
+        "waypoints": [
+            {"name":"Sabine Pass","lat":29.73,"lon":-93.87,"depth":15,"ssh":0.05},
+            {"name":"Gulf of Mexico","lat":26.0,"lon":-88.0,"depth":2000,"ssh":0.14},
+            {"name":"Florida Strait","lat":24.5,"lon":-80.0,"depth":800,"ssh":0.16},
+            {"name":"North Atlantic","lat":40.0,"lon":-45.0,"depth":4500,"ssh":0.3},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "bonny_rotterdam": {
+        "name": "Bonny → Rotterdam (Crude)",
+        "waypoints": [
+            {"name":"Bonny","lat":4.45,"lon":7.17,"depth":20,"ssh":0.07},
+            {"name":"Gulf of Guinea","lat":2.0,"lon":3.0,"depth":3000,"ssh":0.14},
+            {"name":"Equator Atlantic","lat":0.0,"lon":-5.0,"depth":4000,"ssh":0.16},
+            {"name":"Canary Islands","lat":28.0,"lon":-18.0,"depth":3500,"ssh":0.15},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "singapore_rotterdam_cape": {
+        "name": "Singapore → Rotterdam (Cape Route)",
+        "waypoints": [
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+            {"name":"Indian Ocean","lat":-5.0,"lon":80.0,"depth":4000,"ssh":0.18},
+            {"name":"Cape of Good Hope","lat":-35.0,"lon":20.0,"depth":3000,"ssh":0.3},
+            {"name":"South Atlantic","lat":-15.0,"lon":-5.0,"depth":4500,"ssh":0.22},
+            {"name":"Canary Islands","lat":28.0,"lon":-18.0,"depth":3500,"ssh":0.15},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "murmansk_shanghai": {
+        "name": "Murmansk → Shanghai (Arctic NSR)",
+        "waypoints": [
+            {"name":"Murmansk","lat":68.97,"lon":33.05,"depth":30,"ssh":0.06},
+            {"name":"Kara Sea","lat":75.0,"lon":65.0,"depth":150,"ssh":0.1},
+            {"name":"Laptev Sea","lat":76.0,"lon":125.0,"depth":50,"ssh":0.09},
+            {"name":"Bering Strait","lat":65.8,"lon":-169.0,"depth":50,"ssh":0.12},
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+        ]
+    },
+    "hormuz_transit": {
+        "name": "Kuwait → Arabian Sea (Hormuz)",
+        "waypoints": [
+            {"name":"Kuwait","lat":29.07,"lon":48.13,"depth":15,"ssh":0.04},
+            {"name":"Persian Gulf","lat":27.0,"lon":52.0,"depth":60,"ssh":0.06},
+            {"name":"Hormuz Strait","lat":26.57,"lon":56.25,"depth":60,"ssh":0.08},
+            {"name":"Gulf of Oman","lat":24.0,"lon":58.0,"depth":2000,"ssh":0.12},
+            {"name":"Arabian Sea","lat":20.0,"lon":62.0,"depth":3500,"ssh":0.16},
+        ]
+    },
+    "dover_strait": {
+        "name": "Rotterdam → Felixstowe (Dover)",
+        "waypoints": [
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+            {"name":"North Sea","lat":52.5,"lon":3.0,"depth":30,"ssh":0.06},
+            {"name":"Dover Strait","lat":51.0,"lon":1.5,"depth":35,"ssh":0.07},
+            {"name":"Felixstowe","lat":51.96,"lon":1.31,"depth":20,"ssh":0.05},
+        ]
+    },
+    "babelmandeb": {
+        "name": "Jeddah → Djibouti (Bab el-Mandeb)",
+        "waypoints": [
+            {"name":"Jeddah","lat":21.49,"lon":39.19,"depth":30,"ssh":0.06},
+            {"name":"Red Sea South","lat":17.0,"lon":41.0,"depth":1500,"ssh":0.11},
+            {"name":"Bab el-Mandeb","lat":12.6,"lon":43.3,"depth":180,"ssh":0.09},
+            {"name":"Djibouti","lat":11.6,"lon":43.15,"depth":20,"ssh":0.06},
+        ]
+    },
+    "tangermed_rotterdam": {
+        "name": "Tanger Med → Rotterdam",
+        "waypoints": [
+            {"name":"Tanger Med","lat":35.89,"lon":-5.5,"depth":20,"ssh":0.07},
+            {"name":"Gibraltar","lat":36.14,"lon":-5.35,"depth":300,"ssh":0.08},
+            {"name":"Atlantic Iberia","lat":40.0,"lon":-10.0,"depth":3000,"ssh":0.18},
+            {"name":"Biscay","lat":45.0,"lon":-5.0,"depth":2800,"ssh":0.25},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "callao_shanghai": {
+        "name": "Callao → Shanghai (Copper)",
+        "waypoints": [
+            {"name":"Callao","lat":-12.05,"lon":-77.15,"depth":20,"ssh":0.08},
+            {"name":"Pacific South","lat":-10.0,"lon":-100.0,"depth":4000,"ssh":0.2},
+            {"name":"Mid-Pacific","lat":0.0,"lon":-140.0,"depth":4800,"ssh":0.24},
+            {"name":"Philippine Sea","lat":15.0,"lon":135.0,"depth":5000,"ssh":0.22},
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+        ]
+    },
+    "lagos_rotterdam": {
+        "name": "Lagos → Rotterdam",
+        "waypoints": [
+            {"name":"Lagos","lat":6.44,"lon":3.4,"depth":15,"ssh":0.07},
+            {"name":"Gulf of Guinea","lat":2.0,"lon":0.0,"depth":3000,"ssh":0.14},
+            {"name":"Equator Atlantic","lat":5.0,"lon":-15.0,"depth":4000,"ssh":0.16},
+            {"name":"Canary Islands","lat":28.0,"lon":-18.0,"depth":3500,"ssh":0.15},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "gdansk_rotterdam": {
+        "name": "Gdansk → Rotterdam (Baltic)",
+        "waypoints": [
+            {"name":"Gdansk","lat":54.4,"lon":18.66,"depth":15,"ssh":0.04},
+            {"name":"Baltic Sea","lat":55.0,"lon":15.0,"depth":80,"ssh":0.06},
+            {"name":"Danish Straits","lat":55.5,"lon":11.0,"depth":30,"ssh":0.05},
+            {"name":"North Sea","lat":55.0,"lon":5.0,"depth":40,"ssh":0.08},
+            {"name":"Rotterdam","lat":51.95,"lon":4.14,"depth":25,"ssh":0.04},
+        ]
+    },
+    "hochiminh_losangeles": {
+        "name": "Ho Chi Minh → Los Angeles",
+        "waypoints": [
+            {"name":"Ho Chi Minh","lat":10.77,"lon":106.7,"depth":15,"ssh":0.08},
+            {"name":"South China Sea","lat":12.0,"lon":112.0,"depth":4000,"ssh":0.15},
+            {"name":"Philippine Sea","lat":18.0,"lon":130.0,"depth":5000,"ssh":0.22},
+            {"name":"Mid-Pacific","lat":30.0,"lon":-175.0,"depth":5800,"ssh":0.34},
+            {"name":"Los Angeles","lat":33.74,"lon":-118.27,"depth":20,"ssh":0.06},
+        ]
+    },
+    "chittagong_singapore": {
+        "name": "Chittagong → Singapore",
+        "waypoints": [
+            {"name":"Chittagong","lat":22.3,"lon":91.8,"depth":10,"ssh":0.07},
+            {"name":"Bay of Bengal","lat":15.0,"lon":90.0,"depth":3000,"ssh":0.16},
+            {"name":"Andaman Sea","lat":8.0,"lon":96.0,"depth":1500,"ssh":0.12},
+            {"name":"Malacca Strait","lat":2.5,"lon":101.0,"depth":40,"ssh":0.1},
+            {"name":"Singapore","lat":1.29,"lon":103.85,"depth":25,"ssh":0.08},
+        ]
+    },
+    "manzanillo_shanghai": {
+        "name": "Manzanillo → Shanghai",
+        "waypoints": [
+            {"name":"Manzanillo","lat":19.05,"lon":-104.32,"depth":20,"ssh":0.06},
+            {"name":"Pacific East","lat":18.0,"lon":-120.0,"depth":3500,"ssh":0.2},
+            {"name":"Mid-Pacific","lat":25.0,"lon":-160.0,"depth":5500,"ssh":0.32},
+            {"name":"East China Sea","lat":29.0,"lon":123.0,"depth":100,"ssh":0.1},
+            {"name":"Shanghai","lat":31.23,"lon":121.47,"depth":15,"ssh":0.06},
+        ]
+    },
 }
 
 def predict_drag(lat,lon,depth,ssh,swh,speed,draft):
@@ -704,6 +907,26 @@ footer a{color:var(--teal);text-decoration:none}
         <option value="felixstowe_singapore">Felixstowe → Singapore</option>
         <option value="longbeach_yokohama">Long Beach → Yokohama</option>
         <option value="genoa_alexandria">Genoa → Alexandria</option>
+        <option value="porthedland_qingdao">Port Hedland → Qingdao (Iron Ore)</option>
+        <option value="pontamadeira_qingdao">Ponta da Madeira → Qingdao (Vale Ore)</option>
+        <option value="newcastle_tokyo">Newcastle → Tokyo (Coal)</option>
+        <option value="neworleans_shanghai">New Orleans → Shanghai (Grain)</option>
+        <option value="rastanura_ningbo">Ras Tanura → Ningbo (VLCC Crude)</option>
+        <option value="raslaffan_tokyo">Ras Laffan → Tokyo (LNG)</option>
+        <option value="sabinepass_rotterdam">Sabine Pass → Rotterdam (US LNG)</option>
+        <option value="bonny_rotterdam">Bonny → Rotterdam (Crude)</option>
+        <option value="singapore_rotterdam_cape">Singapore → Rotterdam (Cape Route)</option>
+        <option value="murmansk_shanghai">Murmansk → Shanghai (Arctic NSR)</option>
+        <option value="hormuz_transit">Kuwait → Arabian Sea (Hormuz)</option>
+        <option value="dover_strait">Rotterdam → Felixstowe (Dover)</option>
+        <option value="babelmandeb">Jeddah → Djibouti (Bab el-Mandeb)</option>
+        <option value="tangermed_rotterdam">Tanger Med → Rotterdam</option>
+        <option value="callao_shanghai">Callao → Shanghai (Copper)</option>
+        <option value="lagos_rotterdam">Lagos → Rotterdam</option>
+        <option value="gdansk_rotterdam">Gdansk → Rotterdam (Baltic)</option>
+        <option value="hochiminh_losangeles">Ho Chi Minh → Los Angeles</option>
+        <option value="chittagong_singapore">Chittagong → Singapore</option>
+        <option value="manzanillo_shanghai">Manzanillo → Shanghai</option>
       </select>
     </div>
 
