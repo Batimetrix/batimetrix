@@ -31,6 +31,15 @@ model.eval()
 print("Model yuklendi! BATIMETRIX V3 PRO")
 
 CII_REF = {
+    "Aframax Tanker": {"a": 5247.0, "c": 0.61},
+    "Suezmax Tanker": {"a": 5247.0, "c": 0.61},
+    "MR Product Tanker": {"a": 5247.0, "c": 0.61},
+    "ULCC Tanker": {"a": 5247.0, "c": 0.61},
+    "Supramax Bulk": {"a": 4745.0, "c": 0.622},
+    "Panamax Bulk": {"a": 4745.0, "c": 0.622},
+    "VLOC Valemax": {"a": 4745.0, "c": 0.622},
+    "ULCV Container": {"a": 1984.0, "c": 0.489},
+    "Feeder Container": {"a": 1984.0, "c": 0.489},
     "VLCC Tanker":       {"a":5247.0,"c":0.610},
     "Panamax Container": {"a":1984.0,"c":0.489},
     "Capesize Bulk":     {"a":4745.0,"c":0.622},
@@ -39,6 +48,15 @@ CII_REF = {
     "Black Sea Cargo":   {"a":588.0, "c":0.3885},
 }
 VESSEL_PROFILE = {
+    "Aframax Tanker": {"dwt":110000,"fuel":45},
+    "Suezmax Tanker": {"dwt":160000,"fuel":55},
+    "MR Product Tanker": {"dwt":50000,"fuel":25},
+    "ULCC Tanker": {"dwt":400000,"fuel":140},
+    "Supramax Bulk": {"dwt":58000,"fuel":28},
+    "Panamax Bulk": {"dwt":75000,"fuel":32},
+    "VLOC Valemax": {"dwt":400000,"fuel":65},
+    "ULCV Container": {"dwt":220000,"fuel":150},
+    "Feeder Container": {"dwt":20000,"fuel":22},
     "VLCC Tanker":       {"dwt":300000,"fuel":120},
     "Panamax Container": {"dwt": 65000,"fuel": 80},
     "Capesize Bulk":     {"dwt":180000,"fuel": 40},
@@ -861,6 +879,15 @@ footer a{color:var(--teal);text-decoration:none}
         <option value="Capesize Bulk">Capesize Bulk</option>
         <option value="LNG Carrier">LNG Carrier</option>
         <option value="VLCC Tanker">VLCC Tanker</option>
+        <option value="Aframax Tanker">Aframax Tanker</option>
+        <option value="Suezmax Tanker">Suezmax Tanker</option>
+        <option value="MR Product Tanker">MR Product Tanker</option>
+        <option value="ULCC Tanker">ULCC Tanker</option>
+        <option value="Supramax Bulk">Supramax Bulk</option>
+        <option value="Panamax Bulk">Panamax Bulk</option>
+        <option value="VLOC Valemax">VLOC Valemax</option>
+        <option value="ULCV Container">ULCV Container</option>
+        <option value="Feeder Container">Feeder Container</option>
       </select>
     </div>
 
