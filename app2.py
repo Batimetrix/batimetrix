@@ -31,36 +31,36 @@ model.eval()
 print("Model yuklendi! BATIMETRIX V3 PRO")
 
 CII_REF = {
-    "Aframax Tanker": {"a": 5247.0, "c": 0.61},
-    "Suezmax Tanker": {"a": 5247.0, "c": 0.61},
-    "MR Product Tanker": {"a": 5247.0, "c": 0.61},
-    "ULCC Tanker": {"a": 5247.0, "c": 0.61},
-    "Supramax Bulk": {"a": 4745.0, "c": 0.622},
-    "Panamax Bulk": {"a": 4745.0, "c": 0.622},
-    "VLOC Valemax": {"a": 4745.0, "c": 0.622},
-    "ULCV Container": {"a": 1984.0, "c": 0.489},
-    "Feeder Container": {"a": 1984.0, "c": 0.489},
-    "VLCC Tanker":       {"a":5247.0,"c":0.610},
-    "Panamax Container": {"a":1984.0,"c":0.489},
-    "Capesize Bulk":     {"a":4745.0,"c":0.622},
-    "LNG Carrier":       {"a":9.827, "c":0.000},
-    "Handy Bulk":        {"a":588.0, "c":0.3885},
-    "Black Sea Cargo":   {"a":588.0, "c":0.3885},
+    "Aframax Tanker": {"a": 5247.0, "c": 0.61, "d": [0.82,0.93,1.08,1.28]},
+    "Suezmax Tanker": {"a": 5247.0, "c": 0.61, "d": [0.82,0.93,1.08,1.28]},
+    "MR Product Tanker": {"a": 5247.0, "c": 0.61, "d": [0.82,0.93,1.08,1.28]},
+    "ULCC Tanker": {"a": 5247.0, "c": 0.61, "d": [0.82,0.93,1.08,1.28]},
+    "Supramax Bulk": {"a": 4745.0, "c": 0.622, "d": [0.86,0.94,1.06,1.18]},
+    "Panamax Bulk": {"a": 4745.0, "c": 0.622, "d": [0.86,0.94,1.06,1.18]},
+    "VLOC Valemax": {"a": 4745.0, "c": 0.622, "d": [0.86,0.94,1.06,1.18], "cap": 279000},
+    "ULCV Container": {"a": 1984.0, "c": 0.489, "d": [0.83,0.94,1.07,1.19]},
+    "Feeder Container": {"a": 1984.0, "c": 0.489, "d": [0.83,0.94,1.07,1.19]},
+    "VLCC Tanker":       {"a":5247.0,"c":0.610, "d": [0.82,0.93,1.08,1.28]},
+    "Panamax Container": {"a":1984.0,"c":0.489, "d": [0.83,0.94,1.07,1.19]},
+    "Capesize Bulk":     {"a":4745.0,"c":0.622, "d": [0.86,0.94,1.06,1.18]},
+    "LNG Carrier":       {"a":9.827, "c":0.000, "d": [0.89,0.98,1.06,1.13]},
+    "Handy Bulk":        {"a":588.0, "c":0.3885, "d": [0.86,0.94,1.06,1.18]},
+    "Black Sea Cargo":   {"a":588.0, "c":0.3885, "d": [0.83,0.94,1.06,1.19]},
 }
 VESSEL_PROFILE = {
     "Aframax Tanker": {"dwt":110000,"fuel":45},
     "Suezmax Tanker": {"dwt":160000,"fuel":55},
-    "MR Product Tanker": {"dwt":50000,"fuel":25},
-    "ULCC Tanker": {"dwt":400000,"fuel":140},
-    "Supramax Bulk": {"dwt":58000,"fuel":28},
+    "MR Product Tanker": {"dwt":50000,"fuel":32},
+    "ULCC Tanker": {"dwt":400000,"fuel":95},
+    "Supramax Bulk": {"dwt":58000,"fuel":32},
     "Panamax Bulk": {"dwt":75000,"fuel":32},
     "VLOC Valemax": {"dwt":400000,"fuel":65},
     "ULCV Container": {"dwt":220000,"fuel":150},
     "Feeder Container": {"dwt":20000,"fuel":22},
-    "VLCC Tanker":       {"dwt":300000,"fuel":120},
+    "VLCC Tanker":       {"dwt":300000,"fuel":75},
     "Panamax Container": {"dwt": 65000,"fuel": 80},
     "Capesize Bulk":     {"dwt":180000,"fuel": 40},
-    "LNG Carrier":       {"dwt": 80000,"fuel": 65},
+    "LNG Carrier":       {"dwt":100000,"fuel": 65},
     "Handy Bulk":        {"dwt": 35000,"fuel": 25},
     "Black Sea Cargo":   {"dwt":  8000,"fuel": 12},
 }
@@ -1519,17 +1519,19 @@ def analyze():
     cost_savings = fuel * days * 650 * sav_rate
     co2_reduction = fuel * sav_rate * days * 3.151
 
-    p = CII_REF.get(vessel,{"a":588.0,"c":0.3885})
-    req = p["a"] * (dwt**(-p["c"])) * (1-11/100)
+    p = CII_REF.get(vessel,{"a":588.0,"c":0.3885,"d":[0.83,0.94,1.06,1.19]})
+    cap = min(dwt, p.get("cap", dwt))
+    req = p["a"] * (cap**(-p["c"])) * (1-11/100)
     cii_b = (fuel*days*3.151*1_000_000)/(dwt*5000)
     cii_a = (fuel*(1-sav_rate)*days*3.151*1_000_000)/(dwt*5000)
 
-    def cii_grade(v,r):
-        o=v/r
-        if o<=0.86:return "A"
-        if o<=0.94:return "B"
-        if o<=1.06:return "C"
-        if o<=1.18:return "D"
+    def cii_grade(v, r, d=None):
+        d = d or [0.86,0.94,1.06,1.18]
+        o = v / r
+        if o <= d[0]: return "A"
+        if o <= d[1]: return "B"
+        if o <= d[2]: return "C"
+        if o <= d[3]: return "D"
         return "E"
 
     return jsonify({
@@ -1537,8 +1539,8 @@ def analyze():
         "savings":round(sav_rate*100,1),
         "cost_savings":round(cost_savings,0),
         "co2_reduction":round(co2_reduction,1),
-        "cii_before":cii_grade(cii_b,req),
-        "cii_after":cii_grade(cii_a,req),
+        "cii_before":cii_grade(cii_b, req, p.get("d")),
+        "cii_after":cii_grade(cii_a, req, p.get("d")),
         "cii_b_val":round(cii_b,3),
         "cii_a_val":round(cii_a,3),
         "waypoints":result_wps,
