@@ -1063,6 +1063,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('analysis_tab',this)" data-i18n="tab_analysis">📊 Analysis</div>
         <div class="tab" onclick="showTab('cii_tab',this)" data-i18n="tab_cii">⚖️ CII Rating</div>
         <div class="tab" onclick="showTab('table_tab',this)" data-i18n="tab_table">📋 Telemetry</div>
+        <div class="tab" onclick="showTab('fleet_tab',this)">&#128674; Fleet</div>
       </div>
 
       <!-- MAP TAB -->
@@ -1161,6 +1162,53 @@ footer a{color:var(--teal);text-decoration:none}
           </table>
         </div>
       </div>
+    </div>
+
+      <!-- FLEET DASHBOARD TAB -->
+      <div id="fleet_tab" style="display:none">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#128674; Fleet Dashboard — Live Drag Intelligence</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--line)">
+              <div style="font-size:22px;font-weight:900;color:var(--teal)" id="fleet_vessels">5</div>
+              <div style="font-size:10px;color:var(--mute);letter-spacing:1px">VESSELS</div>
+            </div>
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--line)">
+              <div style="font-size:22px;font-weight:900;color:var(--amber)" id="fleet_savings">$4.2M</div>
+              <div style="font-size:10px;color:var(--mute);letter-spacing:1px">ANNUAL SAVINGS</div>
+            </div>
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--line)">
+              <div style="font-size:22px;font-weight:900;color:var(--teal)" id="fleet_co2">18,420t</div>
+              <div style="font-size:10px;color:var(--mute);letter-spacing:1px">CO2 SAVED/YR</div>
+            </div>
+            <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--line)">
+              <div style="font-size:22px;font-weight:900;color:#27AE60" id="fleet_cii">3 × A</div>
+              <div style="font-size:10px;color:var(--mute);letter-spacing:1px">CII IMPROVED</div>
+            </div>
+          </div>
+          <table class="route-table">
+            <thead>
+              <tr>
+                <th>VESSEL</th>
+                <th>TYPE</th>
+                <th>ROUTE</th>
+                <th>DRAG</th>
+                <th>SAVINGS</th>
+                <th>ANNUAL $</th>
+                <th>CII</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="fleet_tbody">
+            </tbody>
+          </table>
+        </div>
+        <div style="text-align:center;padding:16px;font-size:11px;color:var(--mute)">
+          &#128161; Run analysis on individual vessels to populate fleet data. 
+          Pilot fleet data shown for demonstration.
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1315,7 +1363,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -1471,6 +1519,9 @@ function runAnalysis(){
     document.getElementById("stat_cii").textContent=data.cii_before+"→"+data.cii_after;
 
     renderResults(data);
+    var vsel = document.getElementById("vessel").value;
+    var rsel = document.getElementById("route").options[document.getElementById("route").selectedIndex].text;
+    addToFleet(data, vsel, rsel);
     setTimeout(function(){
       if(map){try{map.remove();}catch(e){} map=null; routeLayer=null; markerLayer=null;}
       initMap();
@@ -1510,8 +1561,70 @@ function wctRender(){
 setInterval(wctRender,30000);
 wctRender();
 
+// ===== FLEET DASHBOARD =====
+var fleetData = [
+  {name:"MV Bosphorus",  type:"Black Sea Cargo",   route:"Istanbul → Trabzon",           drag:0.142, sav:11.2, cash:187,  cii_b:"D", cii_a:"C"},
+  {name:"MT Black Sea",  type:"Aframax Tanker",     route:"Novorossiysk → Istanbul",      drag:0.198, sav:9.8,  cash:1240, cii_b:"C", cii_a:"B"},
+  {name:"MV Silk Road",  type:"Panamax Container",  route:"Shanghai → Rotterdam",         drag:0.231, sav:8.4,  cash:894,  cii_b:"D", cii_a:"C"},
+  {name:"MT Gulf Star",  type:"VLCC Tanker",        route:"Ras Tanura → Ningbo",          drag:0.167, sav:12.1, cash:1447, cii_b:"E", cii_a:"C"},
+  {name:"MV Iron Giant", type:"Capesize Bulk",      route:"Port Hedland → Qingdao",       drag:0.189, sav:10.3, cash:712,  cii_b:"D", cii_a:"B"},
+];
+
+function renderFleet(){
+  var tbody = document.getElementById("fleet_tbody");
+  if(!tbody) return;
+  tbody.innerHTML = "";
+  var totalCash = 0, improved = 0;
+  fleetData.forEach(function(v){
+    totalCash += v.cash;
+    if(v.cii_b !== v.cii_a) improved++;
+    var dragCol = v.drag < 0.20 ? "var(--teal)" : v.drag < 0.35 ? "var(--amber)" : "#E74C3C";
+    var status = v.drag < 0.20 ? "✅ EFFICIENT" : v.drag < 0.35 ? "⚠️ NOMINAL" : "🔴 HIGH DRAG";
+    var ciiCol = v.cii_a === "A" ? "#27AE60" : v.cii_a === "B" ? "var(--teal)" : v.cii_a === "C" ? "var(--amber)" : "#E74C3C";
+    tbody.innerHTML += "<tr>" +
+      "<td><b>"+v.name+"</b></td>" +
+      "<td style='color:var(--mute)'>"+v.type+"</td>" +
+      "<td style='color:var(--mute);font-size:10px'>"+v.route+"</td>" +
+      "<td style='color:"+dragCol+";font-weight:700'>"+v.drag.toFixed(3)+"</td>" +
+      "<td style='color:var(--teal)'>%"+v.sav.toFixed(1)+"</td>" +
+      "<td style='color:var(--amber);font-weight:700'>$"+v.cash+"K</td>" +
+      "<td style='color:"+ciiCol+";font-weight:900;font-size:14px'>"+v.cii_b+"→"+v.cii_a+"</td>" +
+      "<td>"+status+"</td>" +
+      "</tr>";
+  });
+  // KPI guncelle
+  var totalEl = document.getElementById("fleet_savings");
+  if(totalEl) totalEl.textContent = "$"+(totalCash/1000).toFixed(1)+"M";
+  var co2El = document.getElementById("fleet_co2");
+  if(co2El){
+    var co2 = fleetData.reduce(function(s,v){return s + v.cash*1000/650*3.151*0.1;},0);
+    co2El.textContent = Math.round(co2).toLocaleString()+"t";
+  }
+  var ciiEl = document.getElementById("fleet_cii");
+  if(ciiEl) ciiEl.textContent = improved+" improved";
+}
+
+// Analiz sonucu filo verisine ekle
+function addToFleet(data, vessel, route){
+  var existing = fleetData.findIndex(function(v){ return v.name === "⚡ "+vessel; });
+  var entry = {
+    name: "⚡ "+vessel,
+    type: vessel,
+    route: route,
+    drag: data.drag,
+    sav: data.savings,
+    cash: Math.round(data.cost_savings/1000),
+    cii_b: data.cii_before,
+    cii_a: data.cii_after
+  };
+  if(existing >= 0) fleetData[existing] = entry;
+  else fleetData.unshift(entry);
+  document.getElementById("fleet_vessels").textContent = fleetData.length;
+  renderFleet();
+}
+
 // Init on load
-window.onload=function(){
+window.onload=function(){ renderFleet();
   initMap();
   previewRoute();
 };
