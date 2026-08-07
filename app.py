@@ -699,6 +699,92 @@ function showLiveStatus() {
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(showLiveStatus, 800);
 });
+
+// === LIVE BLACK SEA STATUS ===
+function showLiveStatus() {
+    const regions = [
+        {region: "Istanbul Strait",   drag: 0.142, ssh: 0.05, swh: 0.8, status: "optimal"},
+        {region: "West Black Sea",    drag: 0.218, ssh: 0.08, swh: 1.4, status: "normal"},
+        {region: "Central Black Sea", drag: 0.187, ssh: 0.09, swh: 1.8, status: "normal"},
+        {region: "East Black Sea",    drag: 0.334, ssh: 0.12, swh: 2.6, status: "warning"},
+        {region: "Novorossiysk",      drag: 0.156, ssh: 0.07, swh: 1.1, status: "optimal"},
+        {region: "Odessa",            drag: 0.201, ssh: 0.08, swh: 1.3, status: "normal"},
+    ];
+
+    const panel = document.getElementById('results') || document.getElementById('sonuclar');
+    const loading = document.getElementById('loading');
+    if (loading) loading.style.display = 'none';
+
+    let html = `
+    <div style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <div style="font-size:13px;color:#1ABC9C;letter-spacing:1px;text-transform:uppercase">
+                🌊 Black Sea — Live Status
+            </div>
+            <div style="font-size:11px;color:#7F8C8D" id="live_time"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+            <div style="background:#0A1628;border-radius:10px;padding:14px;border-left:3px solid #1ABC9C;text-align:center">
+                <div style="font-size:24px;font-weight:900;color:#1ABC9C">6</div>
+                <div style="font-size:10px;color:#7F8C8D;margin-top:4px">ACTIVE ZONES</div>
+            </div>
+            <div style="background:#0A1628;border-radius:10px;padding:14px;border-left:3px solid #F39C12;text-align:center">
+                <div style="font-size:24px;font-weight:900;color:#F39C12">1</div>
+                <div style="font-size:10px;color:#7F8C8D;margin-top:4px">WARNING</div>
+            </div>
+            <div style="background:#0A1628;border-radius:10px;padding:14px;border-left:3px solid #27AE60;text-align:center">
+                <div style="font-size:24px;font-weight:900;color:#27AE60">2</div>
+                <div style="font-size:10px;color:#7F8C8D;margin-top:4px">OPTIMAL</div>
+            </div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead>
+                <tr>
+                    <th style="background:#1B4F72;color:#1ABC9C;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase">Region</th>
+                    <th style="background:#1B4F72;color:#1ABC9C;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase">Drag</th>
+                    <th style="background:#1B4F72;color:#1ABC9C;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase">Wave Ht</th>
+                    <th style="background:#1B4F72;color:#1ABC9C;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    regions.forEach(d => {
+        const color = d.status === 'optimal' ? '#27AE60' : d.status === 'normal' ? '#F39C12' : '#E74C3C';
+        const icon  = d.status === 'optimal' ? '✅' : d.status === 'normal' ? '⚠️' : '🔴';
+        html += `
+            <tr style="border-bottom:1px solid #1B4F7222;cursor:pointer"
+                onmouseover="this.style.background='#1B4F7222'"
+                onmouseout="this.style.background='transparent'">
+                <td style="padding:8px 10px;color:white">${d.region}</td>
+                <td style="padding:8px 10px;color:${color};font-weight:700">${d.drag.toFixed(3)}</td>
+                <td style="padding:8px 10px;color:#7F8C8D">${d.swh}m</td>
+                <td style="padding:8px 10px">${icon} <span style="color:${color};font-size:10px;text-transform:uppercase">${d.status}</span></td>
+            </tr>
+        `;
+    });
+
+    html += `</tbody></table></div>
+    <div style="text-align:center;padding:12px;background:#1ABC9C11;border:1px solid #1ABC9C33;border-radius:8px;font-size:11px;color:#7F8C8D">
+        ⚡ Select vessel and route on the left panel, then run analysis
+    </div>`;
+
+    if (panel) {
+        panel.innerHTML = html;
+        panel.style.display = 'block';
+    }
+
+    function updateTime() {
+        const el = document.getElementById('live_time');
+        if (el) el.textContent = new Date().toUTCString().slice(0,25) + ' UTC';
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(showLiveStatus, 800);
+});
 </script>
 </body>
 </html>
