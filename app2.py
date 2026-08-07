@@ -1278,14 +1278,22 @@ function updateMap(data){
   data.waypoints.forEach(function(w){
     var c=w.drag<0.20?"#00E5B0":w.drag<0.35?"#FFC107":"#FF4757";
     var m=L.circleMarker([w.lat,w.lon],{radius:8,color:c,fillColor:c,fillOpacity:.3,weight:2});
+    var depthCat = w.depth < 200 ? "🟡 Shallow" : w.depth < 1000 ? "🟢 Continental" : "🔵 Deep Ocean";
+    var status = w.drag < 0.20 ? "✅ EFFICIENT" : w.drag < 0.35 ? "⚠️ NOMINAL" : "🔴 HIGH DRAG";
+    var swh = typeof w.swh !== "undefined" ? w.swh.toFixed(1)+"m" : "—";
     m.bindPopup(
-      "<div style='font-family:JetBrains Mono;font-size:12px;min-width:160px'>"+
-      "<b style='color:#00E5B0'>"+w.name+"</b><br>"+
-      "Depth: "+w.depth+"m<br>"+
-      "SSH: "+w.ssh.toFixed(3)+"m<br>"+
-      "Drag: <b style='color:"+c+"'>"+w.drag.toFixed(4)+"</b><br>"+
-      "Savings: <b style='color:#00E5B0'>"+w.savings.toFixed(1)+"%</b>"+
-      "</div>"
+      "<div style='font-family:JetBrains Mono;font-size:11px;min-width:200px;line-height:1.8'>"+
+      "<b style='color:#00E5B0;font-size:13px'>"+w.name+"</b><br>"+
+      "<hr style='border:none;border-top:1px solid #0F2A42;margin:4px 0'>"+
+      "<span style='color:#4A6FA5'>DEPTH</span>  <b>"+w.depth+"m</b>  "+depthCat+"<br>"+
+      "<span style='color:#4A6FA5'>SSH   </span>  <b>"+w.ssh.toFixed(3)+"m</b><br>"+
+      "<span style='color:#4A6FA5'>SWH   </span>  <b>"+swh+"</b><br>"+
+      "<hr style='border:none;border-top:1px solid #0F2A42;margin:4px 0'>"+
+      "<span style='color:#4A6FA5'>DRAG  </span>  <b style='color:"+c+"'>"+w.drag.toFixed(4)+"</b><br>"+
+      "<span style='color:#4A6FA5'>SAVING</span>  <b style='color:#00E5B0'>"+w.savings.toFixed(1)+"%</b><br>"+
+      "<span style='color:#4A6FA5'>STATUS</span>  "+status+
+      "</div>",
+      {maxWidth: 240}
     );
     markerLayer.addLayer(m);
   });
