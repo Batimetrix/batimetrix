@@ -754,22 +754,7 @@ header{position:sticky;top:0;z-index:1000;background:rgba(3,11,20,.95);backdrop-
   .results{display:block!important}
   #fleet_tab,#analysis_tab,#cii_tab,#table_tab,#map_tab{display:block!important}
 }
-/* PRINT / PDF STYLES */
-@media print {
-  body{background:#fff!important;color:#000!important}
-  .sidebar,.tabs,.btn-run,.wct-wrap,.sat-bar,footer,
-  .loading,#empty_state,.tab{display:none!important}
-  .layout{display:block!important}
-  .content{width:100%!important;padding:0!important}
-  .card{border:1px solid #ccc!important;background:#fff!important;break-inside:avoid}
-  .kpi{background:#f5f5f5!important;border:1px solid #ccc!important}
-  .kpi-val{color:#000!important}
-  .chart-card{break-inside:avoid}
-  #print_header{display:block!important}
-  #btn_pdf{display:none!important}
-  .results{display:block!important}
-  #fleet_tab,#analysis_tab,#cii_tab,#table_tab,#map_tab{display:block!important}
-}
+
 /* SAT BAR */
 .satbar{display:flex;gap:8px;padding:12px 24px;border-bottom:1px solid var(--line);background:var(--panel);overflow-x:auto}
 .sat{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--bg);border:1px solid var(--line);border-radius:8px;white-space:nowrap;flex-shrink:0}
@@ -1033,6 +1018,10 @@ footer a{color:var(--teal);text-decoration:none}
     <div class="fg"><label data-i18n="voyage_lbl">Annual Voyage Days</label><input type="number" id="days" value="280" min="50" max="365"></div>
 
     <button class="btn-run" onclick="runAnalysis()" data-i18n="run_btn">⚡ Run Analysis</button>
+    <button id="btn_pdf" onclick="downloadPDF()"
+      style="width:100%;padding:10px;margin-top:8px;background:transparent;display:none;border:1px solid #00E5B0;border-radius:9px;color:#00E5B0;font-size:12px;font-weight:600;letter-spacing:1px;cursor:pointer;text-transform:uppercase">
+      Download PDF Report
+    </button>
 
     <div class="divider"></div>
 
@@ -1720,36 +1709,7 @@ function downloadPDF(){
 }
 
 // ===== PDF REPORT =====
-function downloadPDF(){
-  // Tarih guncelle
-  var now = new Date();
-  var dateStr = now.toLocaleDateString("en-GB",{
-    year:"numeric", month:"long", day:"numeric",
-    hour:"2-digit", minute:"2-digit"
-  });
-  var el = document.getElementById("print_date");
-  if(el) el.textContent = dateStr;
 
-  // Aktif tab'lari goster, digerlerini gizle
-  var tabs = ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab"];
-  var hidden = [];
-  tabs.forEach(function(id){
-    var el = document.getElementById(id);
-    if(el && el.style.display === "none"){
-      hidden.push(id);
-      el.style.display = "block";
-    }
-  });
-
-  // Print
-  window.print();
-
-  // Geri al
-  hidden.forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) el.style.display = "none";
-  });
-}
 
 // Init on load
 window.onload=function(){ renderFleet();
