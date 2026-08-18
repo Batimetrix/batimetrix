@@ -750,7 +750,7 @@ header{position:sticky;top:0;z-index:1000;background:rgba(3,11,20,.95);backdrop-
   .kpi-val{color:#000!important}
   .chart-card{break-inside:avoid}
   #print_header{display:block!important}
-  #btn_pdf{display:none!important}
+  #btn_pdf{display:none}
   .results{display:block!important}
   #fleet_tab,#analysis_tab,#cii_tab,#table_tab,#map_tab{display:block!important}
 }
