@@ -738,6 +738,22 @@ header{position:sticky;top:0;z-index:1000;background:rgba(3,11,20,.95);backdrop-
 .wct-item.wct-hl b{color:#FFC107}
 .wct-item .wct-off{color:#2C3E50;font-size:9px;margin-left:4px}
 @keyframes wctScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* PRINT / PDF STYLES */
+@media print {
+  body{background:#fff!important;color:#000!important}
+  .sidebar,.tabs,.btn-run,.wct-wrap,.sat-bar,footer,
+  .loading,#empty_state,.tab{display:none!important}
+  .layout{display:block!important}
+  .content{width:100%!important;padding:0!important}
+  .card{border:1px solid #ccc!important;background:#fff!important;break-inside:avoid}
+  .kpi{background:#f5f5f5!important;border:1px solid #ccc!important}
+  .kpi-val{color:#000!important}
+  .chart-card{break-inside:avoid}
+  #print_header{display:block!important}
+  #btn_pdf{display:none!important}
+  .results{display:block!important}
+  #fleet_tab,#analysis_tab,#cii_tab,#table_tab,#map_tab{display:block!important}
+}
 /* SAT BAR */
 .satbar{display:flex;gap:8px;padding:12px 24px;border-bottom:1px solid var(--line);background:var(--panel);overflow-x:auto}
 .sat{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--bg);border:1px solid var(--line);border-radius:8px;white-space:nowrap;flex-shrink:0}
@@ -1019,7 +1035,21 @@ footer a{color:var(--teal);text-decoration:none}
       <div class="load-sub">SWOT + GPM + MODIS + GEBCO → Neural Network</div>
     </div>
 
-    <div id="empty_state">
+    <div id="print_header" style="display:none;padding:20px 0;border-bottom:2px solid #000;margin-bottom:20px">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <div style="font-size:24px;font-weight:900;letter-spacing:2px">BATIMETRIX</div>
+      <div style="font-size:11px;color:#666">Proactive Hydrodynamic Drag Intelligence Report</div>
+    </div>
+    <div style="text-align:right;font-size:11px;color:#666">
+      <div>Generated: <span id="print_date"></span></div>
+      <div>NASA SWOT + GPM + MODIS + GEBCO 2026</div>
+      <div>PINN Model — 1,657,025 parameters</div>
+      <div>IMO CII MEPC.354(78)</div>
+    </div>
+  </div>
+</div>
+<div id="empty_state">
       <div class="empty">
         <div class="empty-icon">🛰️</div>
         <div class="empty-txt" data-i18n="empty_txt">Select vessel, route and run analysis</div>
@@ -1519,6 +1549,8 @@ function runAnalysis(){
     document.getElementById("stat_cii").textContent=data.cii_before+"→"+data.cii_after;
 
     renderResults(data);
+    var pdfBtn = document.getElementById("btn_pdf");
+    if(pdfBtn) pdfBtn.style.display = "block";
     var vsel = document.getElementById("vessel").value;
     var rsel = document.getElementById("route").options[document.getElementById("route").selectedIndex].text;
     addToFleet(data, vsel, rsel);
@@ -1621,6 +1653,38 @@ function addToFleet(data, vessel, route){
   else fleetData.unshift(entry);
   document.getElementById("fleet_vessels").textContent = fleetData.length;
   renderFleet();
+}
+
+// ===== PDF REPORT =====
+function downloadPDF(){
+  // Tarih guncelle
+  var now = new Date();
+  var dateStr = now.toLocaleDateString("en-GB",{
+    year:"numeric", month:"long", day:"numeric",
+    hour:"2-digit", minute:"2-digit"
+  });
+  var el = document.getElementById("print_date");
+  if(el) el.textContent = dateStr;
+
+  // Aktif tab'lari goster, digerlerini gizle
+  var tabs = ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab"];
+  var hidden = [];
+  tabs.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el && el.style.display === "none"){
+      hidden.push(id);
+      el.style.display = "block";
+    }
+  });
+
+  // Print
+  window.print();
+
+  // Geri al
+  hidden.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = "none";
+  });
 }
 
 // Init on load
