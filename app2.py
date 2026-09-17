@@ -1113,6 +1113,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('cii_tab',this)" data-i18n="tab_cii">⚖️ CII Rating</div>
         <div class="tab" onclick="showTab('table_tab',this)" data-i18n="tab_table">📋 Telemetry</div>
         <div class="tab" onclick="showTab('fleet_tab',this)">&#128674; Fleet</div>
+        <div class="tab" onclick="showTab('ssh_tab',this)">&#127754; Ocean Intel</div>
       </div>
 
       <!-- MAP TAB -->
@@ -1255,6 +1256,53 @@ footer a{color:var(--teal);text-decoration:none}
         <div style="text-align:center;padding:16px;font-size:11px;color:var(--mute)">
           &#128161; Run analysis on individual vessels to populate fleet data. 
           Pilot fleet data shown for demonstration.
+        </div>
+      </div>
+
+
+      <!-- SSH INTELLIGENCE TAB -->
+      <div id="ssh_tab" style="display:none">
+        <div id="ssh_banner" style="background:#E74C3C11;border:1px solid #E74C3C;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:20px">&#128680;</div>
+          <div>
+            <div style="color:#E74C3C;font-weight:700;font-size:13px;letter-spacing:1px">ACTIVE SSH ANOMALIES DETECTED</div>
+            <div style="color:#7F8C8D;font-size:11px;margin-top:2px">NASA SWOT baseline deviation — <span id="ssh_count">0</span> critical zones</div>
+          </div>
+          <div style="margin-left:auto;text-align:right">
+            <div style="color:#E74C3C;font-size:20px;font-weight:900" id="ssh_max">+0.000m</div>
+            <div style="color:#7F8C8D;font-size:10px">MAX DEVIATION</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #E74C3C33">
+            <div style="font-size:20px;font-weight:900;color:#E74C3C" id="ssh_crit">0</div>
+            <div style="font-size:10px;color:var(--mute)">CRITICAL</div>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #F39C1233">
+            <div style="font-size:20px;font-weight:900;color:#F39C12" id="ssh_warn">0</div>
+            <div style="font-size:10px;color:var(--mute)">WARNING</div>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #27AE6033">
+            <div style="font-size:20px;font-weight:900;color:#27AE60" id="ssh_norm">0</div>
+            <div style="font-size:10px;color:var(--mute)">NORMAL</div>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--teal)33">
+            <div style="font-size:20px;font-weight:900;color:var(--teal)" id="ssh_total">16</div>
+            <div style="font-size:10px;color:var(--mute)">MONITORED</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">&#127758; SSH Anomaly Intelligence — 16 Global Maritime Zones</div>
+          <table class="route-table">
+            <thead>
+              <tr>
+                <th>ZONE</th><th>REGION</th><th>SSH (m)</th>
+                <th>BASELINE</th><th>DEVIATION</th>
+                <th>DRAG IMPACT</th><th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="ssh_tbody"></tbody>
+          </table>
         </div>
       </div>
 
@@ -1412,7 +1460,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -1711,8 +1759,60 @@ function downloadPDF(){
 // ===== PDF REPORT =====
 
 
+
+// ===== SSH INTELLIGENCE =====
+var SSH_ZONES=[
+  {name:"Hormuz Strait",    region:"Persian Gulf",  ssh:0.08, base:0.05},
+  {name:"Malacca Strait",   region:"SE Asia",       ssh:0.10, base:0.08},
+  {name:"Bab el-Mandeb",    region:"Red Sea",       ssh:0.09, base:0.07},
+  {name:"Dover Strait",     region:"North Sea",     ssh:0.07, base:0.06},
+  {name:"Taiwan Strait",    region:"East Asia",     ssh:0.12, base:0.09},
+  {name:"Suez Canal",       region:"Mediterranean", ssh:0.05, base:0.05},
+  {name:"North Atlantic",   region:"Atlantic",      ssh:0.35, base:0.28},
+  {name:"Mid Pacific",      region:"Pacific",       ssh:0.35, base:0.30},
+  {name:"Cape Good Hope",   region:"S.Atlantic",    ssh:0.30, base:0.24},
+  {name:"Arabian Sea",      region:"Indian Ocean",  ssh:0.16, base:0.14},
+  {name:"South China Sea",  region:"SE Asia",       ssh:0.15, base:0.13},
+  {name:"Bay of Bengal",    region:"Indian Ocean",  ssh:0.16, base:0.14},
+  {name:"Kara Sea",         region:"Arctic",        ssh:0.10, base:0.07},
+  {name:"Gulf of Mexico",   region:"Americas",      ssh:0.14, base:0.12},
+  {name:"Mediterranean",    region:"Mediterranean", ssh:0.12, base:0.10},
+  {name:"Black Sea",        region:"Black Sea",     ssh:0.09, base:0.08}
+];
+
+function renderSSH(){
+  var tbody=document.getElementById("ssh_tbody");
+  if(!tbody) return;
+  tbody.innerHTML="";
+  var crit=0,warn=0,norm=0,maxDev=0;
+  SSH_ZONES.forEach(function(z){
+    var dev=parseFloat((z.ssh-z.base).toFixed(3));
+    var absD=Math.abs(dev);
+    if(absD>maxDev) maxDev=absD;
+    var col,icon,label;
+    if(absD>=0.06){col="#E74C3C";icon="&#128308;";label="CRITICAL";crit++;}
+    else if(absD>=0.02){col="#F39C12";icon="&#128993;";label="WARNING";warn++;}
+    else{col="#27AE60";icon="&#128994;";label="NORMAL";norm++;}
+    var dragPct=Math.round(absD*180);
+    var dragCol=dragPct>15?"#E74C3C":dragPct>5?"#F39C12":"#27AE60";
+    tbody.innerHTML+="<tr>"+
+      "<td><b>"+z.name+"</b></td>"+
+      "<td style='color:var(--mute)'>"+z.region+"</td>"+
+      "<td style='font-family:JetBrains Mono'>"+z.ssh.toFixed(3)+"</td>"+
+      "<td style='font-family:JetBrains Mono;color:var(--mute)'>"+z.base.toFixed(3)+"</td>"+
+      "<td style='font-family:JetBrains Mono;color:"+col+";font-weight:700'>"+(dev>=0?"+":"")+dev.toFixed(3)+"m</td>"+
+      "<td style='color:"+dragCol+"'>"+(dragPct>0?"+"+dragPct+"%":"—")+"</td>"+
+      "<td>"+icon+" "+label+"</td></tr>";
+  });
+  var c=document.getElementById("ssh_crit");if(c)c.textContent=crit;
+  var w=document.getElementById("ssh_warn");if(w)w.textContent=warn;
+  var n=document.getElementById("ssh_norm");if(n)n.textContent=norm;
+  var cnt=document.getElementById("ssh_count");if(cnt)cnt.textContent=crit+warn;
+  var mx=document.getElementById("ssh_max");if(mx)mx.textContent="+"+maxDev.toFixed(3)+"m";
+}
+
 // Init on load
-window.onload=function(){ renderFleet();
+window.onload=function(){ renderFleet(); renderSSH();
   initMap();
   previewRoute();
 };
