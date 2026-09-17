@@ -1262,6 +1262,34 @@ footer a{color:var(--teal);text-decoration:none}
 
       <!-- SSH INTELLIGENCE TAB -->
       <div id="ssh_tab" style="display:none">
+        <div style="background:#0A1628;border:1px solid #1B4F72;border-radius:10px;padding:12px 16px;margin-bottom:12px;display:flex;gap:20px;flex-wrap:wrap">
+          <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:var(--teal);font-weight:700">SWOT</span> (NASA/CNES)
+            <span style="color:#2C3E50"> | </span>
+            21-day cycle
+            <span style="color:#2C3E50"> | </span>
+            Last: <span style="color:white">2025-05-03</span>
+          </div>
+          <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:#3498DB;font-weight:700">Sentinel-6</span> (NASA/ESA)
+            <span style="color:#2C3E50"> | </span>
+            10-day cycle
+            <span style="color:#2C3E50"> | </span>
+            Last: <span style="color:white">2026-01-16</span>
+          </div>
+          <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:#F39C12;font-weight:700">GEBCO 2026</span>
+            <span style="color:#2C3E50"> | </span>
+            Bathymetry
+            <span style="color:#2C3E50"> | </span>
+            Released: <span style="color:white">April 2026</span>
+          </div>
+          <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:#E74C3C;font-weight:700">Combined Coverage</span>
+            <span style="color:#2C3E50"> | </span>
+            Dual altimeter SSH fusion
+          </div>
+        </div>
         <div id="ssh_banner" style="background:#E74C3C11;border:1px solid #E74C3C;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
           <div style="font-size:20px">&#128680;</div>
           <div>
@@ -1292,7 +1320,7 @@ footer a{color:var(--teal);text-decoration:none}
           </div>
         </div>
         <div class="card">
-          <div class="card-title">&#127758; SSH Anomaly Intelligence — 16 Global Maritime Zones</div>
+          <div class="card-title">&#127758; SSH Anomaly Intelligence — 16 Global Maritime Zones (SWOT + Sentinel-6)</div>
           <table class="route-table">
             <thead>
               <tr>
@@ -1312,7 +1340,7 @@ footer a{color:var(--teal);text-decoration:none}
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <div>BATIMETRIX V3 PRO // PINN 1,657,025 params // NASA SWOT+GPM+MODIS // GEBCO 2026 // IMO CII MEPC.354(78)</div>
+  <div>BATIMETRIX V3 PRO // PINN 1,657,025 params // NASA SWOT+GPM+MODIS+Sentinel-6 // GEBCO 2026 // IMO CII MEPC.354(78)</div>
   <a href="https://github.com/Batimetrix/batimetrix" target="_blank">github.com/Batimetrix/batimetrix</a>
 </footer>
 
