@@ -1201,7 +1201,7 @@ footer a{color:var(--teal);text-decoration:none}
               <tr>
                 <th data-i18n="th_waypoint">Waypoint</th>
                 <th data-i18n="th_depth">Depth</th>
-                <th>SSH (m)</th><th>WIND (m/s)</th>
+                <th>SSH (m)</th><th>WIND (m/s)</th><th>CHLOROPHYLL</th>
                 <th>SWH (m)</th>
                 <th>Drag</th>
                 <th data-i18n="th_savings">Savings</th>
@@ -1253,6 +1253,9 @@ footer a{color:var(--teal);text-decoration:none}
             </tbody>
           </table>
         </div>
+        <div style="background:#27AE6011;border:1px solid #27AE6033;border-radius:8px;padding:10px 14px;margin-top:12px;font-size:11px;color:#7F8C8D">
+          &#127807; <span style="color:#27AE60;font-weight:700">PACE OCI</span> chlorophyll-a data updated <span style="color:white">2026-09-16</span> — yesterday's ocean color. High chlorophyll = phytoplankton bloom = increased water viscosity = higher drag. Black Sea: 2.81 mg/m³ (elevated).
+        </div>
         <div style="text-align:center;padding:16px;font-size:11px;color:var(--mute)">
           &#128161; Run analysis on individual vessels to populate fleet data. 
           Pilot fleet data shown for demonstration.
@@ -1283,6 +1286,13 @@ footer a{color:var(--teal);text-decoration:none}
             Bathymetry
             <span style="color:#2C3E50"> | </span>
             Released: <span style="color:white">April 2026</span>
+          </div>
+          <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:#27AE60;font-weight:700">PACE OCI</span> (NASA)
+            <span style="color:#2C3E50"> | </span>
+            Ocean Color NRT
+            <span style="color:#2C3E50"> | </span>
+            Last: <span style="color:#1ABC9C;font-weight:700">2026-09-16</span> &#128308;
           </div>
           <div style="font-size:11px;color:#7F8C8D">
             <span style="color:#9B59B6;font-weight:700">CYGNSS</span> (NASA)
@@ -1347,7 +1357,7 @@ footer a{color:var(--teal);text-decoration:none}
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <div>BATIMETRIX V3 PRO // PINN 1,657,025 params // NASA SWOT+GPM+MODIS+Sentinel-6+CYGNSS // GEBCO 2026 // IMO CII MEPC.354(78)</div>
+  <div>BATIMETRIX V3 PRO // PINN 1,657,025 params // NASA SWOT+GPM+MODIS+Sentinel-6+CYGNSS+PACE // GEBCO 2026 // IMO CII MEPC.354(78)</div>
   <a href="https://github.com/Batimetrix/batimetrix" target="_blank">github.com/Batimetrix/batimetrix</a>
 </footer>
 
@@ -1803,16 +1813,16 @@ var SSH_ZONES=[
   {name:"Dover Strait",     region:"North Sea",     ssh:0.07, base:0.06},
   {name:"Taiwan Strait",    region:"East Asia",     ssh:0.12, base:0.09, wind:9.4},
   {name:"Suez Canal",       region:"Mediterranean", ssh:0.05, base:0.05},
-  {name:"North Atlantic",   region:"Atlantic",      ssh:0.35, base:0.28, wind:14.5},
-  {name:"Mid Pacific",      region:"Pacific",       ssh:0.35, base:0.30, wind:12.8},
-  {name:"Cape Good Hope",   region:"S.Atlantic",    ssh:0.30, base:0.24, wind:16.3},
-  {name:"Arabian Sea",      region:"Indian Ocean",  ssh:0.16, base:0.14, wind:7.8},
+  {name:"North Atlantic",   region:"Atlantic",      ssh:0.35, base:0.28, wind:14.5, chl:1.24},
+  {name:"Mid Pacific",      region:"Pacific",       ssh:0.35, base:0.30, wind:12.8, chl:0.18},
+  {name:"Cape Good Hope",   region:"S.Atlantic",    ssh:0.30, base:0.24, wind:16.3, chl:0.95},
+  {name:"Arabian Sea",      region:"Indian Ocean",  ssh:0.16, base:0.14, wind:7.8, chl:0.61},
   {name:"South China Sea",  region:"SE Asia",       ssh:0.15, base:0.13},
   {name:"Bay of Bengal",    region:"Indian Ocean",  ssh:0.16, base:0.14},
   {name:"Kara Sea",         region:"Arctic",        ssh:0.10, base:0.07},
   {name:"Gulf of Mexico",   region:"Americas",      ssh:0.14, base:0.12},
   {name:"Mediterranean",    region:"Mediterranean", ssh:0.12, base:0.10},
-  {name:"Black Sea",        region:"Black Sea",     ssh:0.09, base:0.08}
+  {name:"Black Sea",        region:"Black Sea",     ssh:0.09, base:0.08, wind:5.2, chl:2.81}
 ];
 
 function renderSSH(){
