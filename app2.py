@@ -880,6 +880,7 @@ footer a{color:var(--teal);text-decoration:none}
 .empty-icon{font-size:48px;margin-bottom:16px;opacity:.3}
 .empty-txt{font-size:13px;letter-spacing:1px}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -1114,6 +1115,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('table_tab',this)" data-i18n="tab_table">📋 Telemetry</div>
         <div class="tab" onclick="showTab('fleet_tab',this)">&#128674; Fleet</div>
         <div class="tab" onclick="showTab('ssh_tab',this)">&#127754; Ocean Intel</div>
+        <div class="tab" onclick="showTab('globe_tab',this)">&#127758; 3D Globe</div>
       </div>
 
       <!-- MAP TAB -->
@@ -1358,6 +1360,51 @@ footer a{color:var(--teal);text-decoration:none}
         </div>
       </div>
 
+
+      <!-- 3D GLOBE TAB -->
+      <div id="globe_tab" style="display:none">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#127758; Thalassa 3D Globe — SSH Anomaly Intelligence</div>
+          <div style="font-size:11px;color:#7F8C8D;margin-bottom:12px">
+            Real-time SSH deviation visualization across 16 global maritime zones — 
+            powered by NASA SWOT + Sentinel-6 + CYGNSS + PACE + SMAP + ICESat-2
+          </div>
+          <div id="globe_container" style="width:100%;height:500px;background:#000510;border-radius:12px;position:relative;overflow:hidden">
+            <canvas id="globe_canvas" style="width:100%;height:100%"></canvas>
+            <div id="globe_tooltip" style="position:absolute;display:none;background:#0D1F35;border:1px solid var(--teal);border-radius:8px;padding:10px 14px;font-size:11px;pointer-events:none;z-index:100;min-width:180px"></div>
+            <div style="position:absolute;top:12px;left:12px;font-size:10px;color:#4A6FA5;letter-spacing:1px">
+              THALASSA // SSH ANOMALY GLOBE // NASA SWOT+6SAT
+            </div>
+            <div style="position:absolute;bottom:12px;right:12px;display:flex;gap:8px;align-items:center">
+              <div style="width:8px;height:8px;background:#E74C3C;border-radius:50%"></div>
+              <span style="font-size:10px;color:#7F8C8D">HIGH</span>
+              <div style="width:8px;height:8px;background:#F39C12;border-radius:50%"></div>
+              <span style="font-size:10px;color:#7F8C8D">MID</span>
+              <div style="width:8px;height:8px;background:#27AE60;border-radius:50%"></div>
+              <span style="font-size:10px;color:#7F8C8D">NORMAL</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #E74C3C33">
+            <div style="font-size:20px;font-weight:900;color:#E74C3C" id="g_crit">5</div>
+            <div style="font-size:10px;color:var(--mute)">CRITICAL ZONES</div>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #F39C1233">
+            <div style="font-size:20px;font-weight:900;color:#F39C12" id="g_warn">8</div>
+            <div style="font-size:10px;color:var(--mute)">WARNING ZONES</div>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #27AE6033">
+            <div style="font-size:20px;font-weight:900;color:#27AE60" id="g_norm">3</div>
+            <div style="font-size:10px;color:var(--mute)">NORMAL ZONES</div>
+          </div>
+          <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--teal)33">
+            <div style="font-size:20px;font-weight:900;color:var(--teal)">9</div>
+            <div style="font-size:10px;color:var(--mute)">SAT SOURCES</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1512,7 +1559,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -1861,6 +1908,234 @@ function renderSSH(){
   var n=document.getElementById("ssh_norm");if(n)n.textContent=norm;
   var cnt=document.getElementById("ssh_count");if(cnt)cnt.textContent=crit+warn;
   var mx=document.getElementById("ssh_max");if(mx)mx.textContent="+"+maxDev.toFixed(3)+"m";
+}
+
+
+// ===== THALASSA 3D GLOBE =====
+var globeInitialized = false;
+
+function initGlobe() {
+    if (globeInitialized) return;
+    var canvas = document.getElementById('globe_canvas');
+    if (!canvas || typeof THREE === 'undefined') {
+        setTimeout(initGlobe, 500);
+        return;
+    }
+    globeInitialized = true;
+
+    var W = canvas.parentElement.offsetWidth;
+    var H = canvas.parentElement.offsetHeight;
+    canvas.width = W;
+    canvas.height = H;
+
+    var renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
+    renderer.setSize(W, H);
+    renderer.setClearColor(0x000510, 1);
+
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(45, W/H, 0.1, 1000);
+    camera.position.z = 2.5;
+
+    // Ambient + directional light
+    scene.add(new THREE.AmbientLight(0x334466, 0.8));
+    var dLight = new THREE.DirectionalLight(0x4488ff, 0.6);
+    dLight.position.set(5, 3, 5);
+    scene.add(dLight);
+
+    // Globe
+    var globeGeo = new THREE.SphereGeometry(1, 64, 64);
+    var globeMat = new THREE.MeshPhongMaterial({
+        color: 0x071525,
+        emissive: 0x0A1628,
+        specular: 0x1B4F72,
+        shininess: 30,
+        transparent: true,
+        opacity: 0.95
+    });
+    var globe = new THREE.Mesh(globeGeo, globeMat);
+    scene.add(globe);
+
+    // Atmosphere glow
+    var atmGeo = new THREE.SphereGeometry(1.02, 64, 64);
+    var atmMat = new THREE.MeshPhongMaterial({
+        color: 0x1B4F72,
+        transparent: true,
+        opacity: 0.08,
+        side: THREE.BackSide
+    });
+    scene.add(new THREE.Mesh(atmGeo, atmMat));
+
+    // Wireframe grid
+    var wireGeo = new THREE.SphereGeometry(1.001, 24, 16);
+    var wireMat = new THREE.MeshBasicMaterial({
+        color: 0x0F2A42,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3
+    });
+    scene.add(new THREE.Mesh(wireGeo, wireMat));
+
+    // SSH Zone data with lat/lon
+    var GLOBE_ZONES = [
+        {name:"Hormuz",    lat:26.57, lon:56.25,  dev:0.030, wind:8.2,  label:"Persian Gulf"},
+        {name:"Malacca",   lat:2.50,  lon:101.00, dev:0.020, wind:6.1,  label:"SE Asia"},
+        {name:"Bab-el-M",  lat:12.60, lon:43.30,  dev:0.020, wind:11.2, label:"Red Sea"},
+        {name:"Dover",     lat:51.00, lon:1.50,   dev:0.010, wind:9.3,  label:"North Sea"},
+        {name:"Taiwan",    lat:24.00, lon:119.00, dev:0.030, wind:9.4,  label:"East Asia"},
+        {name:"N.Atlantic",lat:48.00, lon:-30.00, dev:0.070, wind:14.5, label:"Atlantic"},
+        {name:"Pacific",   lat:42.00, lon:-175.00,dev:0.050, wind:12.8, label:"Pacific"},
+        {name:"C.G.Hope",  lat:-35.00,lon:20.00,  dev:0.060, wind:16.3, label:"S.Atlantic"},
+        {name:"Arabia",    lat:18.00, lon:62.00,  dev:0.020, wind:7.8,  label:"Indian Ocean"},
+        {name:"S.China",   lat:10.00, lon:113.00, dev:0.020, wind:8.5,  label:"SE Asia"},
+        {name:"Bay Beng",  lat:15.00, lon:90.00,  dev:0.020, wind:7.2,  label:"Indian Ocean"},
+        {name:"Kara Sea",  lat:75.00, lon:65.00,  dev:0.030, wind:5.1,  label:"Arctic"},
+        {name:"G.Mexico",  lat:26.00, lon:-88.00, dev:0.020, wind:6.8,  label:"Americas"},
+        {name:"Mediterr",  lat:36.00, lon:15.00,  dev:0.020, wind:7.4,  label:"Mediterranean"},
+        {name:"Black Sea", lat:42.00, lon:33.00,  dev:0.010, wind:5.2,  label:"Black Sea"},
+        {name:"Suez",      lat:29.97, lon:32.55,  dev:0.000, wind:4.3,  label:"Mediterranean"}
+    ];
+
+    function latLonToXYZ(lat, lon, r) {
+        var phi = (90 - lat) * Math.PI / 180;
+        var theta = (lon + 180) * Math.PI / 180;
+        return new THREE.Vector3(
+            -r * Math.sin(phi) * Math.cos(theta),
+             r * Math.cos(phi),
+             r * Math.sin(phi) * Math.sin(theta)
+        );
+    }
+
+    function getColor(dev) {
+        if (dev >= 0.06) return 0xE74C3C;
+        if (dev >= 0.03) return 0xF39C12;
+        if (dev >= 0.01) return 0xF39C12;
+        return 0x27AE60;
+    }
+
+    function getSize(dev) {
+        if (dev >= 0.06) return 0.045;
+        if (dev >= 0.03) return 0.035;
+        return 0.025;
+    }
+
+    // Nokta ve pulse grupları
+    var points = [];
+    GLOBE_ZONES.forEach(function(z) {
+        var pos = latLonToXYZ(z.lat, z.lon, 1.02);
+        var col = getColor(z.dev);
+        var sz = getSize(z.dev);
+
+        // Ana nokta
+        var geo = new THREE.SphereGeometry(sz, 12, 12);
+        var mat = new THREE.MeshBasicMaterial({color: col});
+        var mesh = new THREE.Mesh(geo, mat);
+        mesh.position.copy(pos);
+        mesh.userData = z;
+        scene.add(mesh);
+        points.push(mesh);
+
+        // Pulse ring
+        var ringGeo = new THREE.RingGeometry(sz*1.2, sz*1.8, 16);
+        var ringMat = new THREE.MeshBasicMaterial({
+            color: col, transparent: true, opacity: 0.4, side: THREE.DoubleSide
+        });
+        var ring = new THREE.Mesh(ringGeo, ringMat);
+        ring.position.copy(pos);
+        ring.lookAt(new THREE.Vector3(0,0,0));
+        ring.userData = {pulse: true, baseOpacity: 0.4, phase: Math.random()*Math.PI*2};
+        scene.add(ring);
+        points.push(ring);
+
+        // Bağlantı çizgisi
+        var lineGeo = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0,0,0), pos
+        ]);
+        var lineMat = new THREE.LineBasicMaterial({
+            color: col, transparent: true, opacity: 0.15
+        });
+        scene.add(new THREE.Line(lineGeo, lineMat));
+    });
+
+    // Mouse etkileşimi
+    var raycaster = new THREE.Raycaster();
+    var mouse = new THREE.Vector2();
+    var tooltip = document.getElementById('globe_tooltip');
+
+    canvas.addEventListener('mousemove', function(e) {
+        var rect = canvas.getBoundingClientRect();
+        mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        var hits = raycaster.intersectObjects(points.filter(function(p){return !p.userData.pulse;}));
+        if (hits.length > 0 && hits[0].object.userData.name) {
+            var z = hits[0].object.userData;
+            var col = z.dev >= 0.06 ? '#E74C3C' : z.dev >= 0.02 ? '#F39C12' : '#27AE60';
+            var label = z.dev >= 0.06 ? 'CRITICAL' : z.dev >= 0.02 ? 'WARNING' : 'NORMAL';
+            tooltip.style.display = 'block';
+            tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
+            tooltip.style.top = (e.clientY - rect.top - 10) + 'px';
+            tooltip.innerHTML =
+                '<b style="color:var(--teal)">' + z.name + '</b> <span style="color:#4A6FA5">(' + z.label + ')</span><br>' +
+                '<hr style="border:none;border-top:1px solid #0F2A42;margin:4px 0">' +
+                'SSH Dev: <b style="color:'+col+'">' + (z.dev>=0?'+':'') + z.dev.toFixed(3) + 'm</b><br>' +
+                'Wind: <b style="color:#9B59B6">' + z.wind + ' m/s</b><br>' +
+                'Status: <span style="color:'+col+';font-weight:700">' + label + '</span>';
+            canvas.style.cursor = 'pointer';
+        } else {
+            tooltip.style.display = 'none';
+            canvas.style.cursor = 'grab';
+        }
+    });
+
+    // Drag ile döndürme
+    var isDragging = false;
+    var prevMouse = {x:0, y:0};
+    var rotVel = {x:0, y:0};
+
+    canvas.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        prevMouse = {x: e.clientX, y: e.clientY};
+        rotVel = {x:0, y:0};
+    });
+    window.addEventListener('mouseup', function() { isDragging = false; });
+    canvas.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        var dx = e.clientX - prevMouse.x;
+        var dy = e.clientY - prevMouse.y;
+        rotVel.x = dy * 0.005;
+        rotVel.y = dx * 0.005;
+        prevMouse = {x: e.clientX, y: e.clientY};
+    });
+
+    // Animasyon
+    var t = 0;
+    function animate() {
+        requestAnimationFrame(animate);
+        t += 0.016;
+
+        if (!isDragging) {
+            globe.rotation.y += 0.002;
+        } else {
+            globe.rotation.x += rotVel.x;
+            globe.rotation.y += rotVel.y;
+            rotVel.x *= 0.95;
+            rotVel.y *= 0.95;
+        }
+
+        // Tüm nokta ve ring'leri globe ile döndür
+        points.forEach(function(p) {
+            p.rotation.copy(globe.rotation);
+            if (p.userData.pulse) {
+                var phase = p.userData.phase || 0;
+                p.material.opacity = 0.2 + 0.3 * Math.abs(Math.sin(t*2 + phase));
+                var s = 1 + 0.3 * Math.abs(Math.sin(t*1.5 + phase));
+                p.scale.set(s, s, s);
+            }
+        });
+
+        renderer.render(scene, camera);
+    }
+    animate();
 }
 
 // Init on load
