@@ -1246,7 +1246,7 @@ footer a{color:var(--teal);text-decoration:none}
                 <th>SAVINGS</th>
                 <th>ANNUAL $</th>
                 <th>CII</th>
-                <th>STATUS</th>
+                <th>STATUS</th><th>WIND</th><th>CHLOROPHYLL</th><th>SALINITY</th>
               </tr>
             </thead>
             <tbody id="fleet_tbody">
@@ -1847,7 +1847,7 @@ function renderSSH(){
       "<td style='font-family:JetBrains Mono;color:var(--mute)'>"+z.base.toFixed(3)+"</td>"+
       "<td style='font-family:JetBrains Mono;color:"+col+";font-weight:700'>"+(dev>=0?"+":"")+dev.toFixed(3)+"m</td>"+
       "<td style='color:"+dragCol+"'>"+(dragPct>0?"+"+dragPct+"%":"—")+"</td>"+
-      "<td>"+icon+" "+label+"</td></tr>";
+      "<td>"+icon+" "+label+"</td>"+"<td style='color:#9B59B6'>"+(z.wind?z.wind.toFixed(1)+" m/s":"—")+"</td>"+"<td style='color:#27AE60'>"+(z.chl?z.chl+" mg/m³":"—")+"</td>"+"<td style='color:#E67E22'>"+(z.sal?z.sal+" PSU":"—")+"</td></tr>";
   });
   var c=document.getElementById("ssh_crit");if(c)c.textContent=crit;
   var w=document.getElementById("ssh_warn");if(w)w.textContent=warn;
