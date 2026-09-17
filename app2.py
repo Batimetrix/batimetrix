@@ -1201,7 +1201,7 @@ footer a{color:var(--teal);text-decoration:none}
               <tr>
                 <th data-i18n="th_waypoint">Waypoint</th>
                 <th data-i18n="th_depth">Depth</th>
-                <th>SSH (m)</th>
+                <th>SSH (m)</th><th>WIND (m/s)</th>
                 <th>SWH (m)</th>
                 <th>Drag</th>
                 <th data-i18n="th_savings">Savings</th>
@@ -1285,6 +1285,13 @@ footer a{color:var(--teal);text-decoration:none}
             Released: <span style="color:white">April 2026</span>
           </div>
           <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:#9B59B6;font-weight:700">CYGNSS</span> (NASA)
+            <span style="color:#2C3E50"> | </span>
+            8 satellites
+            <span style="color:#2C3E50"> | </span>
+            Last: <span style="color:white">2025-10-31</span>
+          </div>
+          <div style="font-size:11px;color:#7F8C8D">
             <span style="color:#E74C3C;font-weight:700">Combined Coverage</span>
             <span style="color:#2C3E50"> | </span>
             Dual altimeter SSH fusion
@@ -1340,7 +1347,7 @@ footer a{color:var(--teal);text-decoration:none}
 
 <footer>
   <div class="footer-dots"><div class="footer-dot"></div><div class="footer-dot"></div><div class="footer-dot"></div></div>
-  <div>BATIMETRIX V3 PRO // PINN 1,657,025 params // NASA SWOT+GPM+MODIS+Sentinel-6 // GEBCO 2026 // IMO CII MEPC.354(78)</div>
+  <div>BATIMETRIX V3 PRO // PINN 1,657,025 params // NASA SWOT+GPM+MODIS+Sentinel-6+CYGNSS // GEBCO 2026 // IMO CII MEPC.354(78)</div>
   <a href="https://github.com/Batimetrix/batimetrix" target="_blank">github.com/Batimetrix/batimetrix</a>
 </footer>
 
@@ -1790,16 +1797,16 @@ function downloadPDF(){
 
 // ===== SSH INTELLIGENCE =====
 var SSH_ZONES=[
-  {name:"Hormuz Strait",    region:"Persian Gulf",  ssh:0.08, base:0.05},
-  {name:"Malacca Strait",   region:"SE Asia",       ssh:0.10, base:0.08},
-  {name:"Bab el-Mandeb",    region:"Red Sea",       ssh:0.09, base:0.07},
+  {name:"Hormuz Strait",    region:"Persian Gulf",  ssh:0.08, base:0.05, wind:8.2},
+  {name:"Malacca Strait",   region:"SE Asia",       ssh:0.10, base:0.08, wind:6.1},
+  {name:"Bab el-Mandeb",    region:"Red Sea",       ssh:0.09, base:0.07, wind:11.2},
   {name:"Dover Strait",     region:"North Sea",     ssh:0.07, base:0.06},
-  {name:"Taiwan Strait",    region:"East Asia",     ssh:0.12, base:0.09},
+  {name:"Taiwan Strait",    region:"East Asia",     ssh:0.12, base:0.09, wind:9.4},
   {name:"Suez Canal",       region:"Mediterranean", ssh:0.05, base:0.05},
-  {name:"North Atlantic",   region:"Atlantic",      ssh:0.35, base:0.28},
-  {name:"Mid Pacific",      region:"Pacific",       ssh:0.35, base:0.30},
-  {name:"Cape Good Hope",   region:"S.Atlantic",    ssh:0.30, base:0.24},
-  {name:"Arabian Sea",      region:"Indian Ocean",  ssh:0.16, base:0.14},
+  {name:"North Atlantic",   region:"Atlantic",      ssh:0.35, base:0.28, wind:14.5},
+  {name:"Mid Pacific",      region:"Pacific",       ssh:0.35, base:0.30, wind:12.8},
+  {name:"Cape Good Hope",   region:"S.Atlantic",    ssh:0.30, base:0.24, wind:16.3},
+  {name:"Arabian Sea",      region:"Indian Ocean",  ssh:0.16, base:0.14, wind:7.8},
   {name:"South China Sea",  region:"SE Asia",       ssh:0.15, base:0.13},
   {name:"Bay of Bengal",    region:"Indian Ocean",  ssh:0.16, base:0.14},
   {name:"Kara Sea",         region:"Arctic",        ssh:0.10, base:0.07},
