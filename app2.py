@@ -1246,7 +1246,7 @@ footer a{color:var(--teal);text-decoration:none}
                 <th>SAVINGS</th>
                 <th>ANNUAL $</th>
                 <th>CII</th>
-                <th>STATUS</th><th>WIND</th><th>CHLOROPHYLL</th><th>SALINITY</th>
+                <th>STATUS</th><th>WIND</th><th>CHLOROPHYLL</th><th>SALINITY</th><th>ICE (m)</th>
               </tr>
             </thead>
             <tbody id="fleet_tbody">
@@ -1300,6 +1300,13 @@ footer a{color:var(--teal);text-decoration:none}
             8 satellites
             <span style="color:#2C3E50"> | </span>
             Last: <span style="color:white">2025-10-31</span>
+          </div>
+          <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:#3498DB;font-weight:700">ICESat-2</span> (NASA)
+            <span style="color:#2C3E50"> | </span>
+            Arctic Ocean Height
+            <span style="color:#2C3E50"> | </span>
+            Last: <span style="color:white">2026-05-18</span>
           </div>
           <div style="font-size:11px;color:#7F8C8D">
             <span style="color:#E74C3C;font-weight:700">Combined Coverage</span>
@@ -1819,7 +1826,7 @@ var SSH_ZONES=[
   {name:"Arabian Sea",      region:"Indian Ocean",  ssh:0.16, base:0.14, wind:7.8, chl:0.61},
   {name:"South China Sea",  region:"SE Asia",       ssh:0.15, base:0.13},
   {name:"Bay of Bengal",    region:"Indian Ocean",  ssh:0.16, base:0.14},
-  {name:"Kara Sea",         region:"Arctic",        ssh:0.10, base:0.07},
+  {name:"Kara Sea",         region:"Arctic",        ssh:0.10, base:0.07, ice:1.8},
   {name:"Gulf of Mexico",   region:"Americas",      ssh:0.14, base:0.12},
   {name:"Mediterranean",    region:"Mediterranean", ssh:0.12, base:0.10},
   {name:"Black Sea",        region:"Black Sea",     ssh:0.09, base:0.08, wind:5.2, chl:2.81}
@@ -1847,7 +1854,7 @@ function renderSSH(){
       "<td style='font-family:JetBrains Mono;color:var(--mute)'>"+z.base.toFixed(3)+"</td>"+
       "<td style='font-family:JetBrains Mono;color:"+col+";font-weight:700'>"+(dev>=0?"+":"")+dev.toFixed(3)+"m</td>"+
       "<td style='color:"+dragCol+"'>"+(dragPct>0?"+"+dragPct+"%":"—")+"</td>"+
-      "<td>"+icon+" "+label+"</td>"+"<td style='color:#9B59B6'>"+(z.wind?z.wind.toFixed(1)+" m/s":"—")+"</td>"+"<td style='color:#27AE60'>"+(z.chl?z.chl+" mg/m³":"—")+"</td>"+"<td style='color:#E67E22'>"+(z.sal?z.sal+" PSU":"—")+"</td></tr>";
+      "<td>"+icon+" "+label+"</td>"+"<td style='color:#9B59B6'>"+(z.wind?z.wind.toFixed(1)+" m/s":"—")+"</td>"+"<td style='color:#27AE60'>"+(z.chl?z.chl+" mg/m³":"—")+"</td>"+"<td style='color:#E67E22'>"+(z.sal?z.sal+" PSU":"—")+"</td>"+"<td style='color:#3498DB'>"+(z.ice?z.ice+" m":"—")+"</td></tr>";
   });
   var c=document.getElementById("ssh_crit");if(c)c.textContent=crit;
   var w=document.getElementById("ssh_warn");if(w)w.textContent=warn;
