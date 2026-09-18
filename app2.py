@@ -881,6 +881,7 @@ footer a{color:var(--teal);text-decoration:none}
 .empty-txt{font-size:13px;letter-spacing:1px}
 </style>
 
+
 </head>
 <body>
 
@@ -1369,7 +1370,7 @@ footer a{color:var(--teal);text-decoration:none}
             Real-time SSH deviation visualization across 16 global maritime zones — 
             powered by NASA SWOT + Sentinel-6 + CYGNSS + PACE + SMAP + ICESat-2
           </div>
-          <div id="globe_container" style="width:100%;height:500px;background:#000510;border-radius:12px;position:relative;overflow:hidden">
+          <div id="globe_container" style="width:100%;height:550px;background:#000510;border-radius:12px;position:relative;overflow:hidden">
             <canvas id="globe_canvas" style="width:100%;height:100%"></canvas>
             <div id="globe_tooltip" style="position:absolute;display:none;background:#0D1F35;border:1px solid var(--teal);border-radius:8px;padding:10px 14px;font-size:11px;pointer-events:none;z-index:100;min-width:180px"></div>
             <div style="position:absolute;top:12px;left:12px;font-size:10px;color:#4A6FA5;letter-spacing:1px">
@@ -1920,6 +1921,7 @@ function renderSSH(){
   var cnt=document.getElementById("ssh_count");if(cnt)cnt.textContent=crit+warn;
   var mx=document.getElementById("ssh_max");if(mx)mx.textContent="+"+maxDev.toFixed(3)+"m";
 }
+
 
 
 
