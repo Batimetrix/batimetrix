@@ -1117,6 +1117,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('fleet_tab',this)">&#128674; Fleet</div>
         <div class="tab" onclick="showTab('ssh_tab',this)">&#127754; Ocean Intel</div>
         <div class="tab" onclick="showTab('globe_tab',this)">&#127758; 3D Globe</div>
+        <div class="tab" onclick="showTab('compare_tab',this)">&#9878; Compare</div>
       </div>
 
       <!-- MAP TAB -->
@@ -1433,6 +1434,171 @@ footer a{color:var(--teal);text-decoration:none}
         </div>
       </div>
 
+
+      <!-- ROUTE COMPARE TAB -->
+      <div id="compare_tab" style="display:none">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#9878; Route Comparison — Find the Most Efficient Path</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+            
+            <!-- ROTA A -->
+            <div>
+              <div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:8px;letter-spacing:1px">ROUTE A</div>
+              <select id="compare_vessel_a" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px">
+                <option value="Black Sea Cargo">Black Sea Cargo</option>
+                <option value="Handy Bulk">Handy Bulk</option>
+                <option value="Panamax Container">Panamax Container</option>
+                <option value="Capesize Bulk">Capesize Bulk</option>
+                <option value="LNG Carrier">LNG Carrier</option>
+                <option value="VLCC Tanker">VLCC Tanker</option>
+                <option value="Aframax Tanker">Aframax Tanker</option>
+              </select>
+              <select id="compare_route_a" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px">
+                <option value="istanbul_trabzon">Istanbul → Trabzon</option>
+                <option value="istanbul_novorossiysk">Istanbul → Novorossiysk</option>
+                <option value="odessa_istanbul">Odessa → Istanbul</option>
+                <option value="batumi_constanta">Batumi → Constanta</option>
+                <option value="karadeniz_sakin">Black Sea — Calm</option>
+                <option value="shanghai_rotterdam">Shanghai → Rotterdam</option>
+                <option value="rastanura_ningbo">Ras Tanura → Ningbo</option>
+                <option value="singapore_rotterdam_cape">Singapore → Rotterdam (Cape)</option>
+                <option value="murmansk_shanghai">Murmansk → Shanghai (Arctic)</option>
+                <option value="hormuz_transit">Hormuz Strait Transit</option>
+              </select>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div>
+                  <label style="font-size:10px;color:var(--mute)">SPEED (kn)</label>
+                  <input type="number" id="compare_speed_a" value="12" min="5" max="25" style="width:100%;background:var(--bg);border:1px solid var(--line);color:white;padding:6px;border-radius:6px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute)">DRAFT (m)</label>
+                  <input type="number" id="compare_draft_a" value="8.5" min="3" max="22" step="0.5" style="width:100%;background:var(--bg);border:1px solid var(--line);color:white;padding:6px;border-radius:6px;font-size:12px">
+                </div>
+              </div>
+            </div>
+
+            <!-- ROTA B -->
+            <div>
+              <div style="font-size:11px;color:#E74C3C;font-weight:700;margin-bottom:8px;letter-spacing:1px">ROUTE B</div>
+              <select id="compare_vessel_b" style="width:100%;background:var(--bg);border:1px solid #E74C3C;color:white;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px">
+                <option value="Black Sea Cargo">Black Sea Cargo</option>
+                <option value="Handy Bulk">Handy Bulk</option>
+                <option value="Panamax Container">Panamax Container</option>
+                <option value="Capesize Bulk">Capesize Bulk</option>
+                <option value="LNG Carrier">LNG Carrier</option>
+                <option value="VLCC Tanker">VLCC Tanker</option>
+                <option value="Aframax Tanker">Aframax Tanker</option>
+              </select>
+              <select id="compare_route_b" style="width:100%;background:var(--bg);border:1px solid #E74C3C;color:white;padding:8px;border-radius:8px;font-size:12px;margin-bottom:8px">
+                <option value="istanbul_novorossiysk" selected>Istanbul → Novorossiysk</option>
+                <option value="istanbul_trabzon">Istanbul → Trabzon</option>
+                <option value="odessa_istanbul">Odessa → Istanbul</option>
+                <option value="batumi_constanta">Batumi → Constanta</option>
+                <option value="karadeniz_sakin">Black Sea — Calm</option>
+                <option value="shanghai_rotterdam">Shanghai → Rotterdam</option>
+                <option value="rastanura_ningbo">Ras Tanura → Ningbo</option>
+                <option value="singapore_rotterdam_cape">Singapore → Rotterdam (Cape)</option>
+                <option value="murmansk_shanghai">Murmansk → Shanghai (Arctic)</option>
+                <option value="hormuz_transit">Hormuz Strait Transit</option>
+              </select>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div>
+                  <label style="font-size:10px;color:var(--mute)">SPEED (kn)</label>
+                  <input type="number" id="compare_speed_b" value="12" min="5" max="25" style="width:100%;background:var(--bg);border:1px solid var(--line);color:white;padding:6px;border-radius:6px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute)">DRAFT (m)</label>
+                  <input type="number" id="compare_draft_b" value="8.5" min="3" max="22" step="0.5" style="width:100%;background:var(--bg);border:1px solid var(--line);color:white;padding:6px;border-radius:6px;font-size:12px">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="runComparison()" style="width:100%;padding:12px;background:linear-gradient(135deg,#1ABC9C,#148F77);border:none;border-radius:10px;color:#001a0f;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px;margin-bottom:16px">
+            &#9878; RUN COMPARISON ANALYSIS
+          </button>
+
+          <!-- SONUÇLAR -->
+          <div id="compare_results" style="display:none">
+            <!-- Kazanan Banner -->
+            <div id="compare_winner" style="border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;font-size:16px;font-weight:700"></div>
+
+            <!-- Metrik Karşılaştırma -->
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:16px;align-items:center">
+              
+              <!-- ROTA A Metrikler -->
+              <div id="compare_metrics_a" style="background:var(--bg);border-radius:12px;padding:16px;border:2px solid var(--teal)">
+                <div style="font-size:12px;color:var(--teal);font-weight:700;margin-bottom:12px;letter-spacing:1px">ROUTE A</div>
+                <div id="compare_a_name" style="font-size:13px;font-weight:700;margin-bottom:12px;color:white"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <div style="text-align:center">
+                    <div id="compare_a_drag" style="font-size:24px;font-weight:900;color:var(--teal)">—</div>
+                    <div style="font-size:9px;color:var(--mute)">DRAG SCORE</div>
+                  </div>
+                  <div style="text-align:center">
+                    <div id="compare_a_savings" style="font-size:24px;font-weight:900;color:var(--teal)">—</div>
+                    <div style="font-size:9px;color:var(--mute)">SAVINGS</div>
+                  </div>
+                  <div style="text-align:center">
+                    <div id="compare_a_cash" style="font-size:20px;font-weight:900;color:#F39C12">—</div>
+                    <div style="font-size:9px;color:var(--mute)">ANNUAL $</div>
+                  </div>
+                  <div style="text-align:center">
+                    <div id="compare_a_cii" style="font-size:20px;font-weight:900;color:#27AE60">—</div>
+                    <div style="font-size:9px;color:var(--mute)">CII</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- VS -->
+              <div style="text-align:center;font-size:20px;font-weight:900;color:var(--mute)">VS</div>
+
+              <!-- ROTA B Metrikler -->
+              <div id="compare_metrics_b" style="background:var(--bg);border-radius:12px;padding:16px;border:2px solid #E74C3C">
+                <div style="font-size:12px;color:#E74C3C;font-weight:700;margin-bottom:12px;letter-spacing:1px">ROUTE B</div>
+                <div id="compare_b_name" style="font-size:13px;font-weight:700;margin-bottom:12px;color:white"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <div style="text-align:center">
+                    <div id="compare_b_drag" style="font-size:24px;font-weight:900;color:#E74C3C">—</div>
+                    <div style="font-size:9px;color:var(--mute)">DRAG SCORE</div>
+                  </div>
+                  <div style="text-align:center">
+                    <div id="compare_b_savings" style="font-size:24px;font-weight:900;color:#E74C3C">—</div>
+                    <div style="font-size:9px;color:var(--mute)">SAVINGS</div>
+                  </div>
+                  <div style="text-align:center">
+                    <div id="compare_b_cash" style="font-size:20px;font-weight:900;color:#F39C12">—</div>
+                    <div style="font-size:9px;color:var(--mute)">ANNUAL $</div>
+                  </div>
+                  <div style="text-align:center">
+                    <div id="compare_b_cii" style="font-size:20px;font-weight:900;color:#27AE60">—</div>
+                    <div style="font-size:9px;color:var(--mute)">CII</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Waypoint Karşılaştırma Tablosu -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <div style="font-size:11px;color:var(--teal);margin-bottom:8px;font-weight:700">ROUTE A — WAYPOINTS</div>
+                <table class="route-table">
+                  <thead><tr><th>POINT</th><th>DRAG</th><th>STATUS</th></tr></thead>
+                  <tbody id="compare_table_a"></tbody>
+                </table>
+              </div>
+              <div>
+                <div style="font-size:11px;color:#E74C3C;margin-bottom:8px;font-weight:700">ROUTE B — WAYPOINTS</div>
+                <table class="route-table">
+                  <thead><tr><th>POINT</th><th>DRAG</th><th>STATUS</th></tr></thead>
+                  <tbody id="compare_table_b"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1587,7 +1753,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -2092,6 +2258,118 @@ function initSatMap() {
 }
 
 
+
+// ===== ROUTE COMPARISON =====
+function runComparison() {
+    var vesselA = document.getElementById('compare_vessel_a').value;
+    var routeA  = document.getElementById('compare_route_a').value;
+    var speedA  = parseFloat(document.getElementById('compare_speed_a').value);
+    var draftA  = parseFloat(document.getElementById('compare_draft_a').value);
+
+    var vesselB = document.getElementById('compare_vessel_b').value;
+    var routeB  = document.getElementById('compare_route_b').value;
+    var speedB  = parseFloat(document.getElementById('compare_speed_b').value);
+    var draftB  = parseFloat(document.getElementById('compare_draft_b').value);
+
+    // Her iki rotayı da analiz et
+    Promise.all([
+        fetch('/analyze', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+                vessel: vesselA, route: routeA,
+                speed: speedA, draft: draftA,
+                swh: 1.2, sst: 22, sefer_gun: 280
+            })
+        }).then(r=>r.json()),
+        fetch('/analyze', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+                vessel: vesselB, route: routeB,
+                speed: speedB, draft: draftB,
+                swh: 1.2, sst: 22, sefer_gun: 280
+            })
+        }).then(r=>r.json())
+    ]).then(function(results) {
+        var a = results[0];
+        var b = results[1];
+
+        document.getElementById('compare_results').style.display = 'block';
+
+        // Rota isimleri
+        var routeNames = {
+            'istanbul_trabzon': 'Istanbul → Trabzon',
+            'istanbul_novorossiysk': 'Istanbul → Novorossiysk',
+            'odessa_istanbul': 'Odessa → Istanbul',
+            'batumi_constanta': 'Batumi → Constanta',
+            'karadeniz_sakin': 'Black Sea — Calm',
+            'shanghai_rotterdam': 'Shanghai → Rotterdam',
+            'rastanura_ningbo': 'Ras Tanura → Ningbo',
+            'singapore_rotterdam_cape': 'Singapore → Rotterdam',
+            'murmansk_shanghai': 'Murmansk → Shanghai',
+            'hormuz_transit': 'Hormuz Transit'
+        };
+
+        document.getElementById('compare_a_name').textContent = vesselA + ' / ' + (routeNames[routeA] || routeA);
+        document.getElementById('compare_b_name').textContent = vesselB + ' / ' + (routeNames[routeB] || routeB);
+
+        // Metrikler A
+        document.getElementById('compare_a_drag').textContent = a.drag.toFixed(4);
+        document.getElementById('compare_a_savings').textContent = '%' + a.savings.toFixed(1);
+        document.getElementById('compare_a_cash').textContent = '$' + (a.cost_savings/1000).toFixed(0) + 'K';
+        document.getElementById('compare_a_cii').textContent = a.cii_before + '→' + a.cii_after;
+
+        // Metrikler B
+        document.getElementById('compare_b_drag').textContent = b.drag.toFixed(4);
+        document.getElementById('compare_b_savings').textContent = '%' + b.savings.toFixed(1);
+        document.getElementById('compare_b_cash').textContent = '$' + (b.cost_savings/1000).toFixed(0) + 'K';
+        document.getElementById('compare_b_cii').textContent = b.cii_before + '→' + b.cii_after;
+
+        // Kazanan
+        var winner = document.getElementById('compare_winner');
+        if (a.drag < b.drag) {
+            winner.style.background = 'linear-gradient(135deg,#1ABC9C22,#1ABC9C11)';
+            winner.style.border = '2px solid #1ABC9C';
+            winner.innerHTML = '&#9989; ROUTE A is more efficient — ' + ((b.drag - a.drag)*100).toFixed(1) + '% less drag';
+            winner.style.color = '#1ABC9C';
+            document.getElementById('compare_metrics_a').style.borderColor = '#1ABC9C';
+            document.getElementById('compare_metrics_b').style.borderColor = '#4A6FA5';
+        } else if (b.drag < a.drag) {
+            winner.style.background = 'linear-gradient(135deg,#E74C3C22,#E74C3C11)';
+            winner.style.border = '2px solid #E74C3C';
+            winner.innerHTML = '&#9989; ROUTE B is more efficient — ' + ((a.drag - b.drag)*100).toFixed(1) + '% less drag';
+            winner.style.color = '#E74C3C';
+            document.getElementById('compare_metrics_b').style.borderColor = '#E74C3C';
+            document.getElementById('compare_metrics_a').style.borderColor = '#4A6FA5';
+        } else {
+            winner.innerHTML = '&#9866; ROUTES ARE EQUAL in efficiency';
+            winner.style.color = '#F39C12';
+        }
+
+        // Waypoint tabloları
+        var tbA = document.getElementById('compare_table_a');
+        var tbB = document.getElementById('compare_table_b');
+        tbA.innerHTML = '';
+        tbB.innerHTML = '';
+
+        a.waypoints.forEach(function(w) {
+            var col = w.drag < 0.20 ? 'var(--teal)' : w.drag < 0.35 ? '#F39C12' : '#E74C3C';
+            var st = w.drag < 0.20 ? '✅' : w.drag < 0.35 ? '⚠️' : '🔴';
+            tbA.innerHTML += '<tr><td>' + w.name + '</td><td style="color:' + col + ';font-weight:700">' + w.drag.toFixed(4) + '</td><td>' + st + '</td></tr>';
+        });
+
+        b.waypoints.forEach(function(w) {
+            var col = w.drag < 0.20 ? 'var(--teal)' : w.drag < 0.35 ? '#F39C12' : '#E74C3C';
+            var st = w.drag < 0.20 ? '✅' : w.drag < 0.35 ? '⚠️' : '🔴';
+            tbB.innerHTML += '<tr><td>' + w.name + '</td><td style="color:' + col + ';font-weight:700">' + w.drag.toFixed(4) + '</td><td>' + st + '</td></tr>';
+        });
+
+    }).catch(function(err) {
+        console.error('Compare error:', err);
+    });
+}
+
 // ===== GLOBE ROUTE OPTIMIZER =====
 var GLOBE_ROUTES = {
     "istanbul_trabzon": {
@@ -2519,7 +2797,7 @@ function initGlobe() {
 }
 
 // Init on load
-window.onload=function(){ renderFleet(); renderSSH();
+window.onload=function(){ renderFleet(); renderSSH(); startAIS();
   initMap();
   previewRoute();
 };
