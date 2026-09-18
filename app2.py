@@ -880,7 +880,7 @@ footer a{color:var(--teal);text-decoration:none}
 .empty-icon{font-size:48px;margin-bottom:16px;opacity:.3}
 .empty-txt{font-size:13px;letter-spacing:1px}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
 </head>
 <body>
 
@@ -1362,7 +1362,7 @@ footer a{color:var(--teal);text-decoration:none}
 
 
       <!-- 3D GLOBE TAB -->
-      <div id="globe_tab" style="display:none">
+      <div id="globe_tab" style="display:none" onmouseenter="initGlobe()">
         <div class="card" style="margin-bottom:16px">
           <div class="card-title">&#127758; Thalassa 3D Globe — SSH Anomaly Intelligence</div>
           <div style="font-size:11px;color:#7F8C8D;margin-bottom:12px">
@@ -1566,6 +1566,7 @@ function showTab(id, el){
   document.getElementById(id).style.display="block";
   el.classList.add("active");
   if(id==="map_tab"){if(!map){initMap();} setTimeout(function(){if(map)map.invalidateSize();},200);}
+  if(id==="globe_tab"){setTimeout(function(){initGlobe();},300);}
 }
 
 function destroyChart(id){
@@ -1917,8 +1918,9 @@ var globeInitialized = false;
 function initGlobe() {
     if (globeInitialized) return;
     var canvas = document.getElementById('globe_canvas');
-    if (!canvas || typeof THREE === 'undefined') {
-        setTimeout(initGlobe, 500);
+    if (!canvas) return;
+    if (typeof THREE === 'undefined') {
+        setTimeout(initGlobe, 300);
         return;
     }
     globeInitialized = true;
@@ -2144,6 +2146,7 @@ window.onload=function(){ renderFleet(); renderSSH();
   previewRoute();
 };
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" onload="window._threeReady=true"></script>
 </body>
 </html>
 """
