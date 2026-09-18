@@ -1390,6 +1390,11 @@ footer a{color:var(--teal);text-decoration:none}
           <div id="sat_map" style="height:400px;border-radius:10px;overflow:hidden"></div>
         </div>
 
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#127759; Satellite View — SSH Anomaly Overlay</div>
+          <div id="sat_map" style="height:400px;border-radius:10px;overflow:hidden"></div>
+        </div>
+
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
           <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #E74C3C33">
             <div style="font-size:20px;font-weight:900;color:#E74C3C" id="g_crit">5</div>
@@ -1916,6 +1921,81 @@ function renderSSH(){
   var mx=document.getElementById("ssh_max");if(mx)mx.textContent="+"+maxDev.toFixed(3)+"m";
 }
 
+
+
+// ===== SATELLITE MAP =====
+var satMapInitialized = false;
+var satMap = null;
+
+function initSatMap() {
+    if (satMapInitialized) return;
+    if (!document.getElementById('sat_map')) return;
+    satMapInitialized = true;
+
+    satMap = L.map('sat_map', {zoomControl: true}).setView([20, 0], 2);
+
+    // ESRI World Imagery - gercek uydu goruntüsü
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri',
+        maxZoom: 18
+    }).addTo(satMap);
+
+    // SSH Anomali bölgeleri
+    var SSH_ZONES = [
+        {name:"Hormuz Strait",    lat:26.57, lon:56.25,  dev:0.030, wind:8.2,  label:"Persian Gulf",   region:"Critical Chokepoint"},
+        {name:"Malacca Strait",   lat:2.50,  lon:101.00, dev:0.020, wind:6.1,  label:"SE Asia",         region:"Major Trade Route"},
+        {name:"Bab el-Mandeb",    lat:12.60, lon:43.30,  dev:0.020, wind:11.2, label:"Red Sea",         region:"Strategic Strait"},
+        {name:"Taiwan Strait",    lat:24.00, lon:119.00, dev:0.030, wind:9.4,  label:"East Asia",       region:"High Traffic"},
+        {name:"North Atlantic",   lat:48.00, lon:-30.00, dev:0.070, wind:14.5, label:"Atlantic",        region:"Major Ocean"},
+        {name:"Mid Pacific",      lat:42.00, lon:-175.0, dev:0.050, wind:12.8, label:"Pacific",         region:"Major Ocean"},
+        {name:"Cape Good Hope",   lat:-35.0, lon:20.00,  dev:0.060, wind:16.3, label:"S.Atlantic",      region:"Critical Route"},
+        {name:"Arabian Sea",      lat:18.00, lon:62.00,  dev:0.020, wind:7.8,  label:"Indian Ocean",    region:"Trade Route"},
+        {name:"South China Sea",  lat:10.00, lon:113.00, dev:0.020, wind:8.5,  label:"SE Asia",         region:"Disputed Waters"},
+        {name:"Kara Sea",         lat:75.00, lon:65.00,  dev:0.030, wind:5.1,  label:"Arctic",          region:"Arctic Route"},
+        {name:"Gulf of Mexico",   lat:26.00, lon:-88.0,  dev:0.020, wind:6.8,  label:"Americas",        region:"Energy Hub"},
+        {name:"Mediterranean",    lat:36.00, lon:15.00,  dev:0.020, wind:7.4,  label:"Mediterranean",   region:"Major Trade"},
+        {name:"Black Sea",        lat:42.00, lon:33.00,  dev:0.010, wind:5.2,  label:"Black Sea",       region:"Regional Sea"},
+        {name:"Dover Strait",     lat:51.00, lon:1.50,   dev:0.010, wind:9.3,  label:"North Sea",       region:"Busiest Strait"},
+        {name:"Bay of Bengal",    lat:15.00, lon:90.00,  dev:0.020, wind:7.2,  label:"Indian Ocean",    region:"Trade Route"},
+        {name:"Suez Canal",       lat:29.97, lon:32.55,  dev:0.000, wind:4.3,  label:"Mediterranean",   region:"Critical Canal"}
+    ];
+
+    SSH_ZONES.forEach(function(z) {
+        var col = z.dev >= 0.06 ? '#E74C3C' : z.dev >= 0.02 ? '#F39C12' : '#27AE60';
+        var label = z.dev >= 0.06 ? 'CRITICAL' : z.dev >= 0.02 ? 'WARNING' : 'NORMAL';
+        var radius = z.dev >= 0.06 ? 350000 : z.dev >= 0.02 ? 250000 : 180000;
+
+        // Daire
+        L.circle([z.lat, z.lon], {
+            color: col,
+            fillColor: col,
+            fillOpacity: 0.15,
+            weight: 2,
+            radius: radius
+        }).addTo(satMap).bindPopup(
+            "<div style='font-family:JetBrains Mono;font-size:12px;min-width:200px;line-height:1.8'>" +
+            "<b style='color:" + col + ";font-size:14px'>" + z.name + "</b><br>" +
+            "<span style='color:#666'>" + z.region + "</span><br>" +
+            "<hr style='margin:4px 0;border-color:#ddd'>" +
+            "<b>SSH Deviation:</b> " + (z.dev>=0?"+":"") + z.dev.toFixed(3) + "m<br>" +
+            "<b>Wind Speed:</b> " + z.wind + " m/s<br>" +
+            "<b>Status:</b> <span style='color:" + col + ";font-weight:700'>" + label + "</span><br>" +
+            "<b>Source:</b> NASA SWOT + Sentinel-6" +
+            "</div>"
+        );
+
+        // Merkez nokta
+        L.circleMarker([z.lat, z.lon], {
+            color: col,
+            fillColor: col,
+            fillOpacity: 0.9,
+            weight: 2,
+            radius: 6
+        }).addTo(satMap).bindTooltip(z.name, {permanent: false});
+    });
+
+    setTimeout(function(){satMap.invalidateSize();}, 300);
+}
 
 
 // ===== SATELLITE MAP =====
