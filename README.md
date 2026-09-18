@@ -1,40 +1,54 @@
-# BATIMETRIX
+# BATIMETRIX — Thalassa Maritime Intelligence Platform
 
 **Proactive Hydrodynamic Drag Prediction Engine for Maritime Fuel Optimization**
 
 🌐 **Live Demo: [batimetrix.onrender.com](https://batimetrix.onrender.com)**
+📦 **GitHub: [github.com/Batimetrix/batimetrix](https://github.com/Batimetrix/batimetrix)**
 
-Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using real data from three NASA satellites, enabling proactive propeller pitch and engine optimization. Target: **8-12% net fuel savings** and measurable **IMO CII rating improvements**.
+Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using real data from **9 NASA satellites and data sources**, enabling proactive propulsion optimization.
 
-Built from scratch by an 18-year-old student from Turkey.
+**Target: 8-12% net fuel savings and measurable IMO CII rating improvements.**
+
+Built from scratch by an 18-year-old independent researcher from Turkey.
 
 ---
 
 ## Why Batimetrix?
 
-Existing systems (Wartsila, Kongsberg, ZeroNorth) are **reactive** — they respond to conditions the ship is already in. Batimetrix is **proactive**: it computes underwater resistance before the vessel reaches the coordinate, giving the propulsion system time to adapt.
+Existing systems (Wärtsilä, Kongsberg, ZeroNorth) are **reactive** — they respond to conditions the ship is already in. Batimetrix is **proactive**: it computes underwater resistance before the vessel reaches the coordinate, giving the propulsion system time to adapt.
 
 | Component | Batimetrix | Competitors |
 |---|---|---|
-| NASA SWOT sea surface height | YES | No |
-| NASA GPM storm prediction | YES | No |
-| NASA MODIS sea surface temperature | YES | No |
-| GEBCO 2026 bathymetry | YES | No |
+| 9 NASA satellite data sources | YES | No |
 | Physics-Informed Neural Network | YES | Rare |
 | 3 NM look-ahead prediction | YES | No |
-| IMO CII compliance module | YES | Partial |
+| IMO CII compliance (MEPC.354(78)) | YES | Partial |
+| 60 global trade routes | YES | No |
+| 15 vessel classes | YES | No |
+| Fleet Dashboard | YES | No |
+| 3D SSH Anomaly Globe | YES | No |
+| Ocean Intelligence module | YES | No |
 | Open source | YES | No |
 
-## Data Sources — Three NASA Satellites
+---
 
-| Satellite | Measurement | Update Cycle | Role in Batimetrix |
+## Data Sources — 9 NASA Satellites & Data Sources
+
+| Satellite | Measurement | Last Data | Role in Batimetrix |
 |---|---|---|---|
-| SWOT | Sea surface height (ssh_karin) | 21 days | Current estimation via SSH anomaly |
-| GPM | Precipitation (IMERG) | 30 minutes | Significant wave height prediction |
+| SWOT (NASA/CNES) | Sea surface height (ssh_karin) | 2025-05-03 | SSH anomaly → drag estimation |
+| Sentinel-6 (NASA/ESA) | SSH continuity | 2026-01-16 | 10-day cycle SSH complement |
+| GPM IMERG | Precipitation / wave height | 2025-09-30 | Significant wave height prediction |
 | MODIS | Sea surface temperature | Daily | Kinematic viscosity correction |
-| GEBCO 2026 | Bathymetry (15 arc-sec) | Static | Shallow-water resistance effects |
+| CYGNSS (8 satellites) | Ocean wind speed NRT | 2025-10-31 | Wave loading factor |
+| PACE OCI | Ocean color / chlorophyll NRT | 2026-09-16 | Viscosity correction |
+| SMAP | Sea surface salinity NRT | 2026-09-17 | Water density correction |
+| ICESat-2 | Arctic ocean height | 2026-05-18 | Arctic route optimization |
+| GEBCO 2026 | Bathymetry (15 arc-sec) | April 2026 | Shallow-water resistance |
 
 The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea.
+
+---
 
 ## Model Architecture
 
@@ -45,80 +59,60 @@ The model was fine-tuned on **296,526 real SWOT measurements** over the Black Se
 - Output: normalized drag score in [0, 1]
 
 Physics constraints in the loss function:
-
 - ITTC 1957 friction line: `Cf = 0.075 / (log10(Re) - 2)^2`
 - Reynolds number scaling
 - Morison-type wave loading factor
 - Shallow-water resistance term
 - Incompressibility (continuity) penalty
 
-Training: 100,000 synthetic samples (100 epochs, AdamW, CosineAnnealingLR) followed by fine-tuning on real NASA SWOT data.
+Training: 100,000 synthetic samples (100 epochs, AdamW, CosineAnnealingLR) + fine-tuning on 296,526 real NASA SWOT measurements.
 
-Deployment: Exported to ONNX (12.2 KB, max deviation vs PyTorch: 2.98e-08) for the Rust onboard inference engine.
+Deployment: Exported to ONNX (12.2 KB, max deviation vs PyTorch: 2.98e-08).
+
+---
+
+## Platform Features
+
+- **60 global trade routes** — Black Sea, Mediterranean, Suez, Cape, Arctic NSR, Trans-Pacific, Trans-Atlantic
+- **15 vessel classes** — VLCC, Suezmax, Aframax, MR, LNG, Capesize, Panamax, ULCV, Feeder and more
+- **Fleet Dashboard** — multi-vessel portfolio analysis
+- **Ocean Intel** — 16 global maritime zone SSH anomaly monitoring
+- **3D Globe** — interactive SSH anomaly visualization
+- **IMO CII** — MEPC.354(78) compliant rating calculation
+- **7 languages** — EN, TR, EL, ZH, RU, ES, FR
+- **PDF report** — downloadable analysis report
+
+---
 
 ## Results
 
 - Average drag score (Black Sea, calm): 0.13-0.14
 - Estimated fuel savings: 8-12% depending on conditions
-- CII rating improvement: E to D (Black Sea cargo), B to A (Handy bulk)
-- **40 global trade routes** analyzed: Istanbul-Trabzon, Shanghai-Rotterdam, Singapore-Shanghai, Dubai-Singapore, Panama-Los Angeles, and more
+- CII rating improvement: E→D (Black Sea cargo), B→A (Handy bulk)
+- 60 global trade routes analyzed
 
-Fuel consumption figures calibrated against Clarkson Research / MAN Energy Solutions reference data (VLCC: 120 t/day, Panamax: 80 t/day, Capesize: 40 t/day).
+Fuel consumption figures calibrated against Lloyd's List / MAN Energy Solutions reference data.
 
-## Repository Contents
+---
 
-| File | Description |
+## Stack
+
+| Layer | Technology |
 |---|---|
-| `training_v2.py` | Main PINN training (100K synthetic samples) |
-| `swot_real.py` | Real SWOT NetCDF download and processing |
-| `nasa_real_training.py` | Fine-tuning on 296K real SWOT measurements |
-| `gpm_integrate.py` | GPM precipitation to SWH integration |
-| `modis_test.py` | MODIS SST to kinematic viscosity correction |
-| `gpm_modis_real.py` | Combined 3-satellite inference pipeline |
-| `cii_module.py` | IMO CII rating calculator (MEPC.354(78)) |
-| `scenario_test.py` | Vessel-type analysis with realistic fuel data |
-| `route_map.py` | Multi-route interactive map generator (folium) |
-| `onnx_export_v2.py` | ONNX export and cross-validation |
-| `app2.py` | Flask web dashboard (deployed on Render) |
+| ML Model | PyTorch PINN → ONNX export |
+| Backend | Python / Flask |
+| Frontend | HTML/CSS/JS, Leaflet.js |
+| NASA Data | PO.DAAC CMR API (9 sources) |
+| Deployment | Render.com |
 
-## Quick Start
+---
 
-```bash
-pip install torch numpy netCDF4 requests folium matplotlib flask
-python training_v2.py   # train the PINN model
-python app2.py          # launch the web dashboard
-# open http://127.0.0.1:10000
-```
+## Contact
 
-Or just visit the live deployment: **[batimetrix.onrender.com](https://batimetrix.onrender.com)**
+**Mehmet Sinan Bilgeç**
+mbilgec@asu.edu
+Independent Researcher | ASU Online Student Turkey
 
-NASA data access requires a free Earthdata account.
+---
 
-## Roadmap
-
-- [x] PINN model with physics-based loss functions
-- [x] Real NASA SWOT data integration (296K measurements)
-- [x] GPM + MODIS integration (3 satellites)
-- [x] ONNX export for edge deployment
-- [x] IMO CII compliance module
-- [x] Flask web dashboard
-- [x] **Live cloud deployment (Render)**
-- [x] **40 global trade routes**
-- [x] **7-language interface (EN/TR/EL/ZH/RU/ES/FR)**
-- [x] Rust onboard inference engine
-- [ ] Pilot validation with real vessel voyage data
-- [ ] AIS real-time position integration
-- [ ] NASA SWOT Early Adopters program application
-
-## Acknowledgments
-
-- NASA / CNES — SWOT mission data via PO.DAAC
-- NASA — GPM IMERG and MODIS SST products
-- GEBCO — General Bathymetric Chart of the Oceans 2026
-- Raissi, Perdikaris, Karniadakis (2019) — Physics-Informed Neural Networks
-
-## Author
-
-**Mehmet Sinan** — Independent Researcher, Turkey
-
-This research uses data from NASA SWOT mission. SWOT data are freely available under a Creative Commons Zero license.
+*Batimetrix is the foundation of Thalassa — a maritime intelligence platform vision combining NASA satellite data, physics-informed AI, and ocean analytics for commercial and defense applications.*
