@@ -1118,6 +1118,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('ssh_tab',this)">&#127754; Ocean Intel</div>
         <div class="tab" onclick="showTab('globe_tab',this)">&#127758; 3D Globe</div>
         <div class="tab" onclick="showTab('compare_tab',this)">&#9878; Compare</div>
+        <div class="tab" onclick="showTab('ets_tab',this)">&#127758; EU ETS</div>
       </div>
 
       <!-- MAP TAB -->
@@ -1656,6 +1657,145 @@ footer a{color:var(--teal);text-decoration:none}
         </div>
       </div>
 
+
+      <!-- EU ETS TAB -->
+      <div id="ets_tab" style="display:none">
+
+        <!-- Header Banner -->
+        <div style="background:linear-gradient(135deg,#27AE6011,#1ABC9C11);border:1px solid #27AE60;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">&#127776;</div>
+          <div>
+            <div style="color:#27AE60;font-weight:700;font-size:13px;letter-spacing:1px">EU ETS CARBON COST CALCULATOR — 2026</div>
+            <div style="color:#7F8C8D;font-size:11px;margin-top:2px">100% compliance from Jan 2026 · CO2 + CH4 + N2O coverage · EUA price: ~€85/tonne</div>
+          </div>
+          <div style="margin-left:auto;text-align:right">
+            <div style="color:#27AE60;font-size:20px;font-weight:900">€85</div>
+            <div style="color:#7F8C8D;font-size:10px">EUA/tonne CO2</div>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#9881; Carbon Cost Parameters</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">VESSEL TYPE</label>
+              <select id="ets_vessel" onchange="updateETSDefaults()" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+                <option value="VLCC Tanker">VLCC Tanker</option>
+                <option value="Capesize Bulk">Capesize Bulk</option>
+                <option value="Panamax Container">Panamax Container</option>
+                <option value="Aframax Tanker">Aframax Tanker</option>
+                <option value="LNG Carrier">LNG Carrier</option>
+                <option value="Panamax Bulk">Panamax Bulk</option>
+                <option value="Black Sea Cargo" selected>Black Sea Cargo</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">FUEL CONSUMPTION (t/day)</label>
+              <input type="number" id="ets_fuel" value="12" min="5" max="300" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">VOYAGE DAYS/YEAR</label>
+              <input type="number" id="ets_days" value="280" min="50" max="365" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">EUA PRICE (€/tonne CO2)</label>
+              <input type="number" id="ets_price" value="85" min="40" max="200" style="width:100%;background:var(--bg);border:1px solid #27AE60;color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">EUR/USD RATE</label>
+              <input type="number" id="ets_fx" value="1.09" min="0.8" max="1.5" step="0.01" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">BATIMETRIX SAVINGS (%)</label>
+              <input type="number" id="ets_savings" value="10" min="1" max="20" step="0.1" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">EU PORT EXPOSURE (%)</label>
+              <input type="range" id="ets_exposure" value="60" min="0" max="100" oninput="document.getElementById('ets_exposure_val').textContent=this.value+'%'" style="width:100%">
+              <div style="text-align:center;color:var(--teal);font-weight:700" id="ets_exposure_val">60%</div>
+              <div style="font-size:9px;color:var(--mute)">% of voyages touching EU/EEA ports</div>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">FUEL TYPE</label>
+              <select id="ets_fuel_type" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+                <option value="3.151">VLSFO (3.151 tCO2/t)</option>
+                <option value="3.114">HFO 380 (3.114 tCO2/t)</option>
+                <option value="3.206">MGO (3.206 tCO2/t)</option>
+                <option value="2.750">LNG (2.750 tCO2/t)</option>
+              </select>
+            </div>
+          </div>
+          <button onclick="calcETS()" style="width:100%;padding:12px;background:linear-gradient(135deg,#27AE60,#1E8449);border:none;border-radius:10px;color:white;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px">
+            &#127776; CALCULATE EU ETS CARBON COST
+          </button>
+        </div>
+
+        <!-- Results -->
+        <div id="ets_results" style="display:none">
+
+          <!-- KPI Grid -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #E74C3C33">
+              <div style="font-size:24px;font-weight:900;color:#E74C3C" id="ets_total_cost">—</div>
+              <div style="font-size:10px;color:var(--mute)">TOTAL ETS COST/YEAR</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #27AE6033">
+              <div style="font-size:24px;font-weight:900;color:#27AE60" id="ets_saved">—</div>
+              <div style="font-size:10px;color:var(--mute)">SAVED WITH BATIMETRIX</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #F39C1233">
+              <div style="font-size:24px;font-weight:900;color:#F39C12" id="ets_co2">—</div>
+              <div style="font-size:10px;color:var(--mute)">CO2 EMISSIONS/YEAR</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--teal)33">
+              <div style="font-size:24px;font-weight:900;color:var(--teal)" id="ets_co2_saved">—</div>
+              <div style="font-size:10px;color:var(--mute)">CO2 REDUCED</div>
+            </div>
+          </div>
+
+          <!-- Breakdown -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">&#128202; Carbon Cost Breakdown</div>
+            <div id="ets_breakdown" style="font-size:12px;line-height:2.2"></div>
+          </div>
+
+          <!-- Compliance Status -->
+          <div class="card">
+            <div class="card-title">&#9878; EU ETS Compliance Timeline 2024-2026</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px">
+              <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #4A6FA5">
+                <div style="font-size:20px;font-weight:900;color:#4A6FA5">40%</div>
+                <div style="font-size:11px;color:white;margin:4px 0">2024</div>
+                <div style="font-size:10px;color:var(--mute)">CO2 coverage</div>
+                <div style="font-size:9px;color:#27AE60;margin-top:4px">✅ Completed</div>
+              </div>
+              <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #F39C12">
+                <div style="font-size:20px;font-weight:900;color:#F39C12">70%</div>
+                <div style="font-size:11px;color:white;margin:4px 0">2025</div>
+                <div style="font-size:10px;color:var(--mute)">CO2 coverage</div>
+                <div style="font-size:9px;color:#27AE60;margin-top:4px">✅ Completed</div>
+              </div>
+              <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center;border:1px solid #E74C3C">
+                <div style="font-size:20px;font-weight:900;color:#E74C3C">100%</div>
+                <div style="font-size:11px;color:white;margin:4px 0">2026</div>
+                <div style="font-size:10px;color:var(--mute)">CO2 + CH4 + N2O</div>
+                <div style="font-size:9px;color:#E74C3C;margin-top:4px">🔴 FULL COMPLIANCE</div>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:12px;background:#E74C3C11;border:1px solid #E74C3C33;border-radius:8px;font-size:11px;color:#7F8C8D">
+              ⚠️ <b style="color:#E74C3C">Non-compliance penalty:</b> €150,000–€1,000,000+ per vessel annually. 
+              Port state detention risk for repeated violations. 
+              Batimetrix reduces emissions → reduces ETS liability.
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1810,7 +1950,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -2470,6 +2610,85 @@ function calcFuel() {
     document.getElementById('fuel_co2').innerHTML =
         '&#127807; CO2 Reduction: <b>' + co2Saved.toFixed(0) + ' tons/year</b> — ' +
         'equivalent to removing <b>' + Math.round(co2Saved/4.6) + ' cars</b> from the road annually';
+}
+
+
+// ===== EU ETS CALCULATOR =====
+var ETS_VESSEL_DEFAULTS = {
+    "VLCC Tanker":       {fuel: 75,  days: 280},
+    "Capesize Bulk":     {fuel: 40,  days: 280},
+    "Panamax Container": {fuel: 80,  days: 300},
+    "Aframax Tanker":    {fuel: 45,  days: 280},
+    "LNG Carrier":       {fuel: 65,  days: 300},
+    "Panamax Bulk":      {fuel: 32,  days: 280},
+    "Black Sea Cargo":   {fuel: 12,  days: 280}
+};
+
+function updateETSDefaults() {
+    var vessel = document.getElementById('ets_vessel').value;
+    var def = ETS_VESSEL_DEFAULTS[vessel];
+    if (def) {
+        document.getElementById('ets_fuel').value = def.fuel;
+        document.getElementById('ets_days').value = def.days;
+    }
+}
+
+function calcETS() {
+    var fuel      = parseFloat(document.getElementById('ets_fuel').value) || 12;
+    var days      = parseFloat(document.getElementById('ets_days').value) || 280;
+    var euaPrice  = parseFloat(document.getElementById('ets_price').value) || 85;
+    var fx        = parseFloat(document.getElementById('ets_fx').value) || 1.09;
+    var savings   = parseFloat(document.getElementById('ets_savings').value) || 10;
+    var exposure  = parseFloat(document.getElementById('ets_exposure').value) / 100 || 0.6;
+    var co2Factor = parseFloat(document.getElementById('ets_fuel_type').value) || 3.151;
+
+    // Hesaplamalar
+    var totalFuel    = fuel * days;
+    var co2Total     = totalFuel * co2Factor;
+    var co2Exposed   = co2Total * exposure;
+    var etsCostEUR   = co2Exposed * euaPrice;
+    var etsCostUSD   = etsCostEUR * fx;
+
+    // Batimetrix ile
+    var fuelSaved    = totalFuel * (savings / 100);
+    var co2Saved     = fuelSaved * co2Factor * exposure;
+    var etsSavedEUR  = co2Saved * euaPrice;
+    var etsSavedUSD  = etsSavedEUR * fx;
+
+    // Format
+    function fmtEUR(n) {
+        if (n >= 1000000) return '€' + (n/1000000).toFixed(2) + 'M';
+        if (n >= 1000) return '€' + (n/1000).toFixed(0) + 'K';
+        return '€' + n.toFixed(0);
+    }
+    function fmtUSD(n) {
+        if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+        if (n >= 1000) return '$' + (n/1000).toFixed(0) + 'K';
+        return '$' + n.toFixed(0);
+    }
+
+    document.getElementById('ets_results').style.display = 'block';
+    document.getElementById('ets_total_cost').textContent = fmtEUR(etsCostEUR);
+    document.getElementById('ets_saved').textContent      = fmtEUR(etsSavedEUR);
+    document.getElementById('ets_co2').textContent        = Math.round(co2Total).toLocaleString() + ' t';
+    document.getElementById('ets_co2_saved').textContent  = Math.round(co2Saved).toLocaleString() + ' t';
+
+    document.getElementById('ets_breakdown').innerHTML =
+        '<b style="color:var(--teal)">Annual Carbon Analysis:</b><br>' +
+        'Total fuel consumption: <b>' + totalFuel.toLocaleString() + ' tonnes/year</b><br>' +
+        'Total CO2 emissions: <b>' + Math.round(co2Total).toLocaleString() + ' tCO2/year</b><br>' +
+        'EU ETS exposure (' + Math.round(exposure*100) + '%): <b>' + Math.round(co2Exposed).toLocaleString() + ' tCO2 covered</b><br>' +
+        'EUA price: <b>€' + euaPrice + '/tonne</b><br>' +
+        '<hr style="border:none;border-top:1px solid var(--line);margin:6px 0">' +
+        '<b style="color:#E74C3C">Without Batimetrix:</b><br>' +
+        'ETS liability: <b style="color:#E74C3C">' + fmtEUR(etsCostEUR) + ' (' + fmtUSD(etsCostUSD) + ')</b><br>' +
+        '<b style="color:#27AE60">With Batimetrix (' + savings + '% drag reduction):</b><br>' +
+        'Fuel saved: <b>' + Math.round(fuelSaved).toLocaleString() + ' tonnes/year</b><br>' +
+        'CO2 reduced: <b>' + Math.round(co2Saved).toLocaleString() + ' tCO2/year</b><br>' +
+        'ETS saving: <b style="color:#27AE60">' + fmtEUR(etsSavedEUR) + ' (' + fmtUSD(etsSavedUSD) + ')</b><br>' +
+        '<hr style="border:none;border-top:1px solid var(--line);margin:6px 0">' +
+        '<b style="color:#F39C12">Total Annual Benefit (Fuel + ETS):</b> ' +
+        '<b style="color:#F39C12;font-size:14px">' + fmtUSD(etsSavedUSD * 1.8) + '</b>';
 }
 
 // ===== GLOBE ROUTE OPTIMIZER =====
