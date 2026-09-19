@@ -1141,6 +1141,63 @@ footer a{color:var(--teal);text-decoration:none}
 
       <!-- ANALYSIS TAB -->
       <div id="analysis_tab" style="display:none">
+
+        <!-- FUEL COST CALCULATOR -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#9981; Real-Time Fuel Cost Calculator</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">BUNKER PRICE ($/ton)</label>
+              <input type="number" id="fuel_price" value="650" min="200" max="1500" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">VOYAGE DAYS</label>
+              <input type="number" id="fuel_days" value="20" min="1" max="120" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">FUEL CONSUMPTION (t/day)</label>
+              <input type="number" id="fuel_consumption" value="80" min="5" max="300" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:13px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">DRAG SAVINGS (%)</label>
+              <input type="number" id="fuel_savings_pct" value="10" min="1" max="20" step="0.1" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:13px">
+              <div style="font-size:9px;color:var(--mute);margin-top:2px">Auto-filled from analysis</div>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">VOYAGES PER YEAR</label>
+              <input type="number" id="fuel_voyages" value="12" min="1" max="50" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:13px">
+            </div>
+          </div>
+          <button onclick="calcFuel()" style="width:100%;padding:10px;background:linear-gradient(135deg,#F39C12,#E67E22);border:none;border-radius:8px;color:white;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:12px">
+            &#9981; CALCULATE FUEL SAVINGS
+          </button>
+          <div id="fuel_results" style="display:none">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
+              <div style="background:var(--bg);border-radius:10px;padding:12px;text-align:center;border:1px solid #E74C3C33">
+                <div style="font-size:22px;font-weight:900;color:#E74C3C" id="fuel_cost_without">—</div>
+                <div style="font-size:9px;color:var(--mute)">WITHOUT BATIMETRIX</div>
+              </div>
+              <div style="background:var(--bg);border-radius:10px;padding:12px;text-align:center;border:1px solid #27AE6033">
+                <div style="font-size:22px;font-weight:900;color:#27AE60" id="fuel_cost_with">—</div>
+                <div style="font-size:9px;color:var(--mute)">WITH BATIMETRIX</div>
+              </div>
+              <div style="background:var(--bg);border-radius:10px;padding:12px;text-align:center;border:1px solid #F39C1233">
+                <div style="font-size:22px;font-weight:900;color:#F39C12" id="fuel_saving_voyage">—</div>
+                <div style="font-size:9px;color:var(--mute)">SAVED/VOYAGE</div>
+              </div>
+              <div style="background:var(--bg);border-radius:10px;padding:12px;text-align:center;border:1px solid var(--teal)33">
+                <div style="font-size:22px;font-weight:900;color:var(--teal)" id="fuel_saving_year">—</div>
+                <div style="font-size:9px;color:var(--mute)">SAVED/YEAR</div>
+              </div>
+            </div>
+            <div id="fuel_breakdown" style="background:var(--bg);border-radius:10px;padding:14px;font-size:12px;line-height:2"></div>
+            <div id="fuel_co2" style="background:#27AE6011;border:1px solid #27AE6033;border-radius:10px;padding:12px;margin-top:10px;font-size:12px;color:#27AE60;text-align:center"></div>
+          </div>
+        </div>
+
+
         <div class="charts-grid">
           <div class="chart-card">
             <div class="chart-title" data-i18n="drag_per_wp">Drag per Waypoint</div>
@@ -2368,6 +2425,51 @@ function runComparison() {
     }).catch(function(err) {
         console.error('Compare error:', err);
     });
+}
+
+
+// ===== FUEL COST CALCULATOR =====
+function calcFuel() {
+    var price    = parseFloat(document.getElementById('fuel_price').value) || 650;
+    var days     = parseFloat(document.getElementById('fuel_days').value) || 20;
+    var consump  = parseFloat(document.getElementById('fuel_consumption').value) || 80;
+    var savPct   = parseFloat(document.getElementById('fuel_savings_pct').value) || 10;
+    var voyages  = parseFloat(document.getElementById('fuel_voyages').value) || 12;
+
+    // Hesaplamalar
+    var totalFuel    = consump * days;
+    var savedFuel    = totalFuel * (savPct / 100);
+    var fuelWithout  = totalFuel * price;
+    var fuelWith     = (totalFuel - savedFuel) * price;
+    var savingVoyage = fuelWithout - fuelWith;
+    var savingYear   = savingVoyage * voyages;
+    var co2Saved     = savedFuel * voyages * 3.151;
+
+    // Formatla
+    function fmt(n) {
+        if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+        if (n >= 1000) return '$' + (n/1000).toFixed(1) + 'K';
+        return '$' + n.toFixed(0);
+    }
+
+    document.getElementById('fuel_results').style.display = 'block';
+    document.getElementById('fuel_cost_without').textContent = fmt(fuelWithout);
+    document.getElementById('fuel_cost_with').textContent    = fmt(fuelWith);
+    document.getElementById('fuel_saving_voyage').textContent = fmt(savingVoyage);
+    document.getElementById('fuel_saving_year').textContent  = fmt(savingYear);
+
+    document.getElementById('fuel_breakdown').innerHTML =
+        '<b style="color:var(--teal)">Voyage Analysis:</b><br>' +
+        'Total fuel consumption: <b>' + totalFuel.toFixed(0) + ' tons</b><br>' +
+        'Fuel saved with Batimetrix: <b style="color:#27AE60">' + savedFuel.toFixed(1) + ' tons/voyage</b><br>' +
+        'Bunker price: <b>$' + price + '/ton</b><br>' +
+        'Voyage duration: <b>' + days + ' days</b><br>' +
+        'Annual voyages: <b>' + voyages + '</b><br>' +
+        'Drag reduction: <b style="color:var(--teal)">' + savPct + '%</b>';
+
+    document.getElementById('fuel_co2').innerHTML =
+        '&#127807; CO2 Reduction: <b>' + co2Saved.toFixed(0) + ' tons/year</b> — ' +
+        'equivalent to removing <b>' + Math.round(co2Saved/4.6) + ' cars</b> from the road annually';
 }
 
 // ===== GLOBE ROUTE OPTIMIZER =====
