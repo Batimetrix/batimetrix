@@ -1121,6 +1121,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('ets_tab',this)">&#127758; EU ETS</div>
         <div class="tab" onclick="showTab('speed_tab',this)">&#9889; Speed AI</div>
         <div class="tab" onclick="showTab('fueleu_tab',this)">&#127807; FuelEU</div>
+        <div class="tab" onclick="showTab('gap_tab',this)">&#9883; Gap Analyzer</div>
       </div>
 
       <!-- MAP TAB -->
@@ -2183,6 +2184,142 @@ footer a{color:var(--teal);text-decoration:none}
         </div>
       </div>
 
+
+      <!-- EXECUTION GAP ANALYZER TAB -->
+      <div id="gap_tab" style="display:none">
+
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#E74C3C11,#C0392B11);border:1px solid #E74C3C;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">&#9883;</div>
+          <div>
+            <div style="color:#E74C3C;font-weight:700;font-size:13px;letter-spacing:1px">EXECUTION GAP ANALYZER</div>
+            <div style="color:#7F8C8D;font-size:11px;margin-top:2px">Why did your voyage cost more than planned? NASA SWOT SSH anomaly explains the gap.</div>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#9881; Planned vs Actual Voyage Parameters</div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px">
+            <!-- PLANNED -->
+            <div>
+              <div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:10px;letter-spacing:1px">PLANNED (Before Voyage)</div>
+              <div style="display:grid;gap:8px">
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">VESSEL TYPE</label>
+                  <select id="gap_vessel" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:7px;border-radius:8px;font-size:12px">
+                    <option value="Black Sea Cargo">Black Sea Cargo</option>
+                    <option value="Handy Bulk">Handy Bulk</option>
+                    <option value="Panamax Container">Panamax Container</option>
+                    <option value="Capesize Bulk">Capesize Bulk</option>
+                    <option value="VLCC Tanker">VLCC Tanker</option>
+                    <option value="Aframax Tanker">Aframax Tanker</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">PLANNED SPEED (kn)</label>
+                  <input type="number" id="gap_planned_speed" value="12" min="5" max="25" step="0.5" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:7px;border-radius:8px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">PLANNED FUEL (t/day)</label>
+                  <input type="number" id="gap_planned_fuel" value="12" min="5" max="300" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:7px;border-radius:8px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">PLANNED VOYAGE DAYS</label>
+                  <input type="number" id="gap_planned_days" value="5" min="1" max="60" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:7px;border-radius:8px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">BUNKER PRICE ($/ton)</label>
+                  <input type="number" id="gap_bunker" value="650" min="200" max="1500" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:7px;border-radius:8px;font-size:12px">
+                </div>
+              </div>
+            </div>
+
+            <!-- ACTUAL -->
+            <div>
+              <div style="font-size:11px;color:#E74C3C;font-weight:700;margin-bottom:10px;letter-spacing:1px">ACTUAL (After Voyage)</div>
+              <div style="display:grid;gap:8px">
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">ROUTE</label>
+                  <select id="gap_route" style="width:100%;background:var(--bg);border:1px solid #E74C3C;color:white;padding:7px;border-radius:8px;font-size:12px">
+                    <option value="istanbul_trabzon">Istanbul → Trabzon</option>
+                    <option value="istanbul_novorossiysk">Istanbul → Novorossiysk</option>
+                    <option value="odessa_istanbul">Odessa → Istanbul</option>
+                    <option value="batumi_constanta">Batumi → Constanta</option>
+                    <option value="shanghai_rotterdam">Shanghai → Rotterdam</option>
+                    <option value="rastanura_ningbo">Ras Tanura → Ningbo</option>
+                    <option value="murmansk_shanghai">Murmansk → Shanghai</option>
+                    <option value="hormuz_transit">Hormuz Transit</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">ACTUAL SPEED (kn)</label>
+                  <input type="number" id="gap_actual_speed" value="11" min="5" max="25" step="0.5" style="width:100%;background:var(--bg);border:1px solid #E74C3C;color:white;padding:7px;border-radius:8px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">ACTUAL FUEL (t/day)</label>
+                  <input type="number" id="gap_actual_fuel" value="14.5" min="5" max="300" step="0.5" style="width:100%;background:var(--bg);border:1px solid #E74C3C;color:white;padding:7px;border-radius:8px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">ACTUAL VOYAGE DAYS</label>
+                  <input type="number" id="gap_actual_days" value="5.8" min="1" max="60" step="0.1" style="width:100%;background:var(--bg);border:1px solid #E74C3C;color:white;padding:7px;border-radius:8px;font-size:12px">
+                </div>
+                <div>
+                  <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:3px">SSH ANOMALY ON ROUTE (m)</label>
+                  <input type="number" id="gap_ssh" value="0.07" min="-0.5" max="0.5" step="0.01" style="width:100%;background:var(--bg);border:1px solid #E74C3C;color:white;padding:7px;border-radius:8px;font-size:12px">
+                  <div style="font-size:9px;color:var(--mute);margin-top:2px">From NASA SWOT Ocean Intel</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="calcGap()" style="width:100%;padding:12px;background:linear-gradient(135deg,#E74C3C,#C0392B);border:none;border-radius:10px;color:white;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px">
+            &#9883; ANALYZE EXECUTION GAP
+          </button>
+        </div>
+
+        <!-- Results -->
+        <div id="gap_results" style="display:none">
+
+          <!-- Gap Banner -->
+          <div id="gap_banner" style="border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;border:2px solid #E74C3C;background:#E74C3C11">
+            <div style="font-size:12px;color:#7F8C8D;margin-bottom:4px">TOTAL EXECUTION GAP</div>
+            <div id="gap_total" style="font-size:44px;font-weight:900;color:#E74C3C">—</div>
+            <div id="gap_pct" style="font-size:14px;color:#7F8C8D;margin-top:4px"></div>
+          </div>
+
+          <!-- KPI Grid -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+            <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;border:1px solid #E74C3C33">
+              <div style="font-size:18px;font-weight:900;color:#E74C3C" id="gap_fuel_gap">—</div>
+              <div style="font-size:9px;color:var(--mute)">FUEL COST GAP</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;border:1px solid #F39C1233">
+              <div style="font-size:18px;font-weight:900;color:#F39C12" id="gap_time_gap">—</div>
+              <div style="font-size:9px;color:var(--mute)">TIME DELAY COST</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;border:1px solid #9B59B633">
+              <div style="font-size:18px;font-weight:900;color:#9B59B6" id="gap_ssh_impact">—</div>
+              <div style="font-size:9px;color:var(--mute)">SSH DRAG IMPACT</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:14px;text-align:center;border:1px solid #27AE6033">
+              <div style="font-size:18px;font-weight:900;color:#27AE60" id="gap_preventable">—</div>
+              <div style="font-size:9px;color:var(--mute)">PREVENTABLE WITH THALASSA</div>
+            </div>
+          </div>
+
+          <!-- Root Cause Analysis -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">&#128269; Root Cause Analysis — NASA SWOT SSH Data</div>
+            <div id="gap_root_cause" style="font-size:12px;line-height:2.2"></div>
+          </div>
+
+          <!-- Thalassa Recommendation -->
+          <div id="gap_recommendation" style="background:linear-gradient(135deg,#1ABC9C11,#0D1F35);border:1px solid var(--teal);border-radius:12px;padding:16px;font-size:12px;line-height:1.8"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -2337,7 +2474,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab","speed_tab","fueleu_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab","speed_tab","fueleu_tab","gap_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -3001,6 +3138,81 @@ function calcFuel() {
 
 
 
+
+
+// ===== EXECUTION GAP ANALYZER =====
+function calcGap() {
+    var plannedSpeed = parseFloat(document.getElementById('gap_planned_speed').value) || 12;
+    var plannedFuel  = parseFloat(document.getElementById('gap_planned_fuel').value) || 12;
+    var plannedDays  = parseFloat(document.getElementById('gap_planned_days').value) || 5;
+    var actualSpeed  = parseFloat(document.getElementById('gap_actual_speed').value) || 11;
+    var actualFuel   = parseFloat(document.getElementById('gap_actual_fuel').value) || 14.5;
+    var actualDays   = parseFloat(document.getElementById('gap_actual_days').value) || 5.8;
+    var bunker       = parseFloat(document.getElementById('gap_bunker').value) || 650;
+    var ssh          = parseFloat(document.getElementById('gap_ssh').value) || 0.07;
+
+    // Maliyetler
+    var plannedFuelCost = plannedFuel * plannedDays * bunker;
+    var actualFuelCost  = actualFuel  * actualDays  * bunker;
+    var fuelGap         = actualFuelCost - plannedFuelCost;
+
+    // Hire cost (generic $15,000/day)
+    var hireRate    = 15000;
+    var timeGap     = (actualDays - plannedDays) * hireRate;
+
+    // SSH impact estimate
+    var sshImpact   = Math.abs(ssh) * 180 * actualFuelCost / 100;
+
+    // Total gap
+    var totalGap    = fuelGap + timeGap;
+    var preventable = Math.min(sshImpact * 0.7, totalGap * 0.6);
+
+    function fmtUSD(n) {
+        if (n >= 1000000) return '$' + (n/1000000).toFixed(2) + 'M';
+        if (n >= 1000) return '$' + (n/1000).toFixed(0) + 'K';
+        return '$' + Math.abs(n).toFixed(0);
+    }
+
+    document.getElementById('gap_results').style.display = 'block';
+    document.getElementById('gap_total').textContent = fmtUSD(totalGap);
+    document.getElementById('gap_pct').textContent =
+        ((totalGap / plannedFuelCost) * 100).toFixed(1) + '% over budget';
+
+    document.getElementById('gap_fuel_gap').textContent = fmtUSD(fuelGap);
+    document.getElementById('gap_time_gap').textContent = fmtUSD(timeGap);
+    document.getElementById('gap_ssh_impact').textContent = fmtUSD(sshImpact);
+    document.getElementById('gap_preventable').textContent = fmtUSD(preventable);
+
+    // Root cause
+    var sshPct = Math.abs(ssh * 180).toFixed(1);
+    var speedDiff = (actualSpeed - plannedSpeed).toFixed(1);
+    var fuelDiff = (actualFuel - plannedFuel).toFixed(1);
+
+    document.getElementById('gap_root_cause').innerHTML =
+        '<b style="color:#E74C3C">&#9888; Gap Identified:</b><br>' +
+        'Planned fuel: <b>' + plannedFuel + ' t/day</b> → Actual: <b style="color:#E74C3C">' + actualFuel + ' t/day</b> (+' + fuelDiff + ' t/day)<br>' +
+        'Planned speed: <b>' + plannedSpeed + ' kn</b> → Actual: <b style="color:#E74C3C">' + actualSpeed + ' kn</b> (' + speedDiff + ' kn)<br>' +
+        'Planned days: <b>' + plannedDays + '</b> → Actual: <b style="color:#E74C3C">' + actualDays + '</b> (+' + (actualDays-plannedDays).toFixed(1) + ' days)<br>' +
+        '<hr style="border:none;border-top:1px solid var(--line);margin:6px 0">' +
+        '<b style="color:#9B59B6">&#127751; NASA SWOT Analysis:</b><br>' +
+        'SSH anomaly on route: <b style="color:#9B59B6">+' + ssh.toFixed(3) + 'm</b><br>' +
+        'Estimated drag increase from SSH: <b style="color:#9B59B6">+' + sshPct + '%</b><br>' +
+        'SSH contribution to fuel gap: <b style="color:#9B59B6">' + fmtUSD(sshImpact) + '</b><br>' +
+        '<hr style="border:none;border-top:1px solid var(--line);margin:6px 0">' +
+        '<b style="color:#F39C12">&#128269; Other Contributing Factors:</b><br>' +
+        (Math.abs(ssh) > 0.05 ? '• High SSH anomaly corridor — sea surface elevated above baseline<br>' : '') +
+        (actualSpeed < plannedSpeed ? '• Speed reduction — vessel slowed due to increased resistance<br>' : '') +
+        (fuelDiff > 2 ? '• Higher than expected fuel consumption — drag-related<br>' : '') +
+        '• Weather and current conditions beyond baseline assumptions';
+
+    document.getElementById('gap_recommendation').innerHTML =
+        '<b style="color:var(--teal)">&#9889; Thalassa Prevention Analysis:</b><br>' +
+        'If Thalassa had been used before this voyage:<br>' +
+        '• SSH anomaly of +' + ssh.toFixed(3) + 'm would have been detected 3nm ahead<br>' +
+        '• Speed recommendation: reduce to ' + (plannedSpeed * 0.92).toFixed(1) + ' kn in high-drag zones<br>' +
+        '• Estimated preventable gap: <b style="color:var(--teal)">' + fmtUSD(preventable) + '</b><br>' +
+        '• Annual impact (280 sea days): <b style="color:var(--teal)">' + fmtUSD(preventable * 56) + '/year</b>';
+}
 
 // ===== FUELEU MARITIME CALCULATOR =====
 function updateFuelEUGHG() {
