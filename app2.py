@@ -1119,6 +1119,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('globe_tab',this)">&#127758; 3D Globe</div>
         <div class="tab" onclick="showTab('compare_tab',this)">&#9878; Compare</div>
         <div class="tab" onclick="showTab('ets_tab',this)">&#127758; EU ETS</div>
+        <div class="tab" onclick="showTab('speed_tab',this)">&#9889; Speed AI</div>
       </div>
 
       <!-- MAP TAB -->
@@ -1796,6 +1797,236 @@ footer a{color:var(--teal);text-decoration:none}
         </div>
       </div>
 
+
+      <!-- SPEED OPTIMIZATION TAB -->
+      <div id="speed_tab" style="display:none">
+
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#F39C1211,#E67E2211);border:1px solid #F39C12;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">&#9889;</div>
+          <div>
+            <div style="color:#F39C12;font-weight:700;font-size:13px;letter-spacing:1px">THALASSA SPEED OPTIMIZATION WIZARD</div>
+            <div style="color:#7F8C8D;font-size:11px;margin-top:2px">NASA SSH anomaly-aware optimal speed calculation · CII + EU ETS + Fuel cost integrated</div>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#9881; Voyage Parameters</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">VESSEL TYPE</label>
+              <select id="speed_vessel" onchange="updateSpeedDefaults()" style="width:100%;background:var(--bg);border:1px solid #F39C12;color:white;padding:8px;border-radius:8px;font-size:12px">
+                <option value="Black Sea Cargo">Black Sea Cargo</option>
+                <option value="Handy Bulk">Handy Bulk</option>
+                <option value="Panamax Container">Panamax Container</option>
+                <option value="Capesize Bulk">Capesize Bulk</option>
+                <option value="LNG Carrier">LNG Carrier</option>
+                <option value="VLCC Tanker">VLCC Tanker</option>
+                <option value="Aframax Tanker">Aframax Tanker</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">DISTANCE (nm)</label>
+              <input type="number" id="speed_distance" value="1200" min="100" max="15000" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">MAX SPEED (kn)</label>
+              <input type="number" id="speed_max" value="14" min="8" max="25" step="0.5" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">FUEL CONSUMPTION AT MAX (t/day)</label>
+              <input type="number" id="speed_fuel_max" value="12" min="5" max="300" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">BUNKER PRICE ($/ton)</label>
+              <input type="number" id="speed_bunker" value="650" min="200" max="1500" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">HIRE RATE ($/day)</label>
+              <input type="number" id="speed_hire" value="15000" min="1000" max="200000" step="1000" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">SSH DRAG IMPACT (%)</label>
+              <input type="number" id="speed_ssh_drag" value="8" min="0" max="30" step="0.5" style="width:100%;background:var(--bg);border:1px solid #F39C12;color:white;padding:8px;border-radius:8px;font-size:12px">
+              <div style="font-size:9px;color:var(--mute);margin-top:2px">From NASA SWOT SSH analysis</div>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">EUA PRICE (€/tonne CO2)</label>
+              <input type="number" id="speed_eua" value="85" min="40" max="200" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <button onclick="calcSpeedOpt()" style="width:100%;padding:12px;background:linear-gradient(135deg,#F39C12,#E67E22);border:none;border-radius:10px;color:white;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px">
+            &#9889; FIND OPTIMAL SPEED
+          </button>
+        </div>
+
+        <!-- Results -->
+        <div id="speed_results" style="display:none">
+
+          <!-- Optimal Speed Banner -->
+          <div id="speed_winner_banner" style="border-radius:12px;padding:20px;text-align:center;margin-bottom:16px;border:2px solid #F39C12;background:#F39C1211">
+            <div style="font-size:13px;color:#7F8C8D;margin-bottom:4px">THALASSA RECOMMENDED OPTIMAL SPEED</div>
+            <div id="speed_optimal" style="font-size:48px;font-weight:900;color:#F39C12">— kn</div>
+            <div id="speed_optimal_reason" style="font-size:12px;color:#7F8C8D;margin-top:4px"></div>
+          </div>
+
+          <!-- Speed Comparison Table -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">&#128202; Speed vs Cost Analysis (NASA SSH-adjusted)</div>
+            <table class="route-table">
+              <thead>
+                <tr>
+                  <th>SPEED</th>
+                  <th>VOYAGE TIME</th>
+                  <th>FUEL COST</th>
+                  <th>HIRE COST</th>
+                  <th>ETS COST</th>
+                  <th>TOTAL COST</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="speed_table"></tbody>
+            </table>
+          </div>
+
+          <!-- Savings vs Max Speed -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #27AE6033">
+              <div style="font-size:22px;font-weight:900;color:#27AE60" id="speed_saving">—</div>
+              <div style="font-size:10px;color:var(--mute)">SAVED VS MAX SPEED</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #F39C1233">
+              <div style="font-size:22px;font-weight:900;color:#F39C12" id="speed_time_add">—</div>
+              <div style="font-size:10px;color:var(--mute)">EXTRA VOYAGE TIME</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--teal)33">
+              <div style="font-size:22px;font-weight:900;color:var(--teal)" id="speed_co2_save">—</div>
+              <div style="font-size:10px;color:var(--mute)">CO2 SAVED (tonnes)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- SPEED OPTIMIZATION TAB -->
+      <div id="speed_tab" style="display:none">
+
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#F39C1211,#E67E2211);border:1px solid #F39C12;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">&#9889;</div>
+          <div>
+            <div style="color:#F39C12;font-weight:700;font-size:13px;letter-spacing:1px">THALASSA SPEED OPTIMIZATION WIZARD</div>
+            <div style="color:#7F8C8D;font-size:11px;margin-top:2px">NASA SSH anomaly-aware optimal speed calculation · CII + EU ETS + Fuel cost integrated</div>
+          </div>
+        </div>
+
+        <!-- Inputs -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#9881; Voyage Parameters</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">VESSEL TYPE</label>
+              <select id="speed_vessel" onchange="updateSpeedDefaults()" style="width:100%;background:var(--bg);border:1px solid #F39C12;color:white;padding:8px;border-radius:8px;font-size:12px">
+                <option value="Black Sea Cargo">Black Sea Cargo</option>
+                <option value="Handy Bulk">Handy Bulk</option>
+                <option value="Panamax Container">Panamax Container</option>
+                <option value="Capesize Bulk">Capesize Bulk</option>
+                <option value="LNG Carrier">LNG Carrier</option>
+                <option value="VLCC Tanker">VLCC Tanker</option>
+                <option value="Aframax Tanker">Aframax Tanker</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">DISTANCE (nm)</label>
+              <input type="number" id="speed_distance" value="1200" min="100" max="15000" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">MAX SPEED (kn)</label>
+              <input type="number" id="speed_max" value="14" min="8" max="25" step="0.5" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">FUEL CONSUMPTION AT MAX (t/day)</label>
+              <input type="number" id="speed_fuel_max" value="12" min="5" max="300" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">BUNKER PRICE ($/ton)</label>
+              <input type="number" id="speed_bunker" value="650" min="200" max="1500" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">HIRE RATE ($/day)</label>
+              <input type="number" id="speed_hire" value="15000" min="1000" max="200000" step="1000" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">SSH DRAG IMPACT (%)</label>
+              <input type="number" id="speed_ssh_drag" value="8" min="0" max="30" step="0.5" style="width:100%;background:var(--bg);border:1px solid #F39C12;color:white;padding:8px;border-radius:8px;font-size:12px">
+              <div style="font-size:9px;color:var(--mute);margin-top:2px">From NASA SWOT SSH analysis</div>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">EUA PRICE (€/tonne CO2)</label>
+              <input type="number" id="speed_eua" value="85" min="40" max="200" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <button onclick="calcSpeedOpt()" style="width:100%;padding:12px;background:linear-gradient(135deg,#F39C12,#E67E22);border:none;border-radius:10px;color:white;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px">
+            &#9889; FIND OPTIMAL SPEED
+          </button>
+        </div>
+
+        <!-- Results -->
+        <div id="speed_results" style="display:none">
+
+          <!-- Optimal Speed Banner -->
+          <div id="speed_winner_banner" style="border-radius:12px;padding:20px;text-align:center;margin-bottom:16px;border:2px solid #F39C12;background:#F39C1211">
+            <div style="font-size:13px;color:#7F8C8D;margin-bottom:4px">THALASSA RECOMMENDED OPTIMAL SPEED</div>
+            <div id="speed_optimal" style="font-size:48px;font-weight:900;color:#F39C12">— kn</div>
+            <div id="speed_optimal_reason" style="font-size:12px;color:#7F8C8D;margin-top:4px"></div>
+          </div>
+
+          <!-- Speed Comparison Table -->
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-title">&#128202; Speed vs Cost Analysis (NASA SSH-adjusted)</div>
+            <table class="route-table">
+              <thead>
+                <tr>
+                  <th>SPEED</th>
+                  <th>VOYAGE TIME</th>
+                  <th>FUEL COST</th>
+                  <th>HIRE COST</th>
+                  <th>ETS COST</th>
+                  <th>TOTAL COST</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="speed_table"></tbody>
+            </table>
+          </div>
+
+          <!-- Savings vs Max Speed -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #27AE6033">
+              <div style="font-size:22px;font-weight:900;color:#27AE60" id="speed_saving">—</div>
+              <div style="font-size:10px;color:var(--mute)">SAVED VS MAX SPEED</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #F39C1233">
+              <div style="font-size:22px;font-weight:900;color:#F39C12" id="speed_time_add">—</div>
+              <div style="font-size:10px;color:var(--mute)">EXTRA VOYAGE TIME</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--teal)33">
+              <div style="font-size:22px;font-weight:900;color:var(--teal)" id="speed_co2_save">—</div>
+              <div style="font-size:10px;color:var(--mute)">CO2 SAVED (tonnes)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1950,7 +2181,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab","speed_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -2612,6 +2843,248 @@ function calcFuel() {
         'equivalent to removing <b>' + Math.round(co2Saved/4.6) + ' cars</b> from the road annually';
 }
 
+
+
+// ===== SPEED OPTIMIZATION WIZARD =====
+var SPEED_DEFAULTS = {
+    "VLCC Tanker":       {fuel: 75,  max: 15, hire: 55000},
+    "Capesize Bulk":     {fuel: 40,  max: 14.5, hire: 28000},
+    "Panamax Container": {fuel: 80,  max: 20, hire: 35000},
+    "Aframax Tanker":    {fuel: 45,  max: 14, hire: 22000},
+    "LNG Carrier":       {fuel: 65,  max: 19.5, hire: 80000},
+    "Panamax Bulk":      {fuel: 32,  max: 14, hire: 18000},
+    "Handy Bulk":        {fuel: 25,  max: 14, hire: 12000},
+    "Black Sea Cargo":   {fuel: 12,  max: 12, hire: 8000}
+};
+
+function updateSpeedDefaults() {
+    var vessel = document.getElementById('speed_vessel').value;
+    var def = SPEED_DEFAULTS[vessel];
+    if (def) {
+        document.getElementById('speed_fuel_max').value = def.fuel;
+        document.getElementById('speed_max').value = def.max;
+        document.getElementById('speed_hire').value = def.hire;
+    }
+}
+
+function calcSpeedOpt() {
+    var distance  = parseFloat(document.getElementById('speed_distance').value) || 1200;
+    var maxSpeed  = parseFloat(document.getElementById('speed_max').value) || 14;
+    var fuelMax   = parseFloat(document.getElementById('speed_fuel_max').value) || 12;
+    var bunker    = parseFloat(document.getElementById('speed_bunker').value) || 650;
+    var hire      = parseFloat(document.getElementById('speed_hire').value) || 15000;
+    var sshDrag   = parseFloat(document.getElementById('speed_ssh_drag').value) / 100 || 0.08;
+    var euaPrice  = parseFloat(document.getElementById('speed_eua').value) || 85;
+
+    document.getElementById('speed_results').style.display = 'block';
+
+    var speeds = [];
+    var minCost = Infinity;
+    var optSpeed = maxSpeed;
+    var tbody = document.getElementById('speed_table');
+    tbody.innerHTML = '';
+
+    // Hız aralığı: max hızdan %60'ına kadar
+    var minSpeed = Math.max(maxSpeed * 0.6, 6);
+    var step = 0.5;
+
+    for (var s = minSpeed; s <= maxSpeed + 0.01; s += step) {
+        s = Math.round(s * 2) / 2;
+
+        // Admiralty formula: yakıt ∝ hız^3
+        var fuelRatio = Math.pow(s / maxSpeed, 3);
+        var fuelDay = fuelMax * fuelRatio;
+
+        // SSH drag etkisi ekle
+        fuelDay = fuelDay * (1 + sshDrag * (s / maxSpeed));
+
+        // Voyage süresi
+        var voyageDays = distance / (s * 24);
+
+        // Maliyetler
+        var fuelCost = fuelDay * voyageDays * bunker;
+        var hireCost = hire * voyageDays;
+
+        // EU ETS
+        var co2 = fuelDay * voyageDays * 3.151;
+        var etsCost = co2 * euaPrice * 1.09 * 0.6; // %60 EU exposure
+
+        var totalCost = fuelCost + hireCost + etsCost;
+
+        if (totalCost < minCost) {
+            minCost = totalCost;
+            optSpeed = s;
+        }
+
+        speeds.push({
+            speed: s,
+            voyageDays: voyageDays,
+            fuelCost: fuelCost,
+            hireCost: hireCost,
+            etsCost: etsCost,
+            totalCost: totalCost,
+            co2: co2
+        });
+    }
+
+    // Tablo
+    var maxCostEntry = speeds[speeds.length - 1];
+    speeds.forEach(function(entry) {
+        var isOpt = Math.abs(entry.speed - optSpeed) < 0.01;
+        var isMax = Math.abs(entry.speed - maxSpeed) < 0.01;
+        var rowStyle = isOpt ? "background:rgba(243,156,18,0.1);" : "";
+
+        function fmtK(n) { return n >= 1000 ? "$" + (n/1000).toFixed(0) + "K" : "$" + n.toFixed(0); }
+
+        tbody.innerHTML += "<tr style='" + rowStyle + "'>" +
+            "<td><b style='color:" + (isOpt ? "#F39C12" : "white") + "'>" + entry.speed.toFixed(1) + " kn" + (isOpt ? " ⚡" : "") + (isMax ? " (max)" : "") + "</b></td>" +
+            "<td>" + entry.voyageDays.toFixed(1) + " days</td>" +
+            "<td>" + fmtK(entry.fuelCost) + "</td>" +
+            "<td>" + fmtK(entry.hireCost) + "</td>" +
+            "<td>" + fmtK(entry.etsCost) + "</td>" +
+            "<td style='font-weight:700;color:" + (isOpt ? "#F39C12" : "white") + "'>" + fmtK(entry.totalCost) + "</td>" +
+            "<td>" + (isOpt ? "&#9889; OPTIMAL" : isMax ? "&#128308; EXPENSIVE" : "&#9898;") + "</td>" +
+            "</tr>";
+    });
+
+    // Optimal banner
+    document.getElementById('speed_optimal').textContent = optSpeed.toFixed(1) + " kn";
+    document.getElementById('speed_optimal_reason').textContent =
+        "Minimum total cost: fuel + hire + EU ETS + NASA SSH drag adjustment";
+
+    // Savings vs max speed
+    var maxEntry = speeds[speeds.length - 1];
+    var saving = maxEntry.totalCost - minCost;
+    var timeAdd = (distance / (optSpeed * 24)) - (distance / (maxSpeed * 24));
+    var co2Save = maxEntry.co2 - speeds.find(function(e){return Math.abs(e.speed - optSpeed) < 0.01;}).co2;
+
+    function fmtK(n) { return n >= 1000 ? "$" + (n/1000).toFixed(0) + "K" : "$" + n.toFixed(0); }
+
+    document.getElementById('speed_saving').textContent = fmtK(saving);
+    document.getElementById('speed_time_add').textContent = (timeAdd * 24).toFixed(0) + " hours";
+    document.getElementById('speed_co2_save').textContent = co2Save.toFixed(0) + " t";
+}
+
+
+// ===== SPEED OPTIMIZATION WIZARD =====
+var SPEED_DEFAULTS = {
+    "VLCC Tanker":       {fuel: 75,  max: 15, hire: 55000},
+    "Capesize Bulk":     {fuel: 40,  max: 14.5, hire: 28000},
+    "Panamax Container": {fuel: 80,  max: 20, hire: 35000},
+    "Aframax Tanker":    {fuel: 45,  max: 14, hire: 22000},
+    "LNG Carrier":       {fuel: 65,  max: 19.5, hire: 80000},
+    "Panamax Bulk":      {fuel: 32,  max: 14, hire: 18000},
+    "Handy Bulk":        {fuel: 25,  max: 14, hire: 12000},
+    "Black Sea Cargo":   {fuel: 12,  max: 12, hire: 8000}
+};
+
+function updateSpeedDefaults() {
+    var vessel = document.getElementById('speed_vessel').value;
+    var def = SPEED_DEFAULTS[vessel];
+    if (def) {
+        document.getElementById('speed_fuel_max').value = def.fuel;
+        document.getElementById('speed_max').value = def.max;
+        document.getElementById('speed_hire').value = def.hire;
+    }
+}
+
+function calcSpeedOpt() {
+    var distance  = parseFloat(document.getElementById('speed_distance').value) || 1200;
+    var maxSpeed  = parseFloat(document.getElementById('speed_max').value) || 14;
+    var fuelMax   = parseFloat(document.getElementById('speed_fuel_max').value) || 12;
+    var bunker    = parseFloat(document.getElementById('speed_bunker').value) || 650;
+    var hire      = parseFloat(document.getElementById('speed_hire').value) || 15000;
+    var sshDrag   = parseFloat(document.getElementById('speed_ssh_drag').value) / 100 || 0.08;
+    var euaPrice  = parseFloat(document.getElementById('speed_eua').value) || 85;
+
+    document.getElementById('speed_results').style.display = 'block';
+
+    var speeds = [];
+    var minCost = Infinity;
+    var optSpeed = maxSpeed;
+    var tbody = document.getElementById('speed_table');
+    tbody.innerHTML = '';
+
+    // Hız aralığı: max hızdan %60'ına kadar
+    var minSpeed = Math.max(maxSpeed * 0.6, 6);
+    var step = 0.5;
+
+    for (var s = minSpeed; s <= maxSpeed + 0.01; s += step) {
+        s = Math.round(s * 2) / 2;
+
+        // Admiralty formula: yakıt ∝ hız^3
+        var fuelRatio = Math.pow(s / maxSpeed, 3);
+        var fuelDay = fuelMax * fuelRatio;
+
+        // SSH drag etkisi ekle
+        fuelDay = fuelDay * (1 + sshDrag * (s / maxSpeed));
+
+        // Voyage süresi
+        var voyageDays = distance / (s * 24);
+
+        // Maliyetler
+        var fuelCost = fuelDay * voyageDays * bunker;
+        var hireCost = hire * voyageDays;
+
+        // EU ETS
+        var co2 = fuelDay * voyageDays * 3.151;
+        var etsCost = co2 * euaPrice * 1.09 * 0.6; // %60 EU exposure
+
+        var totalCost = fuelCost + hireCost + etsCost;
+
+        if (totalCost < minCost) {
+            minCost = totalCost;
+            optSpeed = s;
+        }
+
+        speeds.push({
+            speed: s,
+            voyageDays: voyageDays,
+            fuelCost: fuelCost,
+            hireCost: hireCost,
+            etsCost: etsCost,
+            totalCost: totalCost,
+            co2: co2
+        });
+    }
+
+    // Tablo
+    var maxCostEntry = speeds[speeds.length - 1];
+    speeds.forEach(function(entry) {
+        var isOpt = Math.abs(entry.speed - optSpeed) < 0.01;
+        var isMax = Math.abs(entry.speed - maxSpeed) < 0.01;
+        var rowStyle = isOpt ? "background:rgba(243,156,18,0.1);" : "";
+
+        function fmtK(n) { return n >= 1000 ? "$" + (n/1000).toFixed(0) + "K" : "$" + n.toFixed(0); }
+
+        tbody.innerHTML += "<tr style='" + rowStyle + "'>" +
+            "<td><b style='color:" + (isOpt ? "#F39C12" : "white") + "'>" + entry.speed.toFixed(1) + " kn" + (isOpt ? " ⚡" : "") + (isMax ? " (max)" : "") + "</b></td>" +
+            "<td>" + entry.voyageDays.toFixed(1) + " days</td>" +
+            "<td>" + fmtK(entry.fuelCost) + "</td>" +
+            "<td>" + fmtK(entry.hireCost) + "</td>" +
+            "<td>" + fmtK(entry.etsCost) + "</td>" +
+            "<td style='font-weight:700;color:" + (isOpt ? "#F39C12" : "white") + "'>" + fmtK(entry.totalCost) + "</td>" +
+            "<td>" + (isOpt ? "&#9889; OPTIMAL" : isMax ? "&#128308; EXPENSIVE" : "&#9898;") + "</td>" +
+            "</tr>";
+    });
+
+    // Optimal banner
+    document.getElementById('speed_optimal').textContent = optSpeed.toFixed(1) + " kn";
+    document.getElementById('speed_optimal_reason').textContent =
+        "Minimum total cost: fuel + hire + EU ETS + NASA SSH drag adjustment";
+
+    // Savings vs max speed
+    var maxEntry = speeds[speeds.length - 1];
+    var saving = maxEntry.totalCost - minCost;
+    var timeAdd = (distance / (optSpeed * 24)) - (distance / (maxSpeed * 24));
+    var co2Save = maxEntry.co2 - speeds.find(function(e){return Math.abs(e.speed - optSpeed) < 0.01;}).co2;
+
+    function fmtK(n) { return n >= 1000 ? "$" + (n/1000).toFixed(0) + "K" : "$" + n.toFixed(0); }
+
+    document.getElementById('speed_saving').textContent = fmtK(saving);
+    document.getElementById('speed_time_add').textContent = (timeAdd * 24).toFixed(0) + " hours";
+    document.getElementById('speed_co2_save').textContent = co2Save.toFixed(0) + " t";
+}
 
 // ===== EU ETS CALCULATOR =====
 var ETS_VESSEL_DEFAULTS = {
