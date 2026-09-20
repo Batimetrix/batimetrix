@@ -1120,6 +1120,7 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('compare_tab',this)">&#9878; Compare</div>
         <div class="tab" onclick="showTab('ets_tab',this)">&#127758; EU ETS</div>
         <div class="tab" onclick="showTab('speed_tab',this)">&#9889; Speed AI</div>
+        <div class="tab" onclick="showTab('fueleu_tab',this)">&#127807; FuelEU</div>
       </div>
 
       <!-- MAP TAB -->
@@ -2027,6 +2028,161 @@ footer a{color:var(--teal);text-decoration:none}
         </div>
       </div>
 
+
+      <!-- FUELEU MARITIME TAB -->
+      <div id="fueleu_tab" style="display:none">
+
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#27AE6011,#2ECC7111);border:1px solid #27AE60;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">&#127807;</div>
+          <div>
+            <div style="color:#27AE60;font-weight:700;font-size:13px;letter-spacing:1px">FuelEU MARITIME COMPLIANCE CALCULATOR</div>
+            <div style="color:#7F8C8D;font-size:11px;margin-top:2px">In force from 1 January 2025 · GHG intensity limits · Penalty: €2,400/tonne excess CO2eq</div>
+          </div>
+          <div style="margin-left:auto;text-align:right">
+            <div style="color:#27AE60;font-size:20px;font-weight:900">89.34</div>
+            <div style="color:#7F8C8D;font-size:10px">gCO2eq/MJ limit 2025</div>
+          </div>
+        </div>
+
+        <!-- GHG Intensity Limits Timeline -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#128337; FuelEU GHG Intensity Limits — Reduction Timeline</div>
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:8px">
+            <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;border:1px solid #27AE60">
+              <div style="font-size:16px;font-weight:900;color:#27AE60">89.34</div>
+              <div style="font-size:9px;color:white">2025</div>
+              <div style="font-size:9px;color:#27AE60">Baseline</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;border:1px solid #27AE60">
+              <div style="font-size:16px;font-weight:900;color:#27AE60">89.34</div>
+              <div style="font-size:9px;color:white">2030</div>
+              <div style="font-size:9px;color:#2ECC71">-2%</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;border:1px solid #F39C12">
+              <div style="font-size:16px;font-weight:900;color:#F39C12">80.71</div>
+              <div style="font-size:9px;color:white">2035</div>
+              <div style="font-size:9px;color:#F39C12">-6%</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;border:1px solid #E67E22">
+              <div style="font-size:16px;font-weight:900;color:#E67E22">71.47</div>
+              <div style="font-size:9px;color:white">2040</div>
+              <div style="font-size:9px;color:#E67E22">-14.5%</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;border:1px solid #E74C3C">
+              <div style="font-size:16px;font-weight:900;color:#E74C3C">53.61</div>
+              <div style="font-size:9px;color:white">2045</div>
+              <div style="font-size:9px;color:#E74C3C">-31%</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center;border:1px solid #C0392B">
+              <div style="font-size:16px;font-weight:900;color:#C0392B">8.93</div>
+              <div style="font-size:9px;color:white">2050</div>
+              <div style="font-size:9px;color:#C0392B">-80%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">&#9881; FuelEU Compliance Calculator</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">VESSEL TYPE</label>
+              <select id="fueleu_vessel" style="width:100%;background:var(--bg);border:1px solid #27AE60;color:white;padding:8px;border-radius:8px;font-size:12px">
+                <option value="VLCC Tanker">VLCC Tanker</option>
+                <option value="Capesize Bulk">Capesize Bulk</option>
+                <option value="Panamax Container">Panamax Container</option>
+                <option value="Aframax Tanker">Aframax Tanker</option>
+                <option value="LNG Carrier">LNG Carrier</option>
+                <option value="Black Sea Cargo" selected>Black Sea Cargo</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">FUEL TYPE</label>
+              <select id="fueleu_fuel" onchange="updateFuelEUGHG()" style="width:100%;background:var(--bg);border:1px solid #27AE60;color:white;padding:8px;border-radius:8px;font-size:12px">
+                <option value="91.16">VLSFO (91.16 gCO2eq/MJ)</option>
+                <option value="93.30">HFO 380 (93.30 gCO2eq/MJ)</option>
+                <option value="90.62">MGO (90.62 gCO2eq/MJ)</option>
+                <option value="75.00">LNG (75.00 gCO2eq/MJ)</option>
+                <option value="45.00">Bio-VLSFO B30 (45.00 gCO2eq/MJ)</option>
+                <option value="3.24">Green Methanol (3.24 gCO2eq/MJ)</option>
+                <option value="0.00">Green Ammonia (0.00 gCO2eq/MJ)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">COMPLIANCE YEAR</label>
+              <select id="fueleu_year" onchange="updateFuelEULimit()" style="width:100%;background:var(--bg);border:1px solid #27AE60;color:white;padding:8px;border-radius:8px;font-size:12px">
+                <option value="89.34">2025 (baseline)</option>
+                <option value="87.55">2030 (-2%)</option>
+                <option value="80.71">2035 (-6%)</option>
+                <option value="71.47">2040 (-14.5%)</option>
+                <option value="53.61">2045 (-31%)</option>
+                <option value="8.93">2050 (-80%)</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">FUEL CONSUMPTION (t/day)</label>
+              <input type="number" id="fueleu_consumption" value="12" min="5" max="300" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">SEA DAYS/YEAR</label>
+              <input type="number" id="fueleu_days" value="280" min="50" max="365" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--mute);display:block;margin-bottom:4px">BATIMETRIX SAVINGS (%)</label>
+              <input type="number" id="fueleu_savings" value="10" min="0" max="20" step="0.5" style="width:100%;background:var(--bg);border:1px solid var(--teal);color:white;padding:8px;border-radius:8px;font-size:12px">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+            <div style="background:var(--bg);border-radius:8px;padding:12px;border:1px solid #27AE6033">
+              <div style="font-size:10px;color:var(--mute)">CURRENT GHG INTENSITY</div>
+              <div style="font-size:20px;font-weight:900;color:#E74C3C" id="fueleu_ghg_current">91.16 gCO2eq/MJ</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:12px;border:1px solid #27AE6033">
+              <div style="font-size:10px;color:var(--mute)">YEAR LIMIT</div>
+              <div style="font-size:20px;font-weight:900;color:#27AE60" id="fueleu_ghg_limit">89.34 gCO2eq/MJ</div>
+            </div>
+          </div>
+          <button onclick="calcFuelEU()" style="width:100%;padding:12px;background:linear-gradient(135deg,#27AE60,#1E8449);border:none;border-radius:10px;color:white;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:1px">
+            &#127807; CALCULATE FuelEU COMPLIANCE
+          </button>
+        </div>
+
+        <!-- Results -->
+        <div id="fueleu_results" style="display:none">
+          <!-- Compliance Status -->
+          <div id="fueleu_status_banner" style="border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;font-size:15px;font-weight:700"></div>
+
+          <!-- KPIs -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px">
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #E74C3C33">
+              <div style="font-size:20px;font-weight:900;color:#E74C3C" id="fueleu_penalty">—</div>
+              <div style="font-size:9px;color:var(--mute)">PENALTY/YEAR</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #27AE6033">
+              <div style="font-size:20px;font-weight:900;color:#27AE60" id="fueleu_saved">—</div>
+              <div style="font-size:9px;color:var(--mute)">SAVED WITH BATIMETRIX</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid #F39C1233">
+              <div style="font-size:20px;font-weight:900;color:#F39C12" id="fueleu_excess">—</div>
+              <div style="font-size:9px;color:var(--mute)">EXCESS CO2eq/YEAR</div>
+            </div>
+            <div style="background:var(--bg);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--teal)33">
+              <div style="font-size:20px;font-weight:900;color:var(--teal)" id="fueleu_compliance">—</div>
+              <div style="font-size:9px;color:var(--mute)">COMPLIANCE STATUS</div>
+            </div>
+          </div>
+
+          <!-- Breakdown -->
+          <div class="card">
+            <div class="card-title">&#128202; FuelEU Compliance Breakdown</div>
+            <div id="fueleu_breakdown" style="font-size:12px;line-height:2.2"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -2181,7 +2337,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab","speed_tab"].forEach(function(t){
+  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab","speed_tab","fueleu_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -2844,6 +3000,96 @@ function calcFuel() {
 }
 
 
+
+
+// ===== FUELEU MARITIME CALCULATOR =====
+function updateFuelEUGHG() {
+    var val = document.getElementById('fueleu_fuel').value;
+    document.getElementById('fueleu_ghg_current').textContent = val + ' gCO2eq/MJ';
+}
+
+function updateFuelEULimit() {
+    var val = document.getElementById('fueleu_year').value;
+    document.getElementById('fueleu_ghg_limit').textContent = val + ' gCO2eq/MJ';
+}
+
+function calcFuelEU() {
+    var ghgFuel    = parseFloat(document.getElementById('fueleu_fuel').value) || 91.16;
+    var ghgLimit   = parseFloat(document.getElementById('fueleu_year').value) || 89.34;
+    var consumption= parseFloat(document.getElementById('fueleu_consumption').value) || 12;
+    var days       = parseFloat(document.getElementById('fueleu_days').value) || 280;
+    var savings    = parseFloat(document.getElementById('fueleu_savings').value) / 100 || 0.10;
+
+    // LHV (Lower Heating Value) - MJ/tonne
+    var LHV = 41000; // VLSFO approx
+
+    // Yıllık enerji (MJ)
+    var totalFuel = consumption * days; // tonnes
+    var energy = totalFuel * LHV; // MJ
+
+    // GHG emission (gCO2eq)
+    var ghgTotal = energy * ghgFuel; // gCO2eq
+    var ghgLimit_total = energy * ghgLimit; // gCO2eq
+
+    // Excess
+    var excess = ghgTotal - ghgLimit_total; // gCO2eq
+    var excessTonnes = excess / 1000000; // tCO2eq
+
+    // Penalty: €2,400/tonne excess CO2eq
+    var penalty = Math.max(0, excessTonnes * 2400);
+
+    // Batimetrix ile
+    var fuelSaved = totalFuel * savings;
+    var energySaved = fuelSaved * LHV;
+    var ghgSaved = energySaved * ghgFuel;
+    var excessAfter = Math.max(0, excess - ghgSaved);
+    var penaltyAfter = Math.max(0, (excessAfter/1000000) * 2400);
+    var penaltySaved = penalty - penaltyAfter;
+
+    // Format
+    function fmtEUR(n) {
+        if (n >= 1000000) return '€' + (n/1000000).toFixed(2) + 'M';
+        if (n >= 1000) return '€' + (n/1000).toFixed(0) + 'K';
+        return '€' + n.toFixed(0);
+    }
+
+    document.getElementById('fueleu_results').style.display = 'block';
+
+    var isCompliant = excess <= 0;
+    var banner = document.getElementById('fueleu_status_banner');
+    if (isCompliant) {
+        banner.style.background = 'linear-gradient(135deg,#27AE6022,#27AE6011)';
+        banner.style.border = '2px solid #27AE60';
+        banner.style.color = '#27AE60';
+        banner.innerHTML = '&#9989; COMPLIANT — GHG intensity within FuelEU limit';
+    } else {
+        banner.style.background = 'linear-gradient(135deg,#E74C3C22,#E74C3C11)';
+        banner.style.border = '2px solid #E74C3C';
+        banner.style.color = '#E74C3C';
+        banner.innerHTML = '&#9888; NON-COMPLIANT — Penalty: ' + fmtEUR(penalty) + '/year';
+    }
+
+    document.getElementById('fueleu_penalty').textContent = fmtEUR(penalty);
+    document.getElementById('fueleu_saved').textContent = fmtEUR(penaltySaved);
+    document.getElementById('fueleu_excess').textContent = excessTonnes.toFixed(0) + ' t';
+    document.getElementById('fueleu_compliance').textContent = isCompliant ? '✅ OK' : '❌ FAIL';
+
+    document.getElementById('fueleu_breakdown').innerHTML =
+        '<b style="color:var(--teal)">FuelEU Analysis:</b><br>' +
+        'Fuel type GHG intensity: <b style="color:#E74C3C">' + ghgFuel + ' gCO2eq/MJ</b><br>' +
+        'Year limit: <b style="color:#27AE60">' + ghgLimit + ' gCO2eq/MJ</b><br>' +
+        'Total energy consumed: <b>' + (energy/1000000).toFixed(1) + ' TJ/year</b><br>' +
+        'Excess GHG: <b style="color:#E74C3C">' + excessTonnes.toFixed(1) + ' tCO2eq/year</b><br>' +
+        'Penalty rate: <b>€2,400/tonne excess CO2eq</b><br>' +
+        '<hr style="border:none;border-top:1px solid var(--line);margin:6px 0">' +
+        '<b style="color:#27AE60">With Batimetrix (' + (savings*100).toFixed(0) + '% fuel reduction):</b><br>' +
+        'Fuel saved: <b>' + fuelSaved.toFixed(0) + ' tonnes/year</b><br>' +
+        'GHG reduced: <b>' + (ghgSaved/1000000).toFixed(0) + ' tCO2eq/year</b><br>' +
+        'Penalty saved: <b style="color:#27AE60">' + fmtEUR(penaltySaved) + '</b><br>' +
+        (penaltyAfter > 0 ?
+            'Remaining penalty: <b style="color:#F39C12">' + fmtEUR(penaltyAfter) + '</b>' :
+            '<b style="color:#27AE60">✅ Full compliance achieved with Batimetrix!</b>');
+}
 
 // ===== SPEED OPTIMIZATION WIZARD =====
 var SPEED_DEFAULTS = {
