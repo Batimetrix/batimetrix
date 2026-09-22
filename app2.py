@@ -1330,7 +1330,8 @@ footer a{color:var(--teal);text-decoration:none}
 
       <!-- SSH INTELLIGENCE TAB -->
       <div id="ssh_tab" style="display:none">
-        <div style="background:#0A1628;border:1px solid #1B4F72;border-radius:10px;padding:12px 16px;margin-bottom:12px;display:flex;gap:20px;flex-wrap:wrap">
+        <div id="sat_status_panel" style="background:#0A1628;border:1px solid #1B4F72;border-radius:10px;padding:12px 16px;margin-bottom:12px;display:flex;gap:20px;flex-wrap:wrap">
+          <div style="font-size:11px;color:#4A6FA5">&#128257; Loading satellite status...</div>
           <div style="font-size:11px;color:#7F8C8D">
             <span style="color:var(--teal);font-weight:700">SWOT</span> (NASA/CNES)
             <span style="color:#2C3E50"> | </span>
@@ -2489,6 +2490,7 @@ function showTab(id, el){
   el.classList.add("active");
   if(id==="map_tab"){if(!map){initMap();} setTimeout(function(){if(map)map.invalidateSize();},200);}
   if(id==="globe_tab"){setTimeout(function(){initGlobe();initSatMap();},300);}
+  if(id==="ssh_tab"){fetchSatelliteStatus();}
 }
 
 function destroyChart(id){
@@ -2839,6 +2841,28 @@ function renderSSH(){
 // ===== SATELLITE MAP =====
 var satMapInitialized = false;
 var satMap = null;
+
+function fetchSatelliteStatus() {
+    fetch('/api/satellite_status')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            var panel = document.getElementById('sat_status_panel');
+            if (!panel) return;
+            var html = '';
+            Object.keys(data).forEach(function(key) {
+                var sat = data[key];
+                var isRecent = sat.last && sat.last > '2026-01-01';
+                var col = isRecent ? '#1ABC9C' : '#F39C12';
+                var dot = isRecent ? '&#128308;' : '';
+                html += '<div style="font-size:11px;color:#7F8C8D">' +
+                    '<span style="color:' + col + ';font-weight:700">' + sat.label + '</span>' +
+                    ' | Last: <span style="color:' + col + '">' + sat.last + '</span>' +
+                    dot + '</div>';
+            });
+            panel.innerHTML = html;
+        })
+        .catch(function() {});
+}
 
 function initSatMap() {
     if (satMapInitialized) return;
@@ -4153,5 +4177,35 @@ def analyze():
         "co2_azalma":round(co2_reduction,1),
     })
 
-if __name__ == "__main__":
+@app.route('/api/satellite_status')
+def satellite_status():
+    import requests as req
+    import os
+    NASA_TOKEN = os.environ.get('NASA_TOKEN', '')
+    headers = {'Authorization': f'Bearer {NASA_TOKEN}'} if NASA_TOKEN else {}
+    satellites = [
+        {'name':'SWOT','short_name':'SWOT_L2_LR_SSH_2.0'},
+        {'name':'Sentinel6','short_name':'JASON_CS_S6A_L3_ALT_LR_OST_NTC_G01'},
+        {'name':'GPM','short_name':'GPM_3IMERGDF'},
+        {'name':'CYGNSS','short_name':'CYGNSS_L3_MRG_NRT_V3.2.2'},
+        {'name':'PACE','short_name':'PACE_OCI_L3M_BGC_NRT'},
+        {'name':'SMAP','short_name':'SMAP_RSS_L2_SSS_NRT_V6'},
+        {'name':'ICESat2','short_name':'ATL12'},
+        {'name':'NISAR','short_name':'NISAR_L2_GCOV_PROVISIONAL_V1'},
+    ]
+    results = {}
+    for sat in satellites:
+        try:
+            url = f"https://cmr.earthdata.nasa.gov/search/granules.json?short_name={sat['short_name']}&sort_key=-start_date&page_size=1"
+            r = req.get(url, headers=headers, timeout=8)
+            data = r.json()
+            entries = data.get('feed',{}).get('entry',[])
+            last = entries[0].get('time_start','')[:10] if entries else 'N/A'
+            results[sat['name']] = {'label': sat['name'], 'last': last}
+        except:
+            results[sat['name']] = {'label': sat['name'], 'last': 'Error'}
+    results['GEBCO'] = {'label':'GEBCO 2026','last':'2026-04-01'}
+    return jsonify(results)
+
+if __name__ == '__main__':
     import os; app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5001)))
