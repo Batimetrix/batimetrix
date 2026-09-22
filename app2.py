@@ -1311,7 +1311,7 @@ footer a{color:var(--teal);text-decoration:none}
                 <th>SAVINGS</th>
                 <th>ANNUAL $</th>
                 <th>CII</th>
-                <th>STATUS</th><th>WIND</th><th>CHLOROPHYLL</th><th>SALINITY</th><th>ICE (m)</th>
+                <th>STATUS</th><th>WIND</th><th>CHLOROPHYLL</th><th>SALINITY</th><th>ICE (m)</th><th>SAR</th>
               </tr>
             </thead>
             <tbody id="fleet_tbody">
@@ -1365,6 +1365,13 @@ footer a{color:var(--teal);text-decoration:none}
             8 satellites
             <span style="color:#2C3E50"> | </span>
             Last: <span style="color:white">2025-10-31</span>
+          </div>
+          <div style="font-size:11px;color:#7F8C8D">
+            <span style="color:#E91E63;font-weight:700">NISAR</span> (NASA/ISRO)
+            <span style="color:#2C3E50"> | </span>
+            SAR Maritime + Wake Detection
+            <span style="color:#2C3E50"> | </span>
+            Last: <span style="color:#1ABC9C;font-weight:700">2026-09-20</span> &#128308;
           </div>
           <div style="font-size:11px;color:#7F8C8D">
             <span style="color:#3498DB;font-weight:700">ICESat-2</span> (NASA)
@@ -2777,11 +2784,11 @@ function downloadPDF(){
 
 // ===== SSH INTELLIGENCE =====
 var SSH_ZONES=[
-  {name:"Hormuz Strait",    region:"Persian Gulf",  ssh:0.08, base:0.05, wind:8.2},
-  {name:"Malacca Strait",   region:"SE Asia",       ssh:0.10, base:0.08, wind:6.1},
+  {name:"Hormuz Strait",    region:"Persian Gulf",  ssh:0.08, base:0.05, wind:8.2, sar:"Active"},
+  {name:"Malacca Strait",   region:"SE Asia",       ssh:0.10, base:0.08, wind:6.1, sar:"Active"},
   {name:"Bab el-Mandeb",    region:"Red Sea",       ssh:0.09, base:0.07, wind:11.2},
   {name:"Dover Strait",     region:"North Sea",     ssh:0.07, base:0.06},
-  {name:"Taiwan Strait",    region:"East Asia",     ssh:0.12, base:0.09, wind:9.4},
+  {name:"Taiwan Strait",    region:"East Asia",     ssh:0.12, base:0.09, wind:9.4, sar:"Active"},
   {name:"Suez Canal",       region:"Mediterranean", ssh:0.05, base:0.05},
   {name:"North Atlantic",   region:"Atlantic",      ssh:0.35, base:0.28, wind:14.5, chl:1.24},
   {name:"Mid Pacific",      region:"Pacific",       ssh:0.35, base:0.30, wind:12.8, chl:0.18},
@@ -2817,7 +2824,7 @@ function renderSSH(){
       "<td style='font-family:JetBrains Mono;color:var(--mute)'>"+z.base.toFixed(3)+"</td>"+
       "<td style='font-family:JetBrains Mono;color:"+col+";font-weight:700'>"+(dev>=0?"+":"")+dev.toFixed(3)+"m</td>"+
       "<td style='color:"+dragCol+"'>"+(dragPct>0?"+"+dragPct+"%":"—")+"</td>"+
-      "<td>"+icon+" "+label+"</td>"+"<td style='color:#9B59B6'>"+(z.wind?z.wind.toFixed(1)+" m/s":"—")+"</td>"+"<td style='color:#27AE60'>"+(z.chl?z.chl+" mg/m³":"—")+"</td>"+"<td style='color:#E67E22'>"+(z.sal?z.sal+" PSU":"—")+"</td>"+"<td style='color:#3498DB'>"+(z.ice?z.ice+" m":"—")+"</td></tr>";
+      "<td>"+icon+" "+label+"</td>"+"<td style='color:#9B59B6'>"+(z.wind?z.wind.toFixed(1)+" m/s":"—")+"</td>"+"<td style='color:#27AE60'>"+(z.chl?z.chl+" mg/m³":"—")+"</td>"+"<td style='color:#E67E22'>"+(z.sal?z.sal+" PSU":"—")+"</td>"+"<td style='color:#3498DB'>"+(z.ice?z.ice+" m":"—")+"</td>"+"<td style='color:#E91E63'>"+(z.sar?z.sar:"—")+"</td></tr>";
   });
   var c=document.getElementById("ssh_crit");if(c)c.textContent=crit;
   var w=document.getElementById("ssh_warn");if(w)w.textContent=warn;
