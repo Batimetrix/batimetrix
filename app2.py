@@ -4179,33 +4179,37 @@ def analyze():
 
 @app.route('/api/satellite_status')
 def satellite_status():
-    import requests as req
-    import os
-    NASA_TOKEN = os.environ.get('NASA_TOKEN', '')
-    headers = {'Authorization': f'Bearer {NASA_TOKEN}'} if NASA_TOKEN else {}
-    satellites = [
-        {'name':'SWOT','short_name':'SWOT_L2_LR_SSH_2.0'},
-        {'name':'Sentinel6','short_name':'JASON_CS_S6A_L3_ALT_LR_OST_NTC_G01'},
-        {'name':'GPM','short_name':'GPM_3IMERGDF'},
-        {'name':'CYGNSS','short_name':'CYGNSS_L3_MRG_NRT_V3.2.2'},
-        {'name':'PACE','short_name':'PACE_OCI_L3M_BGC_NRT'},
-        {'name':'SMAP','short_name':'SMAP_RSS_L2_SSS_NRT_V6'},
-        {'name':'ICESat2','short_name':'ATL12'},
-        {'name':'NISAR','short_name':'NISAR_L2_GCOV_PROVISIONAL_V1'},
-    ]
-    results = {}
-    for sat in satellites:
-        try:
-            url = f"https://cmr.earthdata.nasa.gov/search/granules.json?short_name={sat['short_name']}&sort_key=-start_date&page_size=1"
-            r = req.get(url, headers=headers, timeout=8)
-            data = r.json()
-            entries = data.get('feed',{}).get('entry',[])
-            last = entries[0].get('time_start','')[:10] if entries else 'N/A'
-            results[sat['name']] = {'label': sat['name'], 'last': last}
-        except:
-            results[sat['name']] = {'label': sat['name'], 'last': 'Error'}
-    results['GEBCO'] = {'label':'GEBCO 2026','last':'2026-04-01'}
-    return jsonify(results)
+    try:
+        import os
+        NASA_TOKEN = os.environ.get('NASA_TOKEN', '')
+        headers = {'Authorization': 'Bearer ' + NASA_TOKEN} if NASA_TOKEN else {}
+        import urllib.request, json as json2
+        satellites = [
+            ('SWOT','SWOT_L2_LR_SSH_2.0'),
+            ('Sentinel6','JASON_CS_S6A_L3_ALT_LR_OST_NTC_G01'),
+            ('GPM','GPM_3IMERGDF'),
+            ('CYGNSS','CYGNSS_L3_MRG_NRT_V3.2.2'),
+            ('PACE','PACE_OCI_L3M_BGC_NRT'),
+            ('SMAP','SMAP_RSS_L2_SSS_NRT_V6'),
+            ('ICESat2','ATL12'),
+            ('NISAR','NISAR_L2_GCOV_PROVISIONAL_V1'),
+        ]
+        results = {}
+        for name, short in satellites:
+            try:
+                url = 'https://cmr.earthdata.nasa.gov/search/granules.json?short_name=' + short + '&sort_key=-start_date&page_size=1'
+                req2 = urllib.request.Request(url, headers=headers)
+                with urllib.request.urlopen(req2, timeout=8) as resp:
+                    data = json2.loads(resp.read().decode())
+                entries = data.get('feed',{}).get('entry',[])
+                last = entries[0].get('time_start','')[:10] if entries else 'N/A'
+                results[name] = {'label': name, 'last': last}
+            except Exception as e2:
+                results[name] = {'label': name, 'last': 'N/A', 'err': str(e2)[:50]}
+        results['GEBCO'] = {'label':'GEBCO 2026','last':'2026-04-01'}
+        return jsonify(results)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     import os; app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5001)))
