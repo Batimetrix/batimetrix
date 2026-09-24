@@ -1077,7 +1077,7 @@ footer a{color:var(--teal);text-decoration:none}
       </div>
       <div class="card" style="margin-top:16px">
         <div class="card-title" data-i18n="map_title">Route Map</div>
-        <div id="map"></div>
+        <div id="map" style="height:420px;width:100%;border-radius:8px;overflow:hidden"></div>
       </div>
     </div>
 
@@ -1110,7 +1110,7 @@ footer a{color:var(--teal);text-decoration:none}
       </div>
 
       <div class="tabs">
-        <div class="tab active" onclick="showTab('map_tab',this)" data-i18n="tab_map">🗺️ Route Map</div>
+
         <div class="tab" onclick="showTab('analysis_tab',this)" data-i18n="tab_analysis">📊 Analysis</div>
         <div class="tab" onclick="showTab('cii_tab',this)" data-i18n="tab_cii">⚖️ CII Rating</div>
         <div class="tab" onclick="showTab('table_tab',this)" data-i18n="tab_table">📋 Telemetry</div>
@@ -1122,25 +1122,6 @@ footer a{color:var(--teal);text-decoration:none}
         <div class="tab" onclick="showTab('speed_tab',this)">&#9889; Speed AI</div>
         <div class="tab" onclick="showTab('fueleu_tab',this)">&#127807; FuelEU</div>
         <div class="tab" onclick="showTab('gap_tab',this)">&#9883; Gap Analyzer</div>
-      </div>
-
-      <!-- MAP TAB -->
-      <div id="map_tab">
-        <div class="card">
-          <div class="card-title" data-i18n="map_title">Route Map — Live Drag Overlay</div>
-          <div id="map"></div>
-        </div>
-        <div class="card">
-          <div class="card-title" data-i18n="drag_profile">Drag Profile</div>
-          <div class="prog-row">
-            <div class="prog-head"><span data-i18n="drag_score">Drag Score</span><b id="prog_drag">—</b></div>
-            <div class="prog-track"><div class="prog-fill" id="fill_drag" style="width:0%;background:linear-gradient(90deg,var(--teal),var(--coral))"></div></div>
-          </div>
-          <div class="prog-row">
-            <div class="prog-head"><span data-i18n="fuel_eff">Fuel Efficiency</span><b id="prog_eff">—</b></div>
-            <div class="prog-track"><div class="prog-fill" id="fill_eff" style="width:0%;background:linear-gradient(90deg,var(--coral),var(--teal))"></div></div>
-          </div>
-        </div>
       </div>
 
       <!-- ANALYSIS TAB -->
@@ -2482,7 +2463,7 @@ function setLang(l){
 }
 
 function showTab(id, el){
-  ["map_tab","analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab","speed_tab","fueleu_tab","gap_tab"].forEach(function(t){
+  ["analysis_tab","cii_tab","table_tab","fleet_tab","ssh_tab","globe_tab","compare_tab","ets_tab","speed_tab","fueleu_tab","gap_tab"].forEach(function(t){
     document.getElementById(t).style.display="none";
   });
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active")});
@@ -4080,7 +4061,7 @@ function initGlobe() {
 }
 
 // Init on load
-window.onload=function(){ renderFleet(); renderSSH(); startAIS();
+window.onload=function(){ renderFleet(); renderSSH(); startAIS(); document.getElementById('analysis_tab').style.display='block';
   initMap();
   previewRoute();
 };
