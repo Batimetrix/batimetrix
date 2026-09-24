@@ -709,7 +709,26 @@ HTML = """
   --amber:#FFC107;--coral:#FF4757;--sky:#3498DB;--purple:#9B59B6;
   --ink:#ECF0F1;--mute:#4A6FA5;--mute2:#2C3E50;
   --grad:linear-gradient(135deg,#00E5B0,#3498DB);
+  --sb:200px;--sb-bg:#050F1C;--bp:#2D72D2;--ok:#0F9960;
 }
+/* PALANTIR SIDEBAR LAYOUT */
+.sb{position:fixed;top:0;left:0;width:var(--sb);height:100vh;background:var(--sb-bg);border-right:1px solid var(--line);z-index:2000;display:flex;flex-direction:column;overflow-y:auto}
+.sb-logo{padding:14px 16px;border-bottom:1px solid var(--line);flex-shrink:0}
+.sb-logo-text{font-family:'Space Grotesk';font-size:14px;font-weight:700;letter-spacing:3px;color:#F5F8FA}
+.sb-logo-sub{font-size:8px;color:var(--mute);letter-spacing:2px;margin-top:2px}
+.sb-section{padding:8px 0}
+.sb-label{font-size:9px;color:var(--mute2);letter-spacing:2px;text-transform:uppercase;padding:4px 14px 6px;display:block}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11px;color:var(--mute);cursor:pointer;border-left:3px solid transparent;transition:all 0.12s;white-space:nowrap}
+.sb-item:hover{background:rgba(45,114,210,0.12);color:var(--ink);border-left-color:rgba(45,114,210,0.4)}
+.sb-item.sb-active{background:rgba(45,114,210,0.18);color:#F5F8FA;border-left-color:var(--bp);font-weight:600}
+.sb-icon{font-size:12px;width:16px;text-align:center;flex-shrink:0}
+.sb-foot{margin-top:auto;padding:10px 14px;border-top:1px solid var(--line);font-size:9px;color:var(--mute2);line-height:1.9;flex-shrink:0}
+.sb-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:4px;animation:ping 2s infinite}
+header{margin-left:var(--sb)!important;width:calc(100% - var(--sb))!important}
+.main-wrap{margin-left:var(--sb);min-height:100vh}
+.statusbar{position:fixed;bottom:0;left:var(--sb);right:0;height:26px;background:#050F1C;border-top:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:12px;font-size:9px;color:var(--mute);font-family:'JetBrains Mono';z-index:999}
+.main-wrap>.container{padding-bottom:36px}
+
 *{margin:0;padding:0;box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--teal) var(--bg)}
 body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 120% 80% at 50% -20%,#001830 0%,transparent 60%);pointer-events:none;z-index:0}
@@ -884,6 +903,67 @@ footer a{color:var(--teal);text-decoration:none}
 
 </head>
 <body>
+
+<nav class="sb" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-text">THALASSA</div>
+    <div class="sb-logo-sub">MARITIME INTELLIGENCE</div>
+  </div>
+
+  <div class="sb-section">
+    <span class="sb-label">Operations</span>
+    <div class="sb-item sb-active" onclick="sbNav('analysis_tab',this)" id="sbnav_analysis_tab">
+      <span class="sb-icon">📊</span>Analysis
+    </div>
+    <div class="sb-item" onclick="sbNav('cii_tab',this)" id="sbnav_cii_tab">
+      <span class="sb-icon">⚖️</span>CII Rating
+    </div>
+    <div class="sb-item" onclick="sbNav('table_tab',this)" id="sbnav_table_tab">
+      <span class="sb-icon">📋</span>Telemetry
+    </div>
+    <div class="sb-item" onclick="sbNav('fleet_tab',this)" id="sbnav_fleet_tab">
+      <span class="sb-icon">🚢</span>Fleet
+    </div>
+  </div>
+
+  <div class="sb-section">
+    <span class="sb-label">Intelligence</span>
+    <div class="sb-item" onclick="sbNav('ssh_tab',this)" id="sbnav_ssh_tab">
+      <span class="sb-icon">🌊</span>Ocean Intel
+    </div>
+    <div class="sb-item" onclick="sbNav('globe_tab',this)" id="sbnav_globe_tab">
+      <span class="sb-icon">🌍</span>3D Globe
+    </div>
+    <div class="sb-item" onclick="sbNav('compare_tab',this)" id="sbnav_compare_tab">
+      <span class="sb-icon">⚓</span>Compare
+    </div>
+  </div>
+
+  <div class="sb-section">
+    <span class="sb-label">Compliance</span>
+    <div class="sb-item" onclick="sbNav('ets_tab',this)" id="sbnav_ets_tab">
+      <span class="sb-icon">🌿</span>EU ETS
+    </div>
+    <div class="sb-item" onclick="sbNav('speed_tab',this)" id="sbnav_speed_tab">
+      <span class="sb-icon">⚡</span>Speed AI
+    </div>
+    <div class="sb-item" onclick="sbNav('fueleu_tab',this)" id="sbnav_fueleu_tab">
+      <span class="sb-icon">🌿</span>FuelEU
+    </div>
+    <div class="sb-item" onclick="sbNav('gap_tab',this)" id="sbnav_gap_tab">
+      <span class="sb-icon">🔍</span>Gap Analyzer
+    </div>
+  </div>
+
+  <div class="sb-foot">
+    <div><span class="sb-dot"></span><span style="color:#0F9960">All systems active</span></div>
+    <div>10 NASA satellites</div>
+    <div>PINN · 1,657,025 params</div>
+    <div>IMO CII MEPC.354(78)</div>
+  </div>
+</nav>
+
+<div class="main-wrap">
 
 <header>
   <div class="brand">
@@ -2460,6 +2540,14 @@ function setLang(l){
     if(t[k]) el.textContent=t[k];
   });
   if(lastData) renderResults(lastData);
+}
+
+function sbNav(id, el) {
+  // Sidebar active
+  document.querySelectorAll('.sb-item').forEach(function(i){i.classList.remove('sb-active')});
+  if(el) el.classList.add('sb-active');
+  // Tab goster
+  showTab(id, null);
 }
 
 function showTab(id, el){
@@ -4067,6 +4155,22 @@ window.onload=function(){ renderFleet(); renderSSH(); startAIS(); document.getEl
 };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" onload="window._threeReady=true"></script>
+</div><!-- /main-wrap -->
+
+<div class="statusbar">
+  <span class="sb-dot"></span>
+  <span style="color:#0F9960">THALASSA ACTIVE</span>
+  <span style="color:var(--line)">|</span>
+  <span>SMAP 2026-09-22</span>
+  <span style="color:var(--line)">|</span>
+  <span>PACE 2026-09-21</span>
+  <span style="color:var(--line)">|</span>
+  <span>NISAR 2026-09-20</span>
+  <span style="color:var(--line)">|</span>
+  <span>10 NASA sources</span>
+  <span style="margin-left:auto">batimetrix.onrender.com</span>
+</div>
+
 </body>
 </html>
 """
