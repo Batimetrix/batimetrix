@@ -1,11 +1,21 @@
 # BATIMETRIX V3 PRO - 7 dil + Leaflet harita + Chart.js analiz
 from flask import Flask, request, jsonify, render_template_string
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import torch
 import torch.nn as nn
 import numpy as np
 import math
 
 app = Flask(__name__)
+
+# Rate Limiter - Thalassa Security Layer
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per hour", "50 per minute"],
+    headers_enabled=True
+)
 
 # --- Security: rate limiting ---
 try:
@@ -4263,6 +4273,7 @@ def analyze():
     })
 
 @app.route('/api/satellite_status')
+@limiter.limit("5 per minute")
 def satellite_status():
     try:
         import os
@@ -4295,6 +4306,23 @@ def satellite_status():
         return jsonify(results)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Permissions-Policy'] = 'geolocation=(), microphone=(), camera=()'
+    return response
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return jsonify({
+        'error': 'Rate limit exceeded',
+        'message': 'Too many requests. Thalassa Security Layer active.',
+        'retry_after': '60 seconds'
+    }), 429
 
 if __name__ == '__main__':
     import os; app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5001)))
