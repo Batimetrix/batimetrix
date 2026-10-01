@@ -5,7 +5,7 @@
 🌐 **Live Demo: [batimetrix.onrender.com](https://batimetrix.onrender.com)**
 📦 **GitHub: [github.com/Batimetrix/batimetrix](https://github.com/Batimetrix/batimetrix)**
 
-Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using real data from **9 NASA satellites and data sources**, enabling proactive propulsion optimization.
+Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using real data from **10 NASA satellites and data sources**, enabling proactive propulsion optimization.
 
 **Target: 8-12% net fuel savings and measurable IMO CII rating improvements.**
 
@@ -19,7 +19,7 @@ Existing systems (Wärtsilä, Kongsberg, ZeroNorth) are **reactive** — they re
 
 | Component | Batimetrix | Competitors |
 |---|---|---|
-| 9 NASA satellite data sources | YES | No |
+| 10 NASA satellite data sources | YES | No |
 | Physics-Informed Neural Network | YES | Rare |
 | 3 NM look-ahead prediction | YES | No |
 | IMO CII compliance (MEPC.354(78)) | YES | Partial |
@@ -32,7 +32,7 @@ Existing systems (Wärtsilä, Kongsberg, ZeroNorth) are **reactive** — they re
 
 ---
 
-## Data Sources — 9 NASA Satellites & Data Sources
+## Data Sources — 10 NASA Satellites & Data Sources
 
 | Satellite | Measurement | Last Data | Role in Batimetrix |
 |---|---|---|---|
@@ -45,6 +45,7 @@ Existing systems (Wärtsilä, Kongsberg, ZeroNorth) are **reactive** — they re
 | SMAP | Sea surface salinity NRT | 2026-09-17 | Water density correction |
 | ICESat-2 | Arctic ocean height | 2026-05-18 | Arctic route optimization |
 | GEBCO 2026 | Bathymetry (15 arc-sec) | April 2026 | Shallow-water resistance |
+| NISAR (NASA/ISRO) | SAR Maritime + Wake Detection | 2026-09-20 | Vessel wake detection, surface roughness |
 
 The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea.
 
@@ -81,6 +82,13 @@ Deployment: Exported to ONNX (12.2 KB, max deviation vs PyTorch: 2.98e-08).
 - **IMO CII** — MEPC.354(78) compliant rating calculation
 - **7 languages** — EN, TR, EL, ZH, RU, ES, FR
 - **PDF report** — downloadable analysis report
+- **Palantir-style sidebar** — professional intelligence platform UI
+- **EU ETS Carbon Calculator** — 2026 full compliance
+- **FuelEU Maritime Calculator** — GHG intensity compliance
+- **Speed Optimization Wizard** — NASA SSH-adjusted optimal speed
+- **Execution Gap Analyzer** — planned vs actual voyage analysis
+- **Route Comparison** — dual route efficiency analysis
+- **NISAR SAR Integration** — vessel wake detection (NASA/ISRO)
 
 ---
 
@@ -102,7 +110,7 @@ Fuel consumption figures calibrated against Lloyd's List / MAN Energy Solutions 
 | ML Model | PyTorch PINN → ONNX export |
 | Backend | Python / Flask |
 | Frontend | HTML/CSS/JS, Leaflet.js |
-| NASA Data | PO.DAAC CMR API (9 sources) |
+| NASA Data | PO.DAAC CMR API (10 sources) |
 | Deployment | Render.com |
 
 ---
