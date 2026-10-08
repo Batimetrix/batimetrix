@@ -13,12 +13,28 @@ Built from scratch by an 18-year-old independent researcher from Turkey.
 
 ---
 
-## Why Batimetrix?
+## Positioning & Related Work
 
-Existing systems (Wärtsilä, Kongsberg, ZeroNorth) are **reactive** — they respond to conditions the ship is already in. Batimetrix is **proactive**: it computes underwater resistance before the vessel reaches the coordinate, giving the propulsion system time to adapt.
+Vessel performance prediction and voyage optimization are established fields. Companies such as **Bearing AI**, **ZeroNorth** and **StormGeo** already predict fuel consumption and optimize voyages using weather, oceanographic and vessel data, and some report high accuracy against real fleet data.
 
-| Component | Batimetrix | Competitors |
-|---|---|---|
+Batimetrix does not claim to replace these systems. It explores a narrower research question:
+
+> **Can satellite ocean observations — in particular SSH-derived surface currents from NASA SWOT and Sentinel-6 — combined with a physics-informed neural network, improve hydrodynamic drag prediction ahead of a vessel's position?**
+
+What Batimetrix currently offers:
+
+| Component | Status |
+|---|---|
+| Physics-informed neural network (ITTC 1957, Reynolds, shallow-water terms) | Implemented, fine-tuned on real SWOT data |
+| NASA satellite data source monitoring (10 sources) | Implemented |
+| IMO CII / EU ETS / FuelEU calculators | Implemented (based on estimated savings) |
+| 60 trade routes, 15 vessel classes, fleet dashboard | Implemented |
+| Live SSH inputs at route waypoints | Planned |
+| SSH gradient → geostrophic current input | Planned |
+| Validation against real vessel fuel data | Planned (seeking pilot shipowner) |
+| Open source | Yes |
+
+---|---|---|
 | 10 NASA satellite data sources | YES | No |
 | Physics-Informed Neural Network | YES | Rare |
 | 3 NM look-ahead prediction | YES | No |
