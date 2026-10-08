@@ -83,8 +83,8 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 - **60 global trade routes** — Black Sea, Mediterranean, Suez, Cape, Arctic NSR, Trans-Pacific, Trans-Atlantic
 - **15 vessel classes** — VLCC, Suezmax, Aframax, MR, LNG, Capesize, Panamax, ULCV, Feeder and more
 - **Fleet Dashboard** — multi-vessel portfolio analysis
-- **Ocean Intel** — 16 global maritime zones with reference SSH anomaly values (live data planned)
-- **3D Globe** — interactive visualization of reference SSH anomaly values
+- **Ocean Intel** — 16 global maritime zones with live SSH anomaly values (NASA-SSH, weekly; 15/16 zones)
+- **3D Globe** — interactive visualization of live SSH anomaly values (weekly)
 - **IMO CII** — MEPC.354(78) compliant rating calculation
 - **7 languages** — EN, TR, EL, ZH, RU, ES, FR
 - **PDF report** — downloadable analysis report
