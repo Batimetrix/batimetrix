@@ -101,7 +101,7 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 ## Current Estimates & Assumptions
 
 - Average model drag score (Black Sea, calm): 0.13-0.14
-- Fuel savings shown in the platform (8-12%) are **estimates**, derived from the drag score through an assumed linear conversion factor and bounded to an 8-15% range. They are not yet measured results.
+- Fuel savings shown in the platform are **estimates**, derived from the drag score through an assumed linear conversion factor and capped at 15% (no minimum, so high-drag routes show lower savings). They are not yet measured results.
 - CII rating changes (e.g. E→D, B→A) are computed from these estimated savings.
 - Baseline daily fuel consumption per vessel class is based on Lloyd's List / MAN Energy Solutions reference values.
 

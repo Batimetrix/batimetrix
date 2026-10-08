@@ -4260,7 +4260,7 @@ def analyze():
         ssh_src = "live" if _live else "reference"
         cur_spd = _live.get("speed") if _live else None
         drag = predict_drag(wp["lat"],wp["lon"],wp["depth"],ssh_val,swh,speed,draft)
-        sav = max(8, min(15, (1 - drag) * 18))
+        sav = max(0, min(15, (1 - drag) * 18))
         drag_total += drag
         result_wps.append({
             "name":wp["name"],"lat":wp["lat"],"lon":wp["lon"],
@@ -4269,7 +4269,7 @@ def analyze():
         })
 
     avg_drag = drag_total / len(route["waypoints"])
-    sav_rate = max(0.08, min(0.15, 0.20 - avg_drag * 0.15))
+    sav_rate = max(0.0, min(0.15, 0.20 - avg_drag * 0.15))
     fuel = profile["fuel"]; dwt = profile["dwt"]
     cost_savings = fuel * days * 650 * sav_rate
     co2_reduction = fuel * sav_rate * days * 3.151
