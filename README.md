@@ -29,8 +29,8 @@ What Batimetrix currently offers:
 | NASA satellite data source monitoring (10 sources) | Implemented |
 | IMO CII / EU ETS / FuelEU calculators | Implemented (based on estimated savings) |
 | 60 trade routes, 15 vessel classes, fleet dashboard | Implemented |
-| Live SSH inputs at route waypoints | Planned |
-| SSH gradient → geostrophic current input | Planned |
+| Live SSH inputs at route waypoints | Implemented (NASA-SSH simple grid, weekly, 0.5°; 181/188 waypoints) |
+| SSH gradient → geostrophic current | Computed (anomaly component, 118/188 waypoints); not yet a model input |
 | Validation against real vessel fuel data | Planned (seeking pilot shipowner) |
 | Open source | Yes |
 
@@ -101,7 +101,7 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 ## Current Estimates & Assumptions
 
 - Average model drag score (Black Sea, calm): 0.13-0.14
-- Fuel savings shown in the platform (8-12%) are **estimates**, derived from the drag score through an assumed linear conversion factor. They are not yet measured results.
+- Fuel savings shown in the platform (8-12%) are **estimates**, derived from the drag score through an assumed linear conversion factor and bounded to an 8-15% range. They are not yet measured results.
 - CII rating changes (e.g. E→D, B→A) are computed from these estimated savings.
 - Baseline daily fuel consumption per vessel class is based on Lloyd's List / MAN Energy Solutions reference values.
 
@@ -112,8 +112,8 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 Batimetrix is an early-stage research platform. Known limitations:
 
 - **No real-world validation yet.** Training targets are generated from the physics model; the network has not been validated against measured vessel drag or fuel consumption. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
-- **Static route inputs.** SSH values at route waypoints are currently fixed reference values. Next step: replace them with live SWOT / Sentinel-6 data at each waypoint.
-- **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Next step: derive current velocity from SSH gradients and use it as a model input.
+- **Coarse SSH resolution.** Route waypoints now use live sea surface height anomaly from the NASA-SSH simple gridded product (weekly, 0.5°). This resolution cannot resolve narrow straits or coastal areas; 7 of 188 waypoints fall back to reference values. Next step: higher-resolution SWOT data near straits.
+- **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Anomaly geostrophic currents are now derived from SSHA gradients, but they represent deviations from the mean circulation, not total currents, and are not yet a model input. Next step: add mean dynamic topography and retrain the model with current as an input.
 - **NISAR.** SAR-based vessel wake detection and surface roughness estimation are planned, starting with NISAR-formatted Sentinel-1 and simulated-NISAR UAVSAR products.
 
 Feedback and collaboration are welcome.
