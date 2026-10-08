@@ -84,7 +84,19 @@ meta = {
     'generated_utc': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
     'current_note': 'Anomaly geostrophic current derived from SSHA gradients (not total current).',
 }
-json.dump({'meta': meta, 'points': points}, open('ssh_live.json', 'w', encoding='utf-8'), indent=1)
+# 16 Ocean Intel / Globe zones (parsed from app2.py)
+import re
+zones = {}
+for m in re.finditer(r'\{name:"([^"]+)",\s*lat:([-\d.]+),\s*lon:([-\d.]+),\s*dev:', src):
+    zname, zlat, zlon = m.group(1), float(m.group(2)), float(m.group(3))
+    zkey = f"{zlat:.2f},{zlon:.2f}"
+    if zkey in zones:
+        continue
+    r = sample(zlat, zlon)
+    if r:
+        zones[zkey] = {'name': zname, 'ssha': r['ssha'], 'counts': r['counts'], 'nearest_cell': r['nearest_cell']}
+print('Zones with SSH  :', len(zones))
+json.dump({'meta': meta, 'points': points, 'zones': zones}, open('ssh_live.json', 'w', encoding='utf-8'), indent=1)
 
 print('Unique waypoints:', total)
 print('With SSH data   :', with_ssh)

@@ -2977,9 +2977,9 @@ function initSatMap() {
     ];
 
     SSH_ZONES.forEach(function(z) {
-        var col = z.dev >= 0.06 ? '#E74C3C' : z.dev >= 0.02 ? '#F39C12' : '#27AE60';
-        var label = z.dev >= 0.06 ? 'CRITICAL' : z.dev >= 0.02 ? 'WARNING' : 'NORMAL';
-        var radius = z.dev >= 0.06 ? 350000 : z.dev >= 0.02 ? 250000 : 180000;
+        var col = Math.abs(z.dev) >= 0.06 ? '#E74C3C' : Math.abs(z.dev) >= 0.02 ? '#F39C12' : '#27AE60';
+        var label = Math.abs(z.dev) >= 0.06 ? 'CRITICAL' : Math.abs(z.dev) >= 0.02 ? 'WARNING' : 'NORMAL';
+        var radius = Math.abs(z.dev) >= 0.06 ? 350000 : Math.abs(z.dev) >= 0.02 ? 250000 : 180000;
 
         // Daire
         L.circle([z.lat, z.lon], {
@@ -3052,9 +3052,9 @@ function initSatMap() {
     ];
 
     SSH_ZONES.forEach(function(z) {
-        var col = z.dev >= 0.06 ? '#E74C3C' : z.dev >= 0.02 ? '#F39C12' : '#27AE60';
-        var label = z.dev >= 0.06 ? 'CRITICAL' : z.dev >= 0.02 ? 'WARNING' : 'NORMAL';
-        var radius = z.dev >= 0.06 ? 350000 : z.dev >= 0.02 ? 250000 : 180000;
+        var col = Math.abs(z.dev) >= 0.06 ? '#E74C3C' : Math.abs(z.dev) >= 0.02 ? '#F39C12' : '#27AE60';
+        var label = Math.abs(z.dev) >= 0.06 ? 'CRITICAL' : Math.abs(z.dev) >= 0.02 ? 'WARNING' : 'NORMAL';
+        var radius = Math.abs(z.dev) >= 0.06 ? 350000 : Math.abs(z.dev) >= 0.02 ? 250000 : 180000;
 
         // Daire
         L.circle([z.lat, z.lon], {
@@ -3927,13 +3927,13 @@ function initGlobe() {
     ];
 
     function getColor(dev){
-        if(dev>=0.06) return "#E74C3C";
-        if(dev>=0.02) return "#F39C12";
+        if(Math.abs(dev)>=0.06) return "#E74C3C";
+        if(Math.abs(dev)>=0.02) return "#F39C12";
         return "#27AE60";
     }
     function getLabel(dev){
-        if(dev>=0.06) return "CRITICAL";
-        if(dev>=0.02) return "WARNING";
+        if(Math.abs(dev)>=0.06) return "CRITICAL";
+        if(Math.abs(dev)>=0.02) return "WARNING";
         return "NORMAL";
     }
 
@@ -4041,7 +4041,7 @@ function initGlobe() {
         visZones.forEach(function(item){
             var z=item.z,p=item.p;
             var col=getColor(z.dev);
-            var sz=(z.dev>=0.06?9:z.dev>=0.02?7:5);
+            var sz=(Math.abs(z.dev)>=0.06?9:Math.abs(z.dev)>=0.02?7:5);
             var depth=(p.z+R)/(2*R);sz*=(0.5+depth*0.5);
             var pulse=1+0.3*Math.sin(t*2+z.lon*0.05);
 
@@ -4187,16 +4187,30 @@ window.onload=function(){ renderFleet(); renderSSH(); startAIS(); document.getEl
 
 # ---- Live SSH (NASA-SSH simple grid, weekly) ----
 import json as _json, os as _os
-SSH_LIVE, SSH_LIVE_META = {}, {}
+SSH_LIVE, SSH_LIVE_META, SSH_LIVE_ZONES = {}, {}, {}
 try:
     _p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "ssh_live.json")
     with open(_p, encoding="utf-8") as _f:
         _d = _json.load(_f)
     SSH_LIVE = _d.get("points", {})
     SSH_LIVE_META = _d.get("meta", {})
+    SSH_LIVE_ZONES = _d.get("zones", {})
     print("Live SSH loaded:", len(SSH_LIVE), "points,", SSH_LIVE_META.get("data_start"), "->", SSH_LIVE_META.get("data_end"))
 except Exception as _e:
     print("Live SSH not loaded, using reference values:", _e)
+
+import re as _re
+if SSH_LIVE_ZONES:
+    def _zsub(m):
+        z = SSH_LIVE_ZONES.get(f"{float(m.group(1)):.2f},{float(m.group(2)):.2f}")
+        return m.group(0) if not z else f"lat:{m.group(1)}, lon:{m.group(2)}, dev:{z['ssha']:.3f}"
+    HTML = _re.sub(r'lat:\s*([-\d.]+),\s*lon:\s*([-\d.]+),\s*dev:\s*[-\d.]+', _zsub, HTML)
+    _byname = {z["name"]: z["ssha"] for z in SSH_LIVE_ZONES.values()}
+    def _tsub(m):
+        v = _byname.get(m.group(2))
+        return m.group(0) if v is None else f"{m.group(1)}ssh:{v:.3f}, base:0"
+    HTML = _re.sub(r'(\{name:"([^"]+)",\s*region:"[^"]*",\s*)ssh:[-\d.]+,\s*base:[-\d.]+', _tsub, HTML)
+    print("Live SSH zones injected:", len(SSH_LIVE_ZONES))
 
 @app.route("/")
 def index():

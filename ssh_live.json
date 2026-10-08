@@ -5,7 +5,7 @@
   "data_start": "2026-09-23T00:00:00",
   "data_end": "2026-10-03T00:00:00",
   "grid_resolution_deg": 0.5,
-  "generated_utc": "2026-10-08T18:51:24Z",
+  "generated_utc": "2026-10-08T22:05:16Z",
   "current_note": "Anomaly geostrophic current derived from SSHA gradients (not total current)."
  },
  "points": {
@@ -1463,6 +1463,98 @@
    "u": -0.0075,
    "v": -0.0296,
    "speed": 0.0305
+  }
+ },
+ "zones": {
+  "26.57,56.25": {
+   "name": "Hormuz Strait",
+   "ssha": 0.0681,
+   "counts": 78,
+   "nearest_cell": false
+  },
+  "2.50,101.00": {
+   "name": "Malacca Strait",
+   "ssha": -0.0182,
+   "counts": 167,
+   "nearest_cell": false
+  },
+  "12.60,43.30": {
+   "name": "Bab el-Mandeb",
+   "ssha": -0.0067,
+   "counts": 109,
+   "nearest_cell": false
+  },
+  "24.00,119.00": {
+   "name": "Taiwan Strait",
+   "ssha": 0.1224,
+   "counts": 419,
+   "nearest_cell": false
+  },
+  "48.00,-30.00": {
+   "name": "North Atlantic",
+   "ssha": 0.0489,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "42.00,-175.00": {
+   "name": "Mid Pacific",
+   "ssha": 0.2691,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "-35.00,20.00": {
+   "name": "Cape Good Hope",
+   "ssha": 0.0857,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "18.00,62.00": {
+   "name": "Arabian Sea",
+   "ssha": 0.1906,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "10.00,113.00": {
+   "name": "South China Sea",
+   "ssha": 0.1994,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "26.00,-88.00": {
+   "name": "Gulf of Mexico",
+   "ssha": 0.2918,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "36.00,15.00": {
+   "name": "Mediterranean",
+   "ssha": 0.1289,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "42.00,33.00": {
+   "name": "Black Sea",
+   "ssha": 0.0249,
+   "counts": 330,
+   "nearest_cell": false
+  },
+  "51.00,1.50": {
+   "name": "Dover Strait",
+   "ssha": 0.2565,
+   "counts": 278,
+   "nearest_cell": false
+  },
+  "15.00,90.00": {
+   "name": "Bay of Bengal",
+   "ssha": 0.0349,
+   "counts": 500,
+   "nearest_cell": false
+  },
+  "29.97,32.55": {
+   "name": "Suez Canal",
+   "ssha": 0.1126,
+   "counts": 4,
+   "nearest_cell": true
   }
  }
 }
