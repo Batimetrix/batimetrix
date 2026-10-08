@@ -34,23 +34,13 @@ What Batimetrix currently offers:
 | Validation against real vessel fuel data | Planned (seeking pilot shipowner) |
 | Open source | Yes |
 
----|---|---|
-| 10 NASA satellite data sources | YES | No |
-| Physics-Informed Neural Network | YES | Rare |
-| 3 NM look-ahead prediction | YES | No |
-| IMO CII compliance (MEPC.354(78)) | YES | Partial |
-| 60 global trade routes | YES | No |
-| 15 vessel classes | YES | No |
-| Fleet Dashboard | YES | No |
-| 3D SSH Anomaly Globe | YES | No |
-| Ocean Intelligence module | YES | No |
-| Open source | YES | No |
+
 
 ---
 
 ## Data Sources — 10 NASA Satellites & Data Sources
 
-| Satellite | Measurement | Last Data | Role in Batimetrix |
+| Satellite | Measurement | Last Data | Intended role |
 |---|---|---|---|
 | SWOT (NASA/CNES) | Sea surface height (ssh_karin) | 2025-05-03 | SSH anomaly → drag estimation |
 | Sentinel-6 (NASA/ESA) | SSH continuity | 2026-01-16 | 10-day cycle SSH complement |
@@ -63,7 +53,7 @@ What Batimetrix currently offers:
 | GEBCO 2026 | Bathymetry (15 arc-sec) | April 2026 | Shallow-water resistance |
 | NISAR (NASA/ISRO) | SAR Maritime + Wake Detection | 2026-09-20 | Status monitoring; wake detection planned |
 
-The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea.
+The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea. Other sources are currently monitored for data availability; integrating them as live model inputs is part of the roadmap.
 
 ---
 
@@ -93,13 +83,13 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 - **60 global trade routes** — Black Sea, Mediterranean, Suez, Cape, Arctic NSR, Trans-Pacific, Trans-Atlantic
 - **15 vessel classes** — VLCC, Suezmax, Aframax, MR, LNG, Capesize, Panamax, ULCV, Feeder and more
 - **Fleet Dashboard** — multi-vessel portfolio analysis
-- **Ocean Intel** — 16 global maritime zone SSH anomaly monitoring
-- **3D Globe** — interactive SSH anomaly visualization
+- **Ocean Intel** — 16 global maritime zones with reference SSH anomaly values (live data planned)
+- **3D Globe** — interactive visualization of reference SSH anomaly values
 - **IMO CII** — MEPC.354(78) compliant rating calculation
 - **7 languages** — EN, TR, EL, ZH, RU, ES, FR
 - **PDF report** — downloadable analysis report
 - **Palantir-style sidebar** — professional intelligence platform UI
-- **EU ETS Carbon Calculator** — 2026 full compliance
+- **EU ETS Carbon Calculator** — 2026 scope (100% of emissions)
 - **FuelEU Maritime Calculator** — GHG intensity compliance
 - **Speed Optimization Wizard** — NASA SSH-adjusted optimal speed
 - **Execution Gap Analyzer** — planned vs actual voyage analysis
