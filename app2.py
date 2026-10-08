@@ -4185,6 +4185,19 @@ window.onload=function(){ renderFleet(); renderSSH(); startAIS(); document.getEl
 </html>
 """
 
+# ---- Live SSH (NASA-SSH simple grid, weekly) ----
+import json as _json, os as _os
+SSH_LIVE, SSH_LIVE_META = {}, {}
+try:
+    _p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "ssh_live.json")
+    with open(_p, encoding="utf-8") as _f:
+        _d = _json.load(_f)
+    SSH_LIVE = _d.get("points", {})
+    SSH_LIVE_META = _d.get("meta", {})
+    print("Live SSH loaded:", len(SSH_LIVE), "points,", SSH_LIVE_META.get("data_start"), "->", SSH_LIVE_META.get("data_end"))
+except Exception as _e:
+    print("Live SSH not loaded, using reference values:", _e)
+
 @app.route("/")
 def index():
     return render_template_string(HTML)
@@ -4228,12 +4241,16 @@ def analyze():
     result_wps = []
     drag_total = 0
     for wp in route["waypoints"]:
-        drag = predict_drag(wp["lat"],wp["lon"],wp["depth"],wp["ssh"],swh,speed,draft)
+        _live = SSH_LIVE.get(f"{wp['lat']:.2f},{wp['lon']:.2f}")
+        ssh_val = _live["ssha"] if _live else wp["ssh"]
+        ssh_src = "live" if _live else "reference"
+        cur_spd = _live.get("speed") if _live else None
+        drag = predict_drag(wp["lat"],wp["lon"],wp["depth"],ssh_val,swh,speed,draft)
         sav = max(8, min(15, (1 - drag) * 18))
         drag_total += drag
         result_wps.append({
             "name":wp["name"],"lat":wp["lat"],"lon":wp["lon"],
-            "depth":wp["depth"],"ssh":wp["ssh"],"swh":swh,
+            "depth":wp["depth"],"ssh":ssh_val,"ssh_source":ssh_src,"current_speed":cur_spd,"swh":swh,
             "drag":round(drag,4),"savings":round(sav,1)
         })
 
