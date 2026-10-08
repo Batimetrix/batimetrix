@@ -84,7 +84,7 @@ Physics constraints in the loss function:
 
 Training: 100,000 synthetic samples (100 epochs, AdamW, CosineAnnealingLR) + fine-tuning on 296,526 real NASA SWOT measurements.
 
-Deployment: Exported to ONNX (12.2 KB, max deviation vs PyTorch: 2.98e-08).
+Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max deviation vs PyTorch: 2.98e-08).
 
 ---
 
