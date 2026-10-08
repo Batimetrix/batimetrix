@@ -5,7 +5,7 @@
 🌐 **Live Demo: [batimetrix.onrender.com](https://batimetrix.onrender.com)**
 📦 **GitHub: [github.com/Batimetrix/batimetrix](https://github.com/Batimetrix/batimetrix)**
 
-Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using real data from **10 NASA satellites and data sources**, enabling proactive propulsion optimization.
+Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using a physics-informed neural network fine-tuned on real NASA SWOT measurements, and monitors **10 NASA satellite data sources** for data availability.
 
 **Target: 8-12% net fuel savings and measurable IMO CII rating improvements.**
 
@@ -45,7 +45,7 @@ Existing systems (Wärtsilä, Kongsberg, ZeroNorth) are **reactive** — they re
 | SMAP | Sea surface salinity NRT | 2026-09-17 | Water density correction |
 | ICESat-2 | Arctic ocean height | 2026-05-18 | Arctic route optimization |
 | GEBCO 2026 | Bathymetry (15 arc-sec) | April 2026 | Shallow-water resistance |
-| NISAR (NASA/ISRO) | SAR Maritime + Wake Detection | 2026-09-20 | Vessel wake detection, surface roughness |
+| NISAR (NASA/ISRO) | SAR Maritime + Wake Detection | 2026-09-20 | Status monitoring; wake detection planned |
 
 The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea.
 
@@ -88,18 +88,29 @@ Deployment: Exported to ONNX (12.2 KB, max deviation vs PyTorch: 2.98e-08).
 - **Speed Optimization Wizard** — NASA SSH-adjusted optimal speed
 - **Execution Gap Analyzer** — planned vs actual voyage analysis
 - **Route Comparison** — dual route efficiency analysis
-- **NISAR SAR Integration** — vessel wake detection (NASA/ISRO)
+- **NISAR SAR Integration** — *planned*: vessel wake detection (NASA/ISRO)
 
 ---
 
-## Results
+## Current Estimates & Assumptions
 
-- Average drag score (Black Sea, calm): 0.13-0.14
-- Estimated fuel savings: 8-12% depending on conditions
-- CII rating improvement: E→D (Black Sea cargo), B→A (Handy bulk)
-- 60 global trade routes analyzed
+- Average model drag score (Black Sea, calm): 0.13-0.14
+- Fuel savings shown in the platform (8-12%) are **estimates**, derived from the drag score through an assumed linear conversion factor. They are not yet measured results.
+- CII rating changes (e.g. E→D, B→A) are computed from these estimated savings.
+- Baseline daily fuel consumption per vessel class is based on Lloyd's List / MAN Energy Solutions reference values.
 
-Fuel consumption figures calibrated against Lloyd's List / MAN Energy Solutions reference data.
+---
+
+## Limitations & Roadmap
+
+Batimetrix is an early-stage research platform. Known limitations:
+
+- **No real-world validation yet.** Training targets are generated from the physics model; the network has not been validated against measured vessel drag or fuel consumption. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
+- **Static route inputs.** SSH values at route waypoints are currently fixed reference values. Next step: replace them with live SWOT / Sentinel-6 data at each waypoint.
+- **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Next step: derive current velocity from SSH gradients and use it as a model input.
+- **NISAR.** SAR-based vessel wake detection and surface roughness estimation are planned, starting with NISAR-formatted Sentinel-1 and simulated-NISAR UAVSAR products.
+
+Feedback and collaboration are welcome.
 
 ---
 
