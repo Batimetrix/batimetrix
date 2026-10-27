@@ -5,7 +5,7 @@
 🌐 **Live Demo: [batimetrix.onrender.com](https://batimetrix.onrender.com)**
 📦 **GitHub: [github.com/Batimetrix/batimetrix](https://github.com/Batimetrix/batimetrix)**
 
-Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using a physics-informed neural network fine-tuned on real NASA SWOT measurements, and monitors **10 NASA satellite data sources** for data availability.
+Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using a physics-informed neural network fine-tuned on real NASA SWOT measurements, uses live NASA sea surface height and surface current data at every route waypoint (updated automatically each week), and monitors **10 NASA satellite data sources** for data availability.
 
 **Target: 8-12% net fuel savings and measurable IMO CII rating improvements.**
 
@@ -19,7 +19,7 @@ Vessel performance prediction and voyage optimization are established fields. Co
 
 Batimetrix does not claim to replace these systems. It explores a narrower research question:
 
-> **Can satellite ocean observations — in particular SSH-derived surface currents from NASA SWOT and Sentinel-6 — combined with a physics-informed neural network, improve hydrodynamic drag prediction ahead of a vessel's position?**
+> **Can satellite ocean observations — in particular sea surface height (NASA SWOT, NASA-SSH) and satellite-derived surface currents (NASA OSCAR) — combined with a physics-informed neural network, improve hydrodynamic drag prediction ahead of a vessel's position?**
 
 What Batimetrix currently offers:
 
@@ -52,6 +52,13 @@ What Batimetrix currently offers:
 | ICESat-2 | Arctic ocean height | 2026-05-18 | Arctic route optimization |
 | GEBCO 2026 | Bathymetry (15 arc-sec) | April 2026 | Shallow-water resistance |
 | NISAR (NASA/ISRO) | SAR Maritime + Wake Detection | 2026-09-20 | Status monitoring; wake detection planned |
+
+**Live inputs used in the platform today:**
+
+| Dataset | Measurement | Update | Role in Batimetrix |
+|---|---|---|---|
+| NASA-SSH Simple Gridded SSH (V1.1) | Sea surface height anomaly, 0.5° | Weekly | SSH input at 181/188 waypoints and 15/16 Ocean Intel zones |
+| OSCAR v2.0 NRT (ESR / NASA) | Total surface current, 0.25° | Daily (refreshed weekly) | Current speed at 188/190 points, shown in telemetry |
 
 The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea. Other sources are currently monitored for data availability; integrating them as live model inputs is part of the roadmap.
 
@@ -115,7 +122,7 @@ Batimetrix is an early-stage research platform. Known limitations:
 - **Coarse SSH resolution.** Route waypoints now use live sea surface height anomaly from the NASA-SSH simple gridded product (weekly, 0.5°). This resolution cannot resolve narrow straits or coastal areas; 7 of 188 waypoints fall back to reference values. Next step: higher-resolution SWOT data near straits.
 - **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Total surface currents now come from NASA OSCAR v2.0 (geostrophic + Ekman + thermal wind, top 30 m, daily, 0.25°). They are shown per waypoint but are not yet a model input. Next step: retrain the model with current as an input.
 - **SSH sensitivity and training assumptions.** The model takes SSH anomaly (ssha) as input, normalized as (ssha + 2) / 4. Real anomalies are typically within +/-0.1 m, so this input varies very little and has only a small effect on predictions. In the training data, wave height was estimated from SSH with an assumed relation (1.5 + 0.3 * |ssha|) rather than measured. Next step: retrain using measured significant wave height (swh_karin from SWOT) and a normalization matched to the real SSH range.
-- **NISAR.** SAR-based vessel wake detection and surface roughness estimation are planned, starting with NISAR-formatted Sentinel-1 and simulated-NISAR UAVSAR products.
+- **NISAR.** SAR-based vessel wake detection and surface roughness estimation are planned, using calibrated NISAR L-band products now publicly available through the ASF DAAC.
 
 Feedback and collaboration are welcome.
 
@@ -129,6 +136,8 @@ Feedback and collaboration are welcome.
 | Backend | Python / Flask |
 | Frontend | HTML/CSS/JS, Leaflet.js |
 | NASA Data | PO.DAAC CMR API (10 sources) |
+| Data access | NASA Earthdata / earthaccess (PO.DAAC) |
+| Automation | GitHub Actions — weekly NASA data refresh and redeploy |
 | Deployment | Render.com |
 
 ---
