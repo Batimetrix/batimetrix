@@ -107,7 +107,7 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 
 ## Current Estimates & Assumptions
 
-- Model drag scores depend on vessel type, speed, draft and sea state; current outputs are visible in the platform. The status thresholds (EFFICIENT / NOMINAL / HIGH DRAG) are being recalibrated to the current model scale.
+- Model drag scores depend on vessel type, speed, draft and sea state; current outputs are visible in the platform. Status labels are relative, not absolute: EFFICIENT / NOMINAL / HIGH DRAG thresholds (0.52 / 0.65) are set at the 33rd and 66th percentiles of model outputs across all 60 routes under typical speeds, drafts and sea states.
 - Fuel savings shown in the platform are **estimates**, derived from the drag score through an assumed linear conversion factor and capped at 15% (no minimum, so high-drag routes show lower savings). They are not yet measured results.
 - CII rating changes (e.g. E→D, B→A) are computed from these estimated savings.
 - Baseline daily fuel consumption per vessel class is based on Lloyd's List / MAN Energy Solutions reference values.

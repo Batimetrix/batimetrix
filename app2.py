@@ -2514,10 +2514,10 @@ function updateMap(data){
   routeLayer=L.polyline(latlngs,{color:"#00E5B0",weight:3,opacity:.8}).addTo(map);
   markerLayer=L.layerGroup();
   data.waypoints.forEach(function(w){
-    var c=w.drag<0.20?"#00E5B0":w.drag<0.35?"#FFC107":"#FF4757";
+    var c=w.drag<0.52?"#00E5B0":w.drag<0.65?"#FFC107":"#FF4757";
     var m=L.circleMarker([w.lat,w.lon],{radius:8,color:c,fillColor:c,fillOpacity:.3,weight:2});
     var depthCat = w.depth < 200 ? "🟡 Shallow" : w.depth < 1000 ? "🟢 Continental" : "🔵 Deep Ocean";
-    var status = w.drag < 0.20 ? "✅ EFFICIENT" : w.drag < 0.35 ? "⚠️ NOMINAL" : "🔴 HIGH DRAG";
+    var status = w.drag < 0.52 ? "✅ EFFICIENT" : w.drag < 0.65 ? "⚠️ NOMINAL" : "🔴 HIGH DRAG";
     var swh = typeof w.swh !== "undefined" ? w.swh.toFixed(1)+"m" : "—";
     m.bindPopup(
       "<div style='font-family:JetBrains Mono;font-size:11px;min-width:200px;line-height:1.8'>"+
@@ -2645,10 +2645,10 @@ function renderResults(data){
   var tbody=document.getElementById("table_body");
   tbody.innerHTML="";
   wps.forEach(function(w){
-    var cls=w.drag<0.20?"wg":w.drag<0.35?"wy":"wr";
-    var badge=w.drag<0.20?"badge-green":""+w.drag<0.35?"badge-yellow":"badge-red";
-    var lbl=w.drag<0.20?t.efficient:w.drag<0.35?t.nominal:t.high_drag;
-    var color=w.drag<0.20?"#00E5B0":w.drag<0.35?"#FFC107":"#FF4757";
+    var cls=w.drag<0.52?"wg":w.drag<0.65?"wy":"wr";
+    var badge=w.drag<0.52?"badge-green":""+w.drag<0.65?"badge-yellow":"badge-red";
+    var lbl=w.drag<0.52?t.efficient:w.drag<0.65?t.nominal:t.high_drag;
+    var color=w.drag<0.52?"#00E5B0":w.drag<0.65?"#FFC107":"#FF4757";
     tbody.innerHTML+="<tr>"+
       "<td><span class='wp-dot "+cls+"'></span>"+w.name+"</td>"+
       "<td>"+w.depth+"m</td>"+
@@ -2657,7 +2657,7 @@ function renderResults(data){
       "<td>"+w.swh.toFixed(1)+"</td>"+
       "<td style='color:"+color+";font-weight:700'>"+w.drag.toFixed(4)+"</td>"+
       "<td style='color:#00E5B0'>"+w.savings.toFixed(1)+"%</td>"+
-      "<td><span class='badge "+(w.drag<0.20?"badge-green":w.drag<0.35?"badge-yellow":"badge-red")+"'>"+lbl+"</span></td>"+
+      "<td><span class='badge "+(w.drag<0.52?"badge-green":w.drag<0.65?"badge-yellow":"badge-red")+"'>"+lbl+"</span></td>"+
       "</tr>";
   });
 
@@ -2783,8 +2783,8 @@ function renderFleet(){
   fleetData.forEach(function(v){
     totalCash += v.cash;
     if(v.cii_b !== v.cii_a) improved++;
-    var dragCol = v.drag < 0.20 ? "var(--teal)" : v.drag < 0.35 ? "var(--amber)" : "#E74C3C";
-    var status = v.drag < 0.20 ? "✅ EFFICIENT" : v.drag < 0.35 ? "⚠️ NOMINAL" : "🔴 HIGH DRAG";
+    var dragCol = v.drag < 0.52 ? "var(--teal)" : v.drag < 0.65 ? "var(--amber)" : "#E74C3C";
+    var status = v.drag < 0.52 ? "✅ EFFICIENT" : v.drag < 0.65 ? "⚠️ NOMINAL" : "🔴 HIGH DRAG";
     var ciiCol = v.cii_a === "A" ? "#27AE60" : v.cii_a === "B" ? "var(--teal)" : v.cii_a === "C" ? "var(--amber)" : "#E74C3C";
     tbody.innerHTML += "<tr>" +
       "<td><b>"+v.name+"</b></td>" +
@@ -3186,14 +3186,14 @@ function runComparison() {
         tbB.innerHTML = '';
 
         a.waypoints.forEach(function(w) {
-            var col = w.drag < 0.20 ? 'var(--teal)' : w.drag < 0.35 ? '#F39C12' : '#E74C3C';
-            var st = w.drag < 0.20 ? '✅' : w.drag < 0.35 ? '⚠️' : '🔴';
+            var col = w.drag < 0.52 ? 'var(--teal)' : w.drag < 0.65 ? '#F39C12' : '#E74C3C';
+            var st = w.drag < 0.52 ? '✅' : w.drag < 0.65 ? '⚠️' : '🔴';
             tbA.innerHTML += '<tr><td>' + w.name + '</td><td style="color:' + col + ';font-weight:700">' + w.drag.toFixed(4) + '</td><td>' + st + '</td></tr>';
         });
 
         b.waypoints.forEach(function(w) {
-            var col = w.drag < 0.20 ? 'var(--teal)' : w.drag < 0.35 ? '#F39C12' : '#E74C3C';
-            var st = w.drag < 0.20 ? '✅' : w.drag < 0.35 ? '⚠️' : '🔴';
+            var col = w.drag < 0.52 ? 'var(--teal)' : w.drag < 0.65 ? '#F39C12' : '#E74C3C';
+            var st = w.drag < 0.52 ? '✅' : w.drag < 0.65 ? '⚠️' : '🔴';
             tbB.innerHTML += '<tr><td>' + w.name + '</td><td style="color:' + col + ';font-weight:700">' + w.drag.toFixed(4) + '</td><td>' + st + '</td></tr>';
         });
 
