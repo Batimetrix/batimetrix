@@ -1337,7 +1337,7 @@ footer a{color:var(--teal);text-decoration:none}
               <tr>
                 <th data-i18n="th_waypoint">Waypoint</th>
                 <th data-i18n="th_depth">Depth</th>
-                <th>SSH (m)</th><th>WIND (m/s)</th><th>CHLOROPHYLL</th>
+                <th>SSH (m)</th><th>CURRENT (m/s)</th>
                 <th>SWH (m)</th>
                 <th>Drag</th>
                 <th data-i18n="th_savings">Savings</th>
@@ -2653,6 +2653,7 @@ function renderResults(data){
       "<td><span class='wp-dot "+cls+"'></span>"+w.name+"</td>"+
       "<td>"+w.depth+"m</td>"+
       "<td>"+w.ssh.toFixed(3)+"</td>"+
+      "<td title='"+(w.current_source||"")+"'>"+(w.current_speed!=null?w.current_speed.toFixed(2):"-")+"</td>"+
       "<td>"+w.swh.toFixed(1)+"</td>"+
       "<td style='color:"+color+";font-weight:700'>"+w.drag.toFixed(4)+"</td>"+
       "<td style='color:#00E5B0'>"+w.savings.toFixed(1)+"%</td>"+
@@ -4187,7 +4188,7 @@ window.onload=function(){ renderFleet(); renderSSH(); startAIS(); document.getEl
 
 # ---- Live SSH (NASA-SSH simple grid, weekly) ----
 import json as _json, os as _os
-SSH_LIVE, SSH_LIVE_META, SSH_LIVE_ZONES = {}, {}, {}
+SSH_LIVE, SSH_LIVE_META, SSH_LIVE_ZONES, SSH_CURRENTS = {}, {}, {}, {}
 try:
     _p = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "ssh_live.json")
     with open(_p, encoding="utf-8") as _f:
@@ -4195,6 +4196,8 @@ try:
     SSH_LIVE = _d.get("points", {})
     SSH_LIVE_META = _d.get("meta", {})
     SSH_LIVE_ZONES = _d.get("zones", {})
+    SSH_CURRENTS = _d.get("currents", {})
+    print("Total currents loaded:", sum(1 for c in SSH_CURRENTS.values() if c))
     print("Live SSH loaded:", len(SSH_LIVE), "points,", SSH_LIVE_META.get("data_start"), "->", SSH_LIVE_META.get("data_end"))
 except Exception as _e:
     print("Live SSH not loaded, using reference values:", _e)
@@ -4258,13 +4261,15 @@ def analyze():
         _live = SSH_LIVE.get(f"{wp['lat']:.2f},{wp['lon']:.2f}")
         ssh_val = _live["ssha"] if _live else wp["ssh"]
         ssh_src = "live" if _live else "reference"
-        cur_spd = _live.get("speed") if _live else None
+        _cur = SSH_CURRENTS.get(f"{wp['lat']:.2f},{wp['lon']:.2f}")
+        cur_spd = _cur["speed"] if _cur else (_live.get("speed") if _live else None)
+        cur_src = "oscar_total" if _cur else ("ssha_anomaly" if (_live and _live.get("speed") is not None) else None)
         drag = predict_drag(wp["lat"],wp["lon"],wp["depth"],ssh_val,swh,speed,draft)
         sav = max(0, min(15, (1 - drag) * 18))
         drag_total += drag
         result_wps.append({
             "name":wp["name"],"lat":wp["lat"],"lon":wp["lon"],
-            "depth":wp["depth"],"ssh":ssh_val,"ssh_source":ssh_src,"current_speed":cur_spd,"swh":swh,
+            "depth":wp["depth"],"ssh":ssh_val,"ssh_source":ssh_src,"current_speed":cur_spd,"current_source":cur_src,"swh":swh,
             "drag":round(drag,4),"savings":round(sav,1)
         })
 

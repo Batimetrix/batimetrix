@@ -30,7 +30,7 @@ What Batimetrix currently offers:
 | IMO CII / EU ETS / FuelEU calculators | Implemented (based on estimated savings) |
 | 60 trade routes, 15 vessel classes, fleet dashboard | Implemented |
 | Live SSH inputs at route waypoints | Implemented (NASA-SSH simple grid, weekly, 0.5°; 181/188 waypoints) |
-| SSH gradient → geostrophic current | Computed (anomaly component, 118/188 waypoints); not yet a model input |
+| Surface currents | Implemented: total surface current from NASA OSCAR (daily, 0.25°; 188/190 points), shown in the telemetry table; not yet a model input |
 | Validation against real vessel fuel data | Planned (seeking pilot shipowner) |
 | Open source | Yes |
 
@@ -100,7 +100,7 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 
 ## Current Estimates & Assumptions
 
-- Average model drag score (Black Sea, calm): 0.13-0.14
+- Model drag scores depend on vessel type, speed, draft and sea state; current outputs are visible in the platform. The status thresholds (EFFICIENT / NOMINAL / HIGH DRAG) are being recalibrated to the current model scale.
 - Fuel savings shown in the platform are **estimates**, derived from the drag score through an assumed linear conversion factor and capped at 15% (no minimum, so high-drag routes show lower savings). They are not yet measured results.
 - CII rating changes (e.g. E→D, B→A) are computed from these estimated savings.
 - Baseline daily fuel consumption per vessel class is based on Lloyd's List / MAN Energy Solutions reference values.
@@ -113,7 +113,7 @@ Batimetrix is an early-stage research platform. Known limitations:
 
 - **No real-world validation yet.** Training targets are generated from the physics model; the network has not been validated against measured vessel drag or fuel consumption. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
 - **Coarse SSH resolution.** Route waypoints now use live sea surface height anomaly from the NASA-SSH simple gridded product (weekly, 0.5°). This resolution cannot resolve narrow straits or coastal areas; 7 of 188 waypoints fall back to reference values. Next step: higher-resolution SWOT data near straits.
-- **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Anomaly geostrophic currents are now derived from SSHA gradients, but they represent deviations from the mean circulation, not total currents, and are not yet a model input. Next step: add mean dynamic topography and retrain the model with current as an input.
+- **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Total surface currents now come from NASA OSCAR v2.0 (geostrophic + Ekman + thermal wind, top 30 m, daily, 0.25°). They are shown per waypoint but are not yet a model input. Next step: retrain the model with current as an input.
 - **SSH sensitivity and training assumptions.** The model takes SSH anomaly (ssha) as input, normalized as (ssha + 2) / 4. Real anomalies are typically within +/-0.1 m, so this input varies very little and has only a small effect on predictions. In the training data, wave height was estimated from SSH with an assumed relation (1.5 + 0.3 * |ssha|) rather than measured. Next step: retrain using measured significant wave height (swh_karin from SWOT) and a normalization matched to the real SSH range.
 - **NISAR.** SAR-based vessel wake detection and surface roughness estimation are planned, starting with NISAR-formatted Sentinel-1 and simulated-NISAR UAVSAR products.
 
@@ -142,3 +142,11 @@ Independent Researcher | ASU Online Student Turkey
 ---
 
 *Batimetrix is the foundation of Thalassa — a maritime intelligence platform vision combining NASA satellite data, physics-informed AI, and ocean analytics for commercial and defense applications.*
+
+---
+
+## Data Credits
+
+- Sea surface height: NASA-SSH Simple Gridded SSH (NASA PO.DAAC), CC BY 4.0.
+- Surface currents: OSCAR v2.0 Near Real Time, Earth & Space Research / NASA PO.DAAC, doi:10.5067/OSCAR-25N20.
+- SWOT data: NASA / CNES via NASA PO.DAAC.

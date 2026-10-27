@@ -96,7 +96,48 @@ for m in re.finditer(r'\{name:"([^"]+)",\s*lat:([-\d.]+),\s*lon:([-\d.]+),\s*dev
     if r:
         zones[zkey] = {'name': zname, 'ssha': r['ssha'], 'counts': r['counts'], 'nearest_cell': r['nearest_cell']}
 print('Zones with SSH  :', len(zones))
-json.dump({'meta': meta, 'points': points, 'zones': zones}, open('ssh_live.json', 'w', encoding='utf-8'), indent=1)
+currents = {}
+try:
+    of = sorted(glob.glob('oscar_data/*.nc'))[-1]
+    od = xr.open_dataset(open(of, 'rb'), engine='h5netcdf')
+    olat = od['lat'].values
+    olon = od['lon'].values
+    U = od['u'].values[0]
+    V = od['v'].values[0]
+    def osample(lat, lon):
+        i = int(np.argmin(np.abs(olon - (lon % 360))))
+        j = int(np.argmin(np.abs(olat - lat)))
+        best = None
+        for r in range(0, 3):
+            for di in range(-r, r + 1):
+                for dj in range(-r, r + 1):
+                    ii, jj = (i + di) % len(olon), j + dj
+                    if 0 <= jj < len(olat) and not np.isnan(U[ii, jj]):
+                        d = di * di + dj * dj
+                        if best is None or d < best[0]:
+                            best = (d, ii, jj)
+            if best:
+                break
+        if not best:
+            return None
+        _, ii, jj = best
+        u, v = float(U[ii, jj]), float(V[ii, jj])
+        return {'u': round(u, 4), 'v': round(v, 4), 'speed': round(float(np.hypot(u, v)), 4), 'nearest_cell': best[0] > 0}
+    for rkey, route in ROUTES.items():
+        for wp in route.get('waypoints', []):
+            key = f"{wp['lat']:.2f},{wp['lon']:.2f}"
+            if key not in currents:
+                currents[key] = osample(wp['lat'], wp['lon'])
+    for key in zones:
+        la, lo = map(float, key.split(','))
+        if key not in currents:
+            currents[key] = osample(la, lo)
+    meta['currents_source'] = 'OSCAR_L4_OC_NRT_V2.0 (NASA PO.DAAC / ESR), total surface current, 0.25 deg, daily'
+    meta['currents_date'] = od.attrs.get('time_coverage_start')
+    print('Currents with data:', sum(1 for c in currents.values() if c), '/', len(currents))
+except Exception as e:
+    print('OSCAR not added:', e)
+json.dump({'meta': meta, 'points': points, 'zones': zones, 'currents': currents}, open('ssh_live.json', 'w', encoding='utf-8'), indent=1)
 
 print('Unique waypoints:', total)
 print('With SSH data   :', with_ssh)
