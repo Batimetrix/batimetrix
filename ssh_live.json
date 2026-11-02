@@ -1,18 +1,16 @@
 {
  "meta": {
   "source": "NASA_SSH_REF_SIMPLE_GRID_V11 (NASA PO.DAAC)",
-  "file": "NASA-SSH_alt_ref_simple_grid_v1_1_20260928.nc",
-  "data_start": "2026-09-23T00:00:00",
-  "data_end": "2026-10-03T00:00:00",
+  "file": "NASA-SSH_alt_ref_simple_grid_v1_1_20261019.nc",
+  "data_start": "2026-10-14T00:00:00",
+  "data_end": "2026-10-24T00:00:00",
   "grid_resolution_deg": 0.5,
-  "generated_utc": "2026-10-27T19:29:43Z",
-  "current_note": "Anomaly geostrophic current derived from SSHA gradients (not total current).",
-  "currents_source": "OSCAR_L4_OC_NRT_V2.0 (NASA PO.DAAC / ESR), total surface current, 0.25 deg, daily",
-  "currents_date": "2026-10-25T00:00:00"
+  "generated_utc": "2026-11-02T15:04:25Z",
+  "current_note": "Anomaly geostrophic current derived from SSHA gradients (not total current)."
  },
  "points": {
   "41.10,29.05": {
-   "ssha": 0.063,
+   "ssha": -0.0057,
    "counts": 235,
    "nearest_cell": false,
    "u": null,
@@ -20,7 +18,7 @@
    "speed": null
   },
   "41.30,29.50": {
-   "ssha": 0.063,
+   "ssha": -0.0057,
    "counts": 235,
    "nearest_cell": false,
    "u": null,
@@ -28,39 +26,39 @@
    "speed": null
   },
   "41.80,30.50": {
-   "ssha": 0.0612,
+   "ssha": -0.02,
    "counts": 253,
    "nearest_cell": false,
-   "u": 0.0025,
-   "v": -0.0089,
-   "speed": 0.0093
+   "u": 0.0111,
+   "v": -0.0151,
+   "speed": 0.0188
   },
   "41.60,31.80": {
-   "ssha": 0.0421,
+   "ssha": -0.0439,
    "counts": 323,
    "nearest_cell": false,
-   "u": 0.0076,
-   "v": -0.0202,
-   "speed": 0.0215
+   "u": 0.0099,
+   "v": -0.0198,
+   "speed": 0.0221
   },
   "42.00,35.10": {
-   "ssha": -0.0101,
+   "ssha": -0.0307,
    "counts": 341,
    "nearest_cell": false,
-   "u": -0.0007,
-   "v": -0.0101,
-   "speed": 0.0101
+   "u": 0.0003,
+   "v": 0.0139,
+   "speed": 0.0139
   },
   "41.70,36.20": {
-   "ssha": -0.0164,
+   "ssha": -0.0232,
    "counts": 341,
    "nearest_cell": false,
    "u": 0.0002,
-   "v": -0.0062,
-   "speed": 0.0062
+   "v": 0.0053,
+   "speed": 0.0053
   },
   "41.00,39.73": {
-   "ssha": -0.0108,
+   "ssha": -0.0314,
    "counts": 152,
    "nearest_cell": false,
    "u": null,
@@ -68,23 +66,23 @@
    "speed": null
   },
   "42.10,33.00": {
-   "ssha": 0.0216,
+   "ssha": -0.0586,
    "counts": 330,
    "nearest_cell": false,
-   "u": 0.0063,
-   "v": -0.0183,
-   "speed": 0.0193
+   "u": 0.0041,
+   "v": -0.003,
+   "speed": 0.0051
   },
   "44.72,37.77": {
-   "ssha": -0.0196,
+   "ssha": -0.0204,
    "counts": 290,
    "nearest_cell": true,
-   "u": -0.0035,
-   "v": -0.0101,
-   "speed": 0.0107
+   "u": -0.0009,
+   "v": 0.0011,
+   "speed": 0.0014
   },
   "46.48,30.73": {
-   "ssha": -0.0086,
+   "ssha": -0.0708,
    "counts": 254,
    "nearest_cell": false,
    "u": null,
@@ -92,23 +90,23 @@
    "speed": null
   },
   "44.00,31.00": {
-   "ssha": 0.0279,
+   "ssha": -0.0554,
    "counts": 285,
    "nearest_cell": false,
-   "u": 0.0185,
-   "v": -0.0156,
-   "speed": 0.0242
+   "u": 0.0109,
+   "v": -0.0108,
+   "speed": 0.0153
   },
   "42.50,32.00": {
-   "ssha": 0.0374,
+   "ssha": -0.0493,
    "counts": 324,
    "nearest_cell": false,
-   "u": 0.0095,
-   "v": -0.0198,
-   "speed": 0.0219
+   "u": 0.0094,
+   "v": -0.0168,
+   "speed": 0.0193
   },
   "41.65,41.64": {
-   "ssha": -0.0027,
+   "ssha": -0.0489,
    "counts": 148,
    "nearest_cell": false,
    "u": null,
@@ -116,31 +114,31 @@
    "speed": null
   },
   "42.00,38.00": {
-   "ssha": -0.0219,
+   "ssha": -0.021,
    "counts": 225,
    "nearest_cell": false,
-   "u": 0.003,
-   "v": -0.0021,
-   "speed": 0.0037
+   "u": -0.0003,
+   "v": -0.0009,
+   "speed": 0.0009
   },
   "42.20,33.00": {
-   "ssha": 0.0216,
+   "ssha": -0.0586,
    "counts": 330,
    "nearest_cell": false,
-   "u": 0.0063,
-   "v": -0.0183,
-   "speed": 0.0193
+   "u": 0.0041,
+   "v": -0.003,
+   "speed": 0.0051
   },
   "44.17,28.65": {
-   "ssha": 0.042,
+   "ssha": -0.0459,
    "counts": 245,
    "nearest_cell": false,
-   "u": 0.0226,
-   "v": -0.0154,
-   "speed": 0.0274
+   "u": 0.0164,
+   "v": -0.0102,
+   "speed": 0.0193
   },
   "41.50,30.00": {
-   "ssha": 0.063,
+   "ssha": -0.0094,
    "counts": 243,
    "nearest_cell": false,
    "u": null,
@@ -148,63 +146,63 @@
    "speed": null
   },
   "41.80,32.00": {
-   "ssha": 0.0421,
+   "ssha": -0.0439,
    "counts": 323,
    "nearest_cell": false,
-   "u": 0.0075,
-   "v": -0.0201,
-   "speed": 0.0215
+   "u": 0.0098,
+   "v": -0.0198,
+   "speed": 0.0221
   },
   "42.10,34.00": {
-   "ssha": 0.0072,
+   "ssha": -0.0531,
    "counts": 341,
    "nearest_cell": false,
-   "u": 0.0023,
-   "v": -0.0167,
-   "speed": 0.0168
+   "u": 0.0008,
+   "v": 0.015,
+   "speed": 0.015
   },
   "42.00,36.00": {
-   "ssha": -0.0136,
+   "ssha": -0.0261,
    "counts": 341,
    "nearest_cell": false,
-   "u": -0.0004,
-   "v": -0.0077,
-   "speed": 0.0077
+   "u": 0.0003,
+   "v": 0.0091,
+   "speed": 0.0091
   },
   "45.00,-5.00": {
-   "ssha": 0.1649,
+   "ssha": 0.1592,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0005,
-   "v": 0.0049,
-   "speed": 0.0049
+   "u": 0.0022,
+   "v": -0.0031,
+   "speed": 0.0038
   },
   "48.00,-15.00": {
-   "ssha": 0.1043,
+   "ssha": 0.1399,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0008,
-   "v": 0.0296,
-   "speed": 0.0296
+   "u": 0.0083,
+   "v": 0.0221,
+   "speed": 0.0236
   },
   "50.00,-25.00": {
-   "ssha": 0.0598,
+   "ssha": 0.0815,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0204,
-   "v": 0.027,
-   "speed": 0.0339
+   "u": 0.027,
+   "v": 0.0151,
+   "speed": 0.0309
   },
   "52.00,-30.00": {
-   "ssha": 0.0817,
+   "ssha": 0.1134,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0074,
-   "v": 0.001,
-   "speed": 0.0075
+   "u": 0.0157,
+   "v": 0.0038,
+   "speed": 0.0162
   },
   "31.23,121.47": {
-   "ssha": 0.287,
+   "ssha": 0.2718,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -212,15 +210,15 @@
    "speed": null
   },
   "2.50,101.00": {
-   "ssha": -0.0182,
-   "counts": 167,
+   "ssha": 0.0102,
+   "counts": 150,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "5.00,75.00": {
-   "ssha": 0.0624,
+   "ssha": 0.1474,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -228,7 +226,7 @@
    "speed": null
   },
   "29.97,32.55": {
-   "ssha": 0.1126,
+   "ssha": 0.168,
    "counts": 4,
    "nearest_cell": true,
    "u": null,
@@ -236,127 +234,127 @@
    "speed": null
   },
   "36.00,15.00": {
-   "ssha": 0.1289,
+   "ssha": 0.1176,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0039,
-   "v": -0.0105,
-   "speed": 0.0112
+   "u": -0.01,
+   "v": 0.0095,
+   "speed": 0.0138
   },
   "51.95,4.14": {
-   "ssha": 0.2642,
-   "counts": 422,
+   "ssha": 0.1911,
+   "counts": 426,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "35.00,150.00": {
-   "ssha": 0.2406,
+   "ssha": 0.3305,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0476,
-   "v": 0.1782,
-   "speed": 0.1844
+   "u": 0.0553,
+   "v": 0.1388,
+   "speed": 0.1494
   },
   "38.00,180.00": {
-   "ssha": 0.2193,
+   "ssha": 0.2594,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0468,
-   "v": 0.0728,
-   "speed": 0.0866
+   "u": -0.0712,
+   "v": 0.0144,
+   "speed": 0.0726
   },
   "35.00,-140.00": {
-   "ssha": 0.0953,
+   "ssha": 0.1128,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0092,
-   "v": -0.004,
-   "speed": 0.01
+   "u": -0.0004,
+   "v": 0.0046,
+   "speed": 0.0046
   },
   "33.74,-118.27": {
-   "ssha": 0.1826,
-   "counts": 491,
+   "ssha": 0.2325,
+   "counts": 500,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "1.29,103.85": {
-   "ssha": 0.0985,
-   "counts": 328,
+   "ssha": 0.1756,
+   "counts": 312,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "10.00,110.00": {
-   "ssha": 0.1843,
+   "ssha": 0.1587,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0084,
-   "v": 0.0022,
-   "speed": 0.0087
+   "u": 0.0011,
+   "v": 0.0078,
+   "speed": 0.0079
   },
   "24.00,119.00": {
-   "ssha": 0.1224,
-   "counts": 419,
+   "ssha": 0.2859,
+   "counts": 422,
    "nearest_cell": false,
-   "u": -0.033,
-   "v": -0.007,
-   "speed": 0.0337
+   "u": -0.0377,
+   "v": -0.022,
+   "speed": 0.0436
   },
   "50.00,-1.00": {
-   "ssha": 0.1092,
-   "counts": 487,
+   "ssha": 0.191,
+   "counts": 465,
    "nearest_cell": false,
-   "u": 0.0052,
-   "v": -0.0096,
-   "speed": 0.011
+   "u": -0.0157,
+   "v": 0.0266,
+   "speed": 0.0309
   },
   "48.00,-30.00": {
-   "ssha": 0.0489,
+   "ssha": 0.0925,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0115,
-   "v": 0.0071,
-   "speed": 0.0135
+   "u": -0.0211,
+   "v": 0.0103,
+   "speed": 0.0235
   },
   "44.00,-50.00": {
-   "ssha": 0.2465,
+   "ssha": 0.2048,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0391,
-   "v": 0.0074,
-   "speed": 0.0398
+   "u": 0.0155,
+   "v": -0.0081,
+   "speed": 0.0175
   },
   "40.60,-74.05": {
-   "ssha": 0.1289,
-   "counts": 500,
+   "ssha": 0.2017,
+   "counts": 397,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "-23.98,-46.30": {
-   "ssha": 0.0745,
-   "counts": 454,
+   "ssha": 0.0698,
+   "counts": 452,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "-15.00,-30.00": {
-   "ssha": 0.0559,
+   "ssha": 0.0616,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0396,
-   "v": -0.0196,
-   "speed": 0.0442
+   "u": 0.0356,
+   "v": -0.0309,
+   "speed": 0.0471
   },
   "0.00,-25.00": {
-   "ssha": 0.1244,
+   "ssha": 0.1019,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -364,39 +362,39 @@
    "speed": null
   },
   "28.00,-18.00": {
-   "ssha": 0.1456,
+   "ssha": 0.146,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0222,
-   "v": 0.055,
-   "speed": 0.0593
+   "u": 0.0216,
+   "v": 0.023,
+   "speed": 0.0316
   },
   "25.27,55.30": {
-   "ssha": 0.1719,
-   "counts": 81,
+   "ssha": 0.1852,
+   "counts": 80,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "18.00,62.00": {
-   "ssha": 0.1906,
+   "ssha": 0.1578,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0036,
-   "v": -0.0265,
-   "speed": 0.0268
+   "u": 0.0252,
+   "v": -0.0352,
+   "speed": 0.0432
   },
   "8.00,75.00": {
-   "ssha": 0.014,
+   "ssha": 0.1168,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0304,
-   "v": 0.086,
-   "speed": 0.0912
+   "u": 0.0322,
+   "v": 0.0606,
+   "speed": 0.0686
   },
   "18.94,72.83": {
-   "ssha": 0.0489,
+   "ssha": 0.0942,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -404,23 +402,23 @@
    "speed": null
   },
   "12.50,45.00": {
-   "ssha": -0.0196,
-   "counts": 90,
+   "ssha": -0.0086,
+   "counts": 89,
    "nearest_cell": false,
-   "u": -0.0062,
-   "v": -0.0311,
-   "speed": 0.0317
+   "u": 0.0159,
+   "v": -0.0616,
+   "speed": 0.0636
   },
   "20.00,38.00": {
-   "ssha": 0.013,
+   "ssha": 0.1667,
    "counts": 68,
    "nearest_cell": false,
-   "u": -0.0242,
-   "v": -0.0038,
-   "speed": 0.0245
+   "u": -0.0101,
+   "v": 0.0002,
+   "speed": 0.0101
   },
   "-29.87,31.03": {
-   "ssha": 0.0896,
+   "ssha": 0.0983,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -428,15 +426,15 @@
    "speed": null
   },
   "-20.00,55.00": {
-   "ssha": 0.0495,
+   "ssha": 0.1129,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0006,
-   "v": -0.0479,
-   "speed": 0.0479
+   "u": 0.009,
+   "v": -0.0728,
+   "speed": 0.0733
   },
   "-5.00,80.00": {
-   "ssha": 0.2219,
+   "ssha": 0.2607,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -444,23 +442,23 @@
    "speed": null
   },
   "9.08,-79.68": {
-   "ssha": 0.024,
-   "counts": 422,
+   "ssha": 0.0328,
+   "counts": 407,
    "nearest_cell": false,
-   "u": 1.2222,
-   "v": 0.3717,
-   "speed": 1.2775
+   "u": 1.6419,
+   "v": 0.3286,
+   "speed": 1.6744
   },
   "15.00,-95.00": {
-   "ssha": 0.2343,
+   "ssha": 0.3433,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0292,
-   "v": 0.219,
-   "speed": 0.221
+   "u": -0.1116,
+   "v": 0.0552,
+   "speed": 0.1245
   },
   "25.00,-112.00": {
-   "ssha": 0.2702,
+   "ssha": 0.3537,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -468,7 +466,7 @@
    "speed": null
   },
   "35.65,139.84": {
-   "ssha": 0.2068,
+   "ssha": 0.3264,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -476,103 +474,103 @@
    "speed": null
   },
   "40.00,160.00": {
-   "ssha": 0.2915,
+   "ssha": 0.2702,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0656,
-   "v": 0.0087,
-   "speed": 0.0661
+   "u": -0.0756,
+   "v": -0.0141,
+   "speed": 0.0769
   },
   "42.00,-175.00": {
-   "ssha": 0.2691,
+   "ssha": 0.2478,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0071,
-   "v": -0.014,
-   "speed": 0.0156
+   "u": 0.0019,
+   "v": -0.0139,
+   "speed": 0.014
   },
   "38.00,-140.00": {
-   "ssha": 0.081,
+   "ssha": 0.1069,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0036,
-   "v": -0.0042,
-   "speed": 0.0056
+   "u": 0.0016,
+   "v": -0.0004,
+   "speed": 0.0017
   },
   "53.55,9.99": {
-   "ssha": 0.2897,
-   "counts": 414,
+   "ssha": 0.1856,
+   "counts": 418,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "55.00,3.00": {
-   "ssha": 0.2612,
+   "ssha": 0.1881,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0081,
-   "v": 0.0079,
-   "speed": 0.0113
+   "u": 0.0176,
+   "v": -0.008,
+   "speed": 0.0193
   },
   "-37.84,144.92": {
-   "ssha": 0.0424,
-   "counts": 433,
+   "ssha": 0.0676,
+   "counts": 442,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "-18.00,155.00": {
-   "ssha": 0.0539,
+   "ssha": 0.1135,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0589,
-   "v": -0.0479,
-   "speed": 0.0759
+   "u": 0.0628,
+   "v": -0.0046,
+   "speed": 0.063
   },
   "10.00,130.00": {
-   "ssha": -0.0257,
+   "ssha": -0.1201,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0864,
-   "v": -0.0878,
-   "speed": 0.1232
+   "u": 0.0853,
+   "v": 0.0172,
+   "speed": 0.0871
   },
   "28.00,125.00": {
-   "ssha": 0.1905,
+   "ssha": 0.2226,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0384,
-   "v": -0.022,
-   "speed": 0.0443
+   "u": -0.0267,
+   "v": -0.0145,
+   "speed": 0.0304
   },
   "21.49,39.19": {
-   "ssha": 0.0273,
-   "counts": 72,
+   "ssha": 0.1729,
+   "counts": 73,
    "nearest_cell": true,
-   "u": -0.0419,
-   "v": -0.0152,
-   "speed": 0.0446
+   "u": -0.0101,
+   "v": -0.0011,
+   "speed": 0.0102
   },
   "25.00,36.00": {
-   "ssha": 0.1024,
-   "counts": 22,
+   "ssha": 0.1686,
+   "counts": 23,
    "nearest_cell": false,
-   "u": -0.0158,
-   "v": -0.0101,
-   "speed": 0.0187
+   "u": 0.0033,
+   "v": 0.0024,
+   "speed": 0.0041
   },
   "36.14,-5.35": {
-   "ssha": 0.1472,
-   "counts": 38,
+   "ssha": 0.1914,
+   "counts": 36,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "35.10,129.04": {
-   "ssha": 0.2877,
+   "ssha": 0.2946,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -580,71 +578,71 @@
    "speed": null
   },
   "42.00,160.00": {
-   "ssha": 0.3364,
+   "ssha": 0.3089,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.042,
-   "v": -0.0108,
-   "speed": 0.0434
+   "u": 0.0435,
+   "v": -0.0186,
+   "speed": 0.0473
   },
   "44.00,-175.00": {
-   "ssha": 0.2797,
+   "ssha": 0.2526,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0014,
-   "v": -0.0123,
-   "speed": 0.0124
+   "u": -0.0027,
+   "v": -0.0114,
+   "speed": 0.0117
   },
   "36.50,-2.00": {
-   "ssha": 0.1469,
-   "counts": 80,
+   "ssha": 0.169,
+   "counts": 78,
    "nearest_cell": false,
-   "u": 0.0012,
-   "v": -0.0032,
-   "speed": 0.0034
+   "u": 0.0102,
+   "v": -0.0189,
+   "speed": 0.0215
   },
   "38.50,8.00": {
-   "ssha": 0.1716,
-   "counts": 443,
+   "ssha": 0.1028,
+   "counts": 484,
    "nearest_cell": false,
-   "u": -0.0032,
-   "v": -0.0144,
-   "speed": 0.0148
+   "u": -0.0002,
+   "v": -0.0085,
+   "speed": 0.0085
   },
   "37.50,18.00": {
-   "ssha": 0.0872,
+   "ssha": 0.1133,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0008,
-   "v": -0.0058,
-   "speed": 0.0059
+   "u": 0.0054,
+   "v": -0.0074,
+   "speed": 0.0092
   },
   "37.94,23.65": {
-   "ssha": 0.1154,
-   "counts": 330,
+   "ssha": 0.1823,
+   "counts": 398,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "22.30,114.17": {
-   "ssha": 0.1147,
+   "ssha": 0.2514,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0002,
-   "v": -0.0354,
-   "speed": 0.0354
+   "u": 0.007,
+   "v": -0.0188,
+   "speed": 0.0201
   },
   "15.00,113.00": {
-   "ssha": 0.0209,
+   "ssha": 0.0581,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0653,
-   "v": -0.0088,
-   "speed": 0.0659
+   "u": -0.0347,
+   "v": 0.0168,
+   "speed": 0.0386
   },
   "4.00,108.00": {
-   "ssha": 0.1224,
+   "ssha": 0.1591,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -652,15 +650,15 @@
    "speed": null
   },
   "20.00,-65.00": {
-   "ssha": 0.1418,
+   "ssha": 0.2112,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0133,
-   "v": -0.0036,
-   "speed": 0.0138
+   "u": 0.0138,
+   "v": 0.0229,
+   "speed": 0.0268
   },
   "0.00,-40.00": {
-   "ssha": 0.1596,
+   "ssha": 0.1466,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -668,7 +666,7 @@
    "speed": null
   },
   "-33.91,18.42": {
-   "ssha": 0.1087,
+   "ssha": 0.1086,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -676,15 +674,15 @@
    "speed": null
   },
   "-25.00,50.00": {
-   "ssha": 0.1745,
+   "ssha": 0.1117,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0344,
-   "v": -0.0631,
-   "speed": 0.0719
+   "u": -0.0169,
+   "v": -0.0848,
+   "speed": 0.0865
   },
   "35.44,139.64": {
-   "ssha": 0.2127,
+   "ssha": 0.3662,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -692,87 +690,87 @@
    "speed": null
   },
   "20.00,130.00": {
-   "ssha": 0.1083,
+   "ssha": 0.236,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0268,
-   "v": 0.0991,
-   "speed": 0.1026
+   "u": -0.0812,
+   "v": 0.048,
+   "speed": 0.0944
   },
   "10.00,115.00": {
-   "ssha": 0.1691,
+   "ssha": 0.1663,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0318,
-   "v": -0.0301,
-   "speed": 0.0437
+   "u": -0.1294,
+   "v": -0.0209,
+   "speed": 0.1311
   },
   "51.24,4.42": {
-   "ssha": 0.2624,
-   "counts": 338,
+   "ssha": 0.1867,
+   "counts": 343,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "50.00,-2.00": {
-   "ssha": 0.1282,
+   "ssha": 0.1659,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0077,
-   "v": -0.0263,
-   "speed": 0.0274
+   "u": -0.0087,
+   "v": 0.0311,
+   "speed": 0.0323
   },
   "47.00,-35.00": {
-   "ssha": 0.1336,
+   "ssha": 0.1331,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0263,
-   "v": -0.0121,
-   "speed": 0.0289
+   "u": 0.0377,
+   "v": -0.0047,
+   "speed": 0.038
   },
   "39.44,-0.32": {
-   "ssha": 0.1991,
-   "counts": 246,
+   "ssha": 0.161,
+   "counts": 244,
    "nearest_cell": false,
-   "u": -0.0297,
-   "v": 0.0337,
-   "speed": 0.0449
+   "u": -0.0093,
+   "v": 0.0138,
+   "speed": 0.0167
   },
   "38.00,5.00": {
-   "ssha": 0.2749,
-   "counts": 352,
+   "ssha": 0.1754,
+   "counts": 382,
    "nearest_cell": false,
-   "u": -0.0006,
-   "v": -0.0413,
-   "speed": 0.0413
+   "u": 0.0033,
+   "v": -0.0288,
+   "speed": 0.029
   },
   "35.00,20.00": {
-   "ssha": 0.0883,
+   "ssha": 0.1122,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0018,
-   "v": 0.0155,
-   "speed": 0.0156
+   "u": 0.003,
+   "v": 0.0122,
+   "speed": 0.0126
   },
   "36.07,120.38": {
-   "ssha": 0.3477,
-   "counts": 265,
+   "ssha": 0.2861,
+   "counts": 264,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "30.00,124.00": {
-   "ssha": 0.2567,
+   "ssha": 0.26,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0232,
-   "v": -0.0137,
-   "speed": 0.0269
+   "u": -0.0086,
+   "v": -0.0039,
+   "speed": 0.0095
   },
   "6.94,79.84": {
-   "ssha": 0.04,
+   "ssha": 0.1622,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -780,259 +778,259 @@
    "speed": null
   },
   "8.00,88.00": {
-   "ssha": 0.1234,
+   "ssha": 0.1101,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0765,
-   "v": -0.1378,
-   "speed": 0.1576
+   "u": -0.0542,
+   "v": -0.0795,
+   "speed": 0.0962
   },
   "29.73,-94.98": {
-   "ssha": 0.1344,
-   "counts": 422,
+   "ssha": 0.1899,
+   "counts": 417,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "26.00,-88.00": {
-   "ssha": 0.2918,
+   "ssha": 0.1541,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.1073,
-   "v": 0.0436,
-   "speed": 0.1158
+   "u": 0.029,
+   "v": 0.0163,
+   "speed": 0.0333
   },
   "40.00,-45.00": {
-   "ssha": 0.0564,
+   "ssha": 0.1391,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0428,
-   "v": -0.0407,
-   "speed": 0.0591
+   "u": -0.0308,
+   "v": 0.002,
+   "speed": 0.0308
   },
   "47.60,-122.33": null,
   "48.00,-150.00": {
-   "ssha": 0.1555,
+   "ssha": 0.1545,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0003,
-   "v": -0.0084,
-   "speed": 0.0084
+   "u": 0.0019,
+   "v": -0.0038,
+   "speed": 0.0042
   },
   "45.00,175.00": {
-   "ssha": 0.2833,
+   "ssha": 0.2759,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0182,
-   "v": -0.0063,
-   "speed": 0.0192
+   "u": 0.0197,
+   "v": -0.01,
+   "speed": 0.0221
   },
   "36.00,26.00": {
-   "ssha": 0.0287,
-   "counts": 418,
+   "ssha": 0.034,
+   "counts": 431,
    "nearest_cell": false,
-   "u": 0.0093,
-   "v": 0.0078,
-   "speed": 0.0122
+   "u": 0.0055,
+   "v": -0.0064,
+   "speed": 0.0084
   },
   "33.00,28.00": {
-   "ssha": 0.0943,
+   "ssha": 0.0858,
    "counts": 394,
    "nearest_cell": false,
-   "u": 0.0128,
-   "v": 0.0055,
-   "speed": 0.0139
+   "u": 0.0096,
+   "v": 0.0089,
+   "speed": 0.0131
   },
   "31.20,29.92": {
-   "ssha": 0.0873,
+   "ssha": 0.0978,
    "counts": 360,
    "nearest_cell": false,
-   "u": 0.0107,
-   "v": -0.0315,
-   "speed": 0.0333
+   "u": 0.0064,
+   "v": -0.0033,
+   "speed": 0.0072
   },
   "49.29,-123.11": null,
   "50.00,-155.00": {
-   "ssha": 0.1638,
+   "ssha": 0.1445,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0025,
-   "v": 0.014,
-   "speed": 0.0142
+   "u": 0.0015,
+   "v": 0.0074,
+   "speed": 0.0076
   },
   "45.00,170.00": {
-   "ssha": 0.231,
+   "ssha": 0.251,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0076,
-   "v": 0.0253,
-   "speed": 0.0264
+   "u": 0.0009,
+   "v": 0.037,
+   "speed": 0.037
   },
   "40.20,26.40": null,
   "39.00,25.00": null,
   "34.68,135.20": {
-   "ssha": 0.2957,
-   "counts": 377,
+   "ssha": 0.2602,
+   "counts": 323,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "12.00,115.00": {
-   "ssha": 0.1532,
+   "ssha": 0.1811,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0884,
-   "v": 0.0947,
-   "speed": 0.1295
+   "u": 0.0929,
+   "v": 0.0476,
+   "speed": 0.1044
   },
   "36.13,-5.45": {
-   "ssha": 0.1472,
-   "counts": 38,
+   "ssha": 0.1914,
+   "counts": 36,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "38.00,-25.00": {
-   "ssha": 0.1491,
+   "ssha": 0.1687,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0041,
-   "v": 0.0063,
-   "speed": 0.0075
+   "u": 0.0062,
+   "v": 0.0229,
+   "speed": 0.0238
   },
   "42.00,-48.00": {
-   "ssha": 0.4401,
+   "ssha": 0.2562,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0732,
-   "v": -0.0507,
-   "speed": 0.089
+   "u": 0.0463,
+   "v": -0.0291,
+   "speed": 0.0547
   },
   "38.92,121.63": {
-   "ssha": 0.2634,
-   "counts": 194,
+   "ssha": 0.2448,
+   "counts": 196,
    "nearest_cell": false,
-   "u": 0.0109,
-   "v": 0.0548,
-   "speed": 0.0558
+   "u": 0.0112,
+   "v": 0.0157,
+   "speed": 0.0193
   },
   "34.00,123.00": {
-   "ssha": 0.2727,
+   "ssha": 0.3018,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0118,
-   "v": -0.0059,
-   "speed": 0.0132
+   "u": 0.0006,
+   "v": -0.0036,
+   "speed": 0.0036
   },
   "28.00,124.00": {
-   "ssha": 0.2154,
+   "ssha": 0.2366,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0303,
-   "v": -0.0493,
-   "speed": 0.0579
+   "u": -0.0239,
+   "v": -0.0282,
+   "speed": 0.037
   },
   "12.00,114.00": {
-   "ssha": 0.1288,
+   "ssha": 0.1653,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.1977,
-   "v": 0.0268,
-   "speed": 0.1996
+   "u": 0.1565,
+   "v": 0.0292,
+   "speed": 0.1592
   },
   "51.96,1.31": {
-   "ssha": 0.257,
-   "counts": 430,
+   "ssha": 0.2012,
+   "counts": 434,
    "nearest_cell": false,
-   "u": -0.0007,
-   "v": 0.004,
-   "speed": 0.004
+   "u": -0.0119,
+   "v": -0.0059,
+   "speed": 0.0133
   },
   "8.00,70.00": {
-   "ssha": 0.0318,
+   "ssha": 0.0194,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0118,
-   "v": -0.0681,
-   "speed": 0.0691
+   "u": 0.0668,
+   "v": 0.0075,
+   "speed": 0.0672
   },
   "33.75,-118.19": {
-   "ssha": 0.1826,
-   "counts": 491,
+   "ssha": 0.2325,
+   "counts": 500,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "44.41,8.93": {
-   "ssha": 0.2396,
-   "counts": 225,
+   "ssha": 0.1382,
+   "counts": 236,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "40.00,12.00": {
-   "ssha": 0.1973,
-   "counts": 435,
+   "ssha": 0.1344,
+   "counts": 498,
    "nearest_cell": false,
-   "u": -0.0173,
-   "v": -0.0122,
-   "speed": 0.0212
+   "u": -0.0141,
+   "v": -0.0048,
+   "speed": 0.0149
   },
   "36.00,18.00": {
-   "ssha": 0.088,
+   "ssha": 0.1144,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0004,
-   "v": -0.016,
-   "speed": 0.016
+   "u": -0.0051,
+   "v": -0.0093,
+   "speed": 0.0106
   },
   "-20.31,118.58": {
-   "ssha": -0.0631,
+   "ssha": -0.0294,
    "counts": 459,
    "nearest_cell": false,
-   "u": -0.0035,
-   "v": 0.0229,
-   "speed": 0.0231
+   "u": 0.015,
+   "v": -0.0235,
+   "speed": 0.0279
   },
   "-11.00,123.00": {
-   "ssha": -0.0142,
+   "ssha": -0.0056,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0518,
-   "v": -0.1078,
-   "speed": 0.1196
+   "u": 0.0022,
+   "v": -0.0234,
+   "speed": 0.0235
   },
   "-2.00,118.00": {
-   "ssha": -0.0183,
-   "counts": 168,
+   "ssha": -0.0153,
+   "counts": 118,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "10.00,125.00": {
-   "ssha": 0.0253,
-   "counts": 411,
+   "ssha": -0.0499,
+   "counts": 394,
    "nearest_cell": false,
-   "u": 0.2097,
-   "v": -0.1856,
-   "speed": 0.28
+   "u": 0.488,
+   "v": -0.5084,
+   "speed": 0.7047
   },
   "-2.56,-44.37": {
-   "ssha": 0.1265,
-   "counts": 500,
+   "ssha": 0.1589,
+   "counts": 453,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "0.00,-30.00": {
-   "ssha": 0.1428,
+   "ssha": 0.133,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1040,7 +1038,7 @@
    "speed": null
   },
   "-35.00,20.00": {
-   "ssha": 0.0857,
+   "ssha": 0.0736,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1048,15 +1046,15 @@
    "speed": null
   },
   "-25.00,60.00": {
-   "ssha": 0.076,
+   "ssha": 0.1459,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0119,
-   "v": 0.0037,
-   "speed": 0.0125
+   "u": 0.0374,
+   "v": 0.0014,
+   "speed": 0.0374
   },
   "-32.92,151.78": {
-   "ssha": 0.234,
+   "ssha": 0.147,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1064,23 +1062,23 @@
    "speed": null
   },
   "-20.00,155.00": {
-   "ssha": 0.0046,
+   "ssha": 0.0519,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0202,
-   "v": -0.0151,
-   "speed": 0.0252
+   "u": 0.0342,
+   "v": 0.003,
+   "speed": 0.0344
   },
   "10.00,140.00": {
-   "ssha": -0.1094,
+   "ssha": -0.1351,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.1016,
-   "v": -0.0067,
-   "speed": 0.1018
+   "u": 0.1673,
+   "v": 0.0099,
+   "speed": 0.1676
   },
   "29.95,-90.07": {
-   "ssha": 0.1606,
+   "ssha": 0.3048,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1088,47 +1086,47 @@
    "speed": null
   },
   "25.00,-88.00": {
-   "ssha": 0.2095,
+   "ssha": 0.185,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0933,
-   "v": 0.0634,
-   "speed": 0.1128
+   "u": 0.0587,
+   "v": 0.1179,
+   "speed": 0.1318
   },
   "15.00,-110.00": {
-   "ssha": 0.2582,
+   "ssha": 0.2833,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0512,
-   "v": 0.0121,
-   "speed": 0.0527
+   "u": -0.0491,
+   "v": 0.0171,
+   "speed": 0.052
   },
   "25.00,-160.00": {
-   "ssha": 0.0861,
+   "ssha": 0.0703,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0742,
-   "v": -0.0205,
-   "speed": 0.077
+   "u": -0.0454,
+   "v": -0.008,
+   "speed": 0.0461
   },
   "26.64,50.16": {
-   "ssha": 0.1532,
-   "counts": 62,
+   "ssha": 0.1942,
+   "counts": 63,
    "nearest_cell": false,
-   "u": 0.0052,
-   "v": 0.0047,
-   "speed": 0.007
+   "u": -0.0043,
+   "v": -0.0007,
+   "speed": 0.0043
   },
   "26.57,56.25": {
-   "ssha": 0.0681,
-   "counts": 78,
+   "ssha": 0.0808,
+   "counts": 77,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "5.00,80.00": {
-   "ssha": 0.1068,
+   "ssha": 0.1676,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1136,7 +1134,7 @@
    "speed": null
   },
   "29.87,121.55": {
-   "ssha": 0.2807,
+   "ssha": 0.2767,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1144,31 +1142,31 @@
    "speed": null
   },
   "25.92,51.55": {
-   "ssha": 0.1872,
-   "counts": 65,
+   "ssha": 0.2134,
+   "counts": 66,
    "nearest_cell": false,
-   "u": 0.0374,
-   "v": 0.0481,
-   "speed": 0.0609
+   "u": 0.027,
+   "v": 0.0383,
+   "speed": 0.0469
   },
   "29.73,-93.87": {
-   "ssha": 0.1239,
-   "counts": 436,
+   "ssha": 0.1937,
+   "counts": 429,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "24.50,-80.00": {
-   "ssha": 0.1702,
-   "counts": 433,
+   "ssha": 0.2222,
+   "counts": 359,
    "nearest_cell": false,
-   "u": -0.0022,
-   "v": 0.0036,
-   "speed": 0.0042
+   "u": -0.0144,
+   "v": 0.0073,
+   "speed": 0.0161
   },
   "4.45,7.17": {
-   "ssha": 0.1298,
+   "ssha": 0.1407,
    "counts": 285,
    "nearest_cell": false,
    "u": null,
@@ -1176,7 +1174,7 @@
    "speed": null
   },
   "2.00,3.00": {
-   "ssha": 0.1146,
+   "ssha": 0.1324,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1184,7 +1182,7 @@
    "speed": null
   },
   "0.00,-5.00": {
-   "ssha": 0.096,
+   "ssha": 0.1212,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1192,114 +1190,114 @@
    "speed": null
   },
   "-15.00,-5.00": {
-   "ssha": 0.0737,
+   "ssha": 0.0764,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0068,
-   "v": 0.0056,
-   "speed": 0.0089
+   "u": -0.0155,
+   "v": -0.0078,
+   "speed": 0.0173
   },
   "68.97,33.05": null,
   "75.00,65.00": null,
   "76.00,125.00": null,
   "65.80,-169.00": {
-   "ssha": 0.2225,
+   "ssha": 0.2572,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0104,
-   "v": -0.0032,
-   "speed": 0.0109
+   "u": -0.0189,
+   "v": -0.0102,
+   "speed": 0.0215
   },
   "29.07,48.13": {
-   "ssha": 0.1304,
+   "ssha": 0.1667,
    "counts": 49,
    "nearest_cell": false,
-   "u": 0.0047,
-   "v": 0.0072,
-   "speed": 0.0086
+   "u": 0.0136,
+   "v": 0.0139,
+   "speed": 0.0194
   },
   "27.00,52.00": {
-   "ssha": 0.165,
-   "counts": 62,
+   "ssha": 0.1992,
+   "counts": 63,
    "nearest_cell": false,
-   "u": 0.0211,
-   "v": 0.0264,
-   "speed": 0.0338
+   "u": 0.01,
+   "v": 0.0178,
+   "speed": 0.0204
   },
   "24.00,58.00": {
-   "ssha": -0.0056,
+   "ssha": 0.0098,
    "counts": 283,
    "nearest_cell": false,
-   "u": -0.0019,
-   "v": -0.0106,
-   "speed": 0.0108
+   "u": -0.0043,
+   "v": -0.0153,
+   "speed": 0.0159
   },
   "20.00,62.00": {
-   "ssha": 0.1254,
+   "ssha": 0.0807,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0933,
-   "v": -0.0276,
-   "speed": 0.0973
+   "u": 0.0866,
+   "v": -0.0259,
+   "speed": 0.0903
   },
   "52.50,3.00": {
-   "ssha": 0.2626,
-   "counts": 496,
+   "ssha": 0.202,
+   "counts": 500,
    "nearest_cell": false,
-   "u": -0.0031,
-   "v": 0.0037,
-   "speed": 0.0048
+   "u": -0.0098,
+   "v": -0.0057,
+   "speed": 0.0113
   },
   "51.00,1.50": {
-   "ssha": 0.2565,
-   "counts": 278,
+   "ssha": 0.1889,
+   "counts": 282,
    "nearest_cell": false,
-   "u": -0.0024,
-   "v": 0.0065,
-   "speed": 0.007
+   "u": -0.0059,
+   "v": -0.0041,
+   "speed": 0.0072
   },
   "17.00,41.00": {
-   "ssha": 0.0427,
-   "counts": 51,
+   "ssha": 0.1513,
+   "counts": 50,
    "nearest_cell": false,
-   "u": 0.023,
-   "v": 0.0036,
-   "speed": 0.0233
+   "u": -0.0025,
+   "v": 0.0001,
+   "speed": 0.0025
   },
   "12.60,43.30": {
-   "ssha": -0.0067,
-   "counts": 109,
+   "ssha": 0.0179,
+   "counts": 108,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "11.60,43.15": {
-   "ssha": -0.0096,
-   "counts": 93,
+   "ssha": 0.0216,
+   "counts": 92,
    "nearest_cell": false,
-   "u": -0.0087,
-   "v": -0.011,
-   "speed": 0.014
+   "u": 0.0105,
+   "v": -0.0359,
+   "speed": 0.0374
   },
   "35.89,-5.50": {
-   "ssha": 0.1466,
-   "counts": 33,
+   "ssha": 0.1915,
+   "counts": 32,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "40.00,-10.00": {
-   "ssha": 0.1403,
+   "ssha": 0.1349,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0073,
-   "v": -0.0089,
-   "speed": 0.0115
+   "u": 0.0028,
+   "v": 0.0057,
+   "speed": 0.0063
   },
   "-12.05,-77.15": {
-   "ssha": 0.2266,
+   "ssha": 0.2753,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1307,15 +1305,15 @@
    "speed": null
   },
   "-10.00,-100.00": {
-   "ssha": 0.1297,
+   "ssha": 0.1524,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0486,
-   "v": -0.0164,
-   "speed": 0.0513
+   "u": 0.0144,
+   "v": 0.0147,
+   "speed": 0.0206
   },
   "0.00,-140.00": {
-   "ssha": 0.4759,
+   "ssha": 0.5318,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1323,23 +1321,23 @@
    "speed": null
   },
   "15.00,135.00": {
-   "ssha": -0.0211,
+   "ssha": -0.1054,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.1178,
-   "v": -0.0005,
-   "speed": 0.1178
+   "u": -0.1367,
+   "v": -0.1097,
+   "speed": 0.1753
   },
   "6.44,3.40": {
-   "ssha": 0.1055,
-   "counts": 389,
+   "ssha": 0.1184,
+   "counts": 369,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "2.00,0.00": {
-   "ssha": 0.1079,
+   "ssha": 0.1254,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1347,7 +1345,7 @@
    "speed": null
   },
   "5.00,-15.00": {
-   "ssha": 0.1238,
+   "ssha": 0.1232,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1355,39 +1353,39 @@
    "speed": null
   },
   "54.40,18.66": {
-   "ssha": 0.4222,
-   "counts": 57,
+   "ssha": 0.3169,
+   "counts": 60,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "55.00,15.00": {
-   "ssha": 0.4131,
-   "counts": 53,
+   "ssha": 0.3222,
+   "counts": 55,
    "nearest_cell": false,
-   "u": -0.0003,
-   "v": 0.0032,
-   "speed": 0.0032
+   "u": 0.0004,
+   "v": -0.0016,
+   "speed": 0.0016
   },
   "55.50,11.00": {
-   "ssha": 0.4048,
-   "counts": 34,
+   "ssha": 0.3255,
+   "counts": 35,
    "nearest_cell": false,
-   "u": -0.0,
-   "v": 0.0022,
-   "speed": 0.0022
+   "u": 0.0001,
+   "v": -0.0007,
+   "speed": 0.0007
   },
   "55.00,5.00": {
-   "ssha": 0.2726,
+   "ssha": 0.1747,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0075,
-   "v": 0.0062,
-   "speed": 0.0098
+   "u": 0.0156,
+   "v": -0.0074,
+   "speed": 0.0172
   },
   "10.77,106.70": {
-   "ssha": 0.1154,
+   "ssha": 0.1781,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1395,55 +1393,55 @@
    "speed": null
   },
   "12.00,112.00": {
-   "ssha": 0.112,
+   "ssha": 0.1459,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.2637,
-   "v": 0.097,
-   "speed": 0.2809
+   "u": 0.1666,
+   "v": 0.0866,
+   "speed": 0.1878
   },
   "18.00,130.00": {
-   "ssha": 0.0552,
+   "ssha": 0.0561,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0974,
-   "v": 0.0693,
-   "speed": 0.1195
+   "u": -0.1621,
+   "v": 0.1342,
+   "speed": 0.2104
   },
   "30.00,-175.00": {
-   "ssha": 0.1715,
+   "ssha": 0.1524,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0034,
-   "v": 0.0508,
-   "speed": 0.0509
+   "u": 0.0086,
+   "v": 0.0454,
+   "speed": 0.0462
   },
   "22.30,91.80": {
-   "ssha": 0.1273,
-   "counts": 415,
+   "ssha": 0.1051,
+   "counts": 327,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "15.00,90.00": {
-   "ssha": 0.0349,
+   "ssha": 0.0776,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.117,
-   "v": 0.2232,
-   "speed": 0.252
+   "u": -0.0364,
+   "v": 0.133,
+   "speed": 0.1378
   },
   "8.00,96.00": {
-   "ssha": 0.0667,
-   "counts": 500,
+   "ssha": -0.0053,
+   "counts": 486,
    "nearest_cell": false,
-   "u": -0.1041,
-   "v": -0.0436,
-   "speed": 0.1128
+   "u": -0.0322,
+   "v": -0.0042,
+   "speed": 0.0325
   },
   "19.05,-104.32": {
-   "ssha": 0.3129,
+   "ssha": 0.3112,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1451,1244 +1449,113 @@
    "speed": null
   },
   "18.00,-120.00": {
-   "ssha": 0.1421,
+   "ssha": 0.1781,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0228,
-   "v": 0.026,
-   "speed": 0.0346
+   "u": 0.0046,
+   "v": 0.0452,
+   "speed": 0.0454
   },
   "29.00,123.00": {
-   "ssha": 0.259,
+   "ssha": 0.2635,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0075,
-   "v": -0.0296,
-   "speed": 0.0305
+   "u": -0.0019,
+   "v": -0.0183,
+   "speed": 0.0184
   }
  },
  "zones": {
   "26.57,56.25": {
    "name": "Hormuz Strait",
-   "ssha": 0.0681,
-   "counts": 78,
+   "ssha": 0.0808,
+   "counts": 77,
    "nearest_cell": false
   },
   "2.50,101.00": {
    "name": "Malacca Strait",
-   "ssha": -0.0182,
-   "counts": 167,
+   "ssha": 0.0102,
+   "counts": 150,
    "nearest_cell": false
   },
   "12.60,43.30": {
    "name": "Bab el-Mandeb",
-   "ssha": -0.0067,
-   "counts": 109,
+   "ssha": 0.0179,
+   "counts": 108,
    "nearest_cell": false
   },
   "24.00,119.00": {
    "name": "Taiwan Strait",
-   "ssha": 0.1224,
-   "counts": 419,
+   "ssha": 0.2859,
+   "counts": 422,
    "nearest_cell": false
   },
   "48.00,-30.00": {
    "name": "North Atlantic",
-   "ssha": 0.0489,
+   "ssha": 0.0925,
    "counts": 500,
    "nearest_cell": false
   },
   "42.00,-175.00": {
    "name": "Mid Pacific",
-   "ssha": 0.2691,
+   "ssha": 0.2478,
    "counts": 500,
    "nearest_cell": false
   },
   "-35.00,20.00": {
    "name": "Cape Good Hope",
-   "ssha": 0.0857,
+   "ssha": 0.0736,
    "counts": 500,
    "nearest_cell": false
   },
   "18.00,62.00": {
    "name": "Arabian Sea",
-   "ssha": 0.1906,
+   "ssha": 0.1578,
    "counts": 500,
    "nearest_cell": false
   },
   "10.00,113.00": {
    "name": "South China Sea",
-   "ssha": 0.1994,
+   "ssha": 0.1908,
    "counts": 500,
    "nearest_cell": false
   },
   "26.00,-88.00": {
    "name": "Gulf of Mexico",
-   "ssha": 0.2918,
+   "ssha": 0.1541,
    "counts": 500,
    "nearest_cell": false
   },
   "36.00,15.00": {
    "name": "Mediterranean",
-   "ssha": 0.1289,
+   "ssha": 0.1176,
    "counts": 500,
    "nearest_cell": false
   },
   "42.00,33.00": {
    "name": "Black Sea",
-   "ssha": 0.0249,
+   "ssha": -0.0562,
    "counts": 330,
    "nearest_cell": false
   },
   "51.00,1.50": {
    "name": "Dover Strait",
-   "ssha": 0.2565,
-   "counts": 278,
+   "ssha": 0.1889,
+   "counts": 282,
    "nearest_cell": false
   },
   "15.00,90.00": {
    "name": "Bay of Bengal",
-   "ssha": 0.0349,
+   "ssha": 0.0776,
    "counts": 500,
    "nearest_cell": false
   },
   "29.97,32.55": {
    "name": "Suez Canal",
-   "ssha": 0.1126,
+   "ssha": 0.168,
    "counts": 4,
    "nearest_cell": true
   }
  },
- "currents": {
-  "41.10,29.05": {
-   "u": 0.1488,
-   "v": -0.0221,
-   "speed": 0.1504,
-   "nearest_cell": true
-  },
-  "41.30,29.50": {
-   "u": 0.4077,
-   "v": -0.0853,
-   "speed": 0.4165,
-   "nearest_cell": false
-  },
-  "41.80,30.50": {
-   "u": 0.0193,
-   "v": 0.1183,
-   "speed": 0.1198,
-   "nearest_cell": false
-  },
-  "41.60,31.80": {
-   "u": 0.0265,
-   "v": 0.0225,
-   "speed": 0.0347,
-   "nearest_cell": false
-  },
-  "42.00,35.10": {
-   "u": 0.0374,
-   "v": 0.0596,
-   "speed": 0.0704,
-   "nearest_cell": true
-  },
-  "41.70,36.20": {
-   "u": 0.14,
-   "v": -0.0733,
-   "speed": 0.158,
-   "nearest_cell": false
-  },
-  "41.00,39.73": {
-   "u": 0.0421,
-   "v": 0.0486,
-   "speed": 0.0643,
-   "nearest_cell": true
-  },
-  "42.10,33.00": {
-   "u": 0.0723,
-   "v": 0.067,
-   "speed": 0.0986,
-   "nearest_cell": false
-  },
-  "44.72,37.77": {
-   "u": -0.0747,
-   "v": 0.0588,
-   "speed": 0.0951,
-   "nearest_cell": true
-  },
-  "46.48,30.73": {
-   "u": -0.0175,
-   "v": -0.042,
-   "speed": 0.0455,
-   "nearest_cell": true
-  },
-  "44.00,31.00": {
-   "u": -0.1265,
-   "v": 0.0048,
-   "speed": 0.1266,
-   "nearest_cell": false
-  },
-  "42.50,32.00": {
-   "u": 0.0101,
-   "v": 0.0717,
-   "speed": 0.0724,
-   "nearest_cell": false
-  },
-  "41.65,41.64": {
-   "u": 0.023,
-   "v": -0.1089,
-   "speed": 0.1113,
-   "nearest_cell": true
-  },
-  "42.00,38.00": {
-   "u": 0.0262,
-   "v": -0.0356,
-   "speed": 0.0442,
-   "nearest_cell": false
-  },
-  "42.20,33.00": {
-   "u": 0.1548,
-   "v": 0.0763,
-   "speed": 0.1726,
-   "nearest_cell": false
-  },
-  "44.17,28.65": {
-   "u": -0.0125,
-   "v": 0.005,
-   "speed": 0.0135,
-   "nearest_cell": false
-  },
-  "41.50,30.00": {
-   "u": 0.1058,
-   "v": 0.001,
-   "speed": 0.1058,
-   "nearest_cell": false
-  },
-  "41.80,32.00": {
-   "u": 0.1072,
-   "v": 0.0364,
-   "speed": 0.1132,
-   "nearest_cell": false
-  },
-  "42.10,34.00": {
-   "u": 0.1224,
-   "v": -0.013,
-   "speed": 0.1231,
-   "nearest_cell": false
-  },
-  "42.00,36.00": {
-   "u": 0.1579,
-   "v": -0.0555,
-   "speed": 0.1674,
-   "nearest_cell": false
-  },
-  "45.00,-5.00": {
-   "u": 0.0094,
-   "v": -0.0477,
-   "speed": 0.0486,
-   "nearest_cell": false
-  },
-  "48.00,-15.00": {
-   "u": 0.0315,
-   "v": 0.1,
-   "speed": 0.1049,
-   "nearest_cell": false
-  },
-  "50.00,-25.00": {
-   "u": 0.1117,
-   "v": -0.1402,
-   "speed": 0.1793,
-   "nearest_cell": false
-  },
-  "52.00,-30.00": {
-   "u": 0.2221,
-   "v": 0.1636,
-   "speed": 0.2758,
-   "nearest_cell": false
-  },
-  "31.23,121.47": {
-   "u": 0.0355,
-   "v": 0.7174,
-   "speed": 0.7183,
-   "nearest_cell": true
-  },
-  "2.50,101.00": {
-   "u": 1.0247,
-   "v": 0.2858,
-   "speed": 1.0638,
-   "nearest_cell": false
-  },
-  "5.00,75.00": {
-   "u": -0.0474,
-   "v": -0.1593,
-   "speed": 0.1662,
-   "nearest_cell": false
-  },
-  "29.97,32.55": {
-   "u": -0.0284,
-   "v": 0.0188,
-   "speed": 0.034,
-   "nearest_cell": true
-  },
-  "36.00,15.00": {
-   "u": -0.0355,
-   "v": -0.125,
-   "speed": 0.1299,
-   "nearest_cell": false
-  },
-  "51.95,4.14": {
-   "u": -0.0036,
-   "v": -0.1455,
-   "speed": 0.1455,
-   "nearest_cell": true
-  },
-  "35.00,150.00": {
-   "u": -0.0256,
-   "v": 0.1416,
-   "speed": 0.1439,
-   "nearest_cell": false
-  },
-  "38.00,180.00": {
-   "u": 0.0915,
-   "v": 0.1529,
-   "speed": 0.1782,
-   "nearest_cell": false
-  },
-  "35.00,-140.00": {
-   "u": 0.0767,
-   "v": 0.0493,
-   "speed": 0.0912,
-   "nearest_cell": false
-  },
-  "33.74,-118.27": {
-   "u": -0.1207,
-   "v": 0.1411,
-   "speed": 0.1857,
-   "nearest_cell": true
-  },
-  "1.29,103.85": {
-   "u": -0.4745,
-   "v": 2.0129,
-   "speed": 2.0681,
-   "nearest_cell": true
-  },
-  "10.00,110.00": {
-   "u": 0.0839,
-   "v": 0.2048,
-   "speed": 0.2213,
-   "nearest_cell": false
-  },
-  "24.00,119.00": {
-   "u": -0.0849,
-   "v": -0.3253,
-   "speed": 0.3362,
-   "nearest_cell": false
-  },
-  "50.00,-1.00": {
-   "u": -0.0533,
-   "v": -0.1372,
-   "speed": 0.1472,
-   "nearest_cell": false
-  },
-  "48.00,-30.00": {
-   "u": 0.0399,
-   "v": 0.0367,
-   "speed": 0.0542,
-   "nearest_cell": false
-  },
-  "44.00,-50.00": {
-   "u": 0.0562,
-   "v": -0.0125,
-   "speed": 0.0576,
-   "nearest_cell": false
-  },
-  "40.60,-74.05": {
-   "u": -0.056,
-   "v": -0.0617,
-   "speed": 0.0834,
-   "nearest_cell": true
-  },
-  "-23.98,-46.30": {
-   "u": 0.0474,
-   "v": -0.0771,
-   "speed": 0.0905,
-   "nearest_cell": true
-  },
-  "-15.00,-30.00": {
-   "u": -0.0881,
-   "v": -0.0434,
-   "speed": 0.0982,
-   "nearest_cell": false
-  },
-  "0.00,-25.00": {
-   "u": -0.5895,
-   "v": 0.0638,
-   "speed": 0.5929,
-   "nearest_cell": false
-  },
-  "28.00,-18.00": {
-   "u": -0.1415,
-   "v": 0.0184,
-   "speed": 0.1427,
-   "nearest_cell": false
-  },
-  "25.27,55.30": {
-   "u": -0.0136,
-   "v": -0.0234,
-   "speed": 0.0271,
-   "nearest_cell": true
-  },
-  "18.00,62.00": {
-   "u": 0.2043,
-   "v": -0.228,
-   "speed": 0.3062,
-   "nearest_cell": false
-  },
-  "8.00,75.00": {
-   "u": 0.1311,
-   "v": -0.1301,
-   "speed": 0.1847,
-   "nearest_cell": false
-  },
-  "18.94,72.83": {
-   "u": -0.0254,
-   "v": 0.0501,
-   "speed": 0.0562,
-   "nearest_cell": false
-  },
-  "12.50,45.00": {
-   "u": -0.2897,
-   "v": -0.2903,
-   "speed": 0.4101,
-   "nearest_cell": false
-  },
-  "20.00,38.00": {
-   "u": 0.1638,
-   "v": 0.0005,
-   "speed": 0.1638,
-   "nearest_cell": false
-  },
-  "-29.87,31.03": {
-   "u": 0.2172,
-   "v": 0.1967,
-   "speed": 0.2931,
-   "nearest_cell": true
-  },
-  "-20.00,55.00": {
-   "u": 0.0498,
-   "v": 0.0836,
-   "speed": 0.0973,
-   "nearest_cell": false
-  },
-  "-5.00,80.00": {
-   "u": -0.2485,
-   "v": -0.0202,
-   "speed": 0.2494,
-   "nearest_cell": false
-  },
-  "9.08,-79.68": {
-   "u": 0.2649,
-   "v": 0.0374,
-   "speed": 0.2675,
-   "nearest_cell": true
-  },
-  "15.00,-95.00": {
-   "u": 0.0839,
-   "v": -0.3615,
-   "speed": 0.3711,
-   "nearest_cell": false
-  },
-  "25.00,-112.00": {
-   "u": 0.0557,
-   "v": 0.0929,
-   "speed": 0.1083,
-   "nearest_cell": true
-  },
-  "35.65,139.84": {
-   "u": 0.0186,
-   "v": -0.3257,
-   "speed": 0.3263,
-   "nearest_cell": true
-  },
-  "40.00,160.00": {
-   "u": -0.1392,
-   "v": 0.071,
-   "speed": 0.1563,
-   "nearest_cell": false
-  },
-  "42.00,-175.00": {
-   "u": 0.0784,
-   "v": -0.0438,
-   "speed": 0.0898,
-   "nearest_cell": false
-  },
-  "38.00,-140.00": {
-   "u": 0.0076,
-   "v": 0.0476,
-   "speed": 0.0482,
-   "nearest_cell": false
-  },
-  "53.55,9.99": null,
-  "55.00,3.00": {
-   "u": 0.116,
-   "v": -0.0962,
-   "speed": 0.1507,
-   "nearest_cell": false
-  },
-  "-37.84,144.92": {
-   "u": -0.4049,
-   "v": 0.639,
-   "speed": 0.7565,
-   "nearest_cell": true
-  },
-  "-18.00,155.00": {
-   "u": -0.0126,
-   "v": -0.0564,
-   "speed": 0.0578,
-   "nearest_cell": false
-  },
-  "10.00,130.00": {
-   "u": -0.2535,
-   "v": 0.0834,
-   "speed": 0.2668,
-   "nearest_cell": false
-  },
-  "28.00,125.00": {
-   "u": -0.139,
-   "v": -0.2621,
-   "speed": 0.2967,
-   "nearest_cell": false
-  },
-  "21.49,39.19": {
-   "u": 0.0175,
-   "v": 0.0486,
-   "speed": 0.0517,
-   "nearest_cell": true
-  },
-  "25.00,36.00": {
-   "u": -0.1078,
-   "v": 0.1198,
-   "speed": 0.1612,
-   "nearest_cell": false
-  },
-  "36.14,-5.35": {
-   "u": 0.1561,
-   "v": 0.1604,
-   "speed": 0.2239,
-   "nearest_cell": true
-  },
-  "35.10,129.04": {
-   "u": 0.0068,
-   "v": -0.0671,
-   "speed": 0.0674,
-   "nearest_cell": false
-  },
-  "42.00,160.00": {
-   "u": 0.2648,
-   "v": -0.1257,
-   "speed": 0.2931,
-   "nearest_cell": false
-  },
-  "44.00,-175.00": {
-   "u": -0.0412,
-   "v": 0.047,
-   "speed": 0.0625,
-   "nearest_cell": false
-  },
-  "36.50,-2.00": {
-   "u": 0.0894,
-   "v": -0.0358,
-   "speed": 0.0963,
-   "nearest_cell": false
-  },
-  "38.50,8.00": {
-   "u": 0.1035,
-   "v": -0.0484,
-   "speed": 0.1143,
-   "nearest_cell": false
-  },
-  "37.50,18.00": {
-   "u": -0.0535,
-   "v": -0.0086,
-   "speed": 0.0542,
-   "nearest_cell": false
-  },
-  "37.94,23.65": {
-   "u": 0.0413,
-   "v": 0.051,
-   "speed": 0.0656,
-   "nearest_cell": true
-  },
-  "22.30,114.17": {
-   "u": -0.0662,
-   "v": -0.0612,
-   "speed": 0.0901,
-   "nearest_cell": true
-  },
-  "15.00,113.00": {
-   "u": -0.0903,
-   "v": 0.1616,
-   "speed": 0.1851,
-   "nearest_cell": false
-  },
-  "4.00,108.00": {
-   "u": -0.0972,
-   "v": 0.0154,
-   "speed": 0.0984,
-   "nearest_cell": false
-  },
-  "20.00,-65.00": {
-   "u": -0.0687,
-   "v": 0.1548,
-   "speed": 0.1694,
-   "nearest_cell": false
-  },
-  "0.00,-40.00": {
-   "u": -0.4309,
-   "v": -0.0893,
-   "speed": 0.44,
-   "nearest_cell": false
-  },
-  "-33.91,18.42": {
-   "u": -0.1468,
-   "v": 0.1848,
-   "speed": 0.236,
-   "nearest_cell": true
-  },
-  "-25.00,50.00": {
-   "u": 0.5215,
-   "v": -0.5349,
-   "speed": 0.747,
-   "nearest_cell": false
-  },
-  "35.44,139.64": {
-   "u": -0.1244,
-   "v": -0.1754,
-   "speed": 0.2151,
-   "nearest_cell": true
-  },
-  "20.00,130.00": {
-   "u": -0.1429,
-   "v": 0.2643,
-   "speed": 0.3005,
-   "nearest_cell": false
-  },
-  "10.00,115.00": {
-   "u": -0.2843,
-   "v": -0.2469,
-   "speed": 0.3765,
-   "nearest_cell": false
-  },
-  "51.24,4.42": null,
-  "50.00,-2.00": {
-   "u": 0.0022,
-   "v": -0.0657,
-   "speed": 0.0658,
-   "nearest_cell": false
-  },
-  "47.00,-35.00": {
-   "u": 0.0921,
-   "v": -0.0412,
-   "speed": 0.1009,
-   "nearest_cell": false
-  },
-  "39.44,-0.32": {
-   "u": -0.0727,
-   "v": -0.0456,
-   "speed": 0.0858,
-   "nearest_cell": false
-  },
-  "38.00,5.00": {
-   "u": 0.0305,
-   "v": -0.1392,
-   "speed": 0.1425,
-   "nearest_cell": false
-  },
-  "35.00,20.00": {
-   "u": -0.0436,
-   "v": -0.0503,
-   "speed": 0.0666,
-   "nearest_cell": false
-  },
-  "36.07,120.38": {
-   "u": -0.0801,
-   "v": 0.0703,
-   "speed": 0.1066,
-   "nearest_cell": false
-  },
-  "30.00,124.00": {
-   "u": 0.009,
-   "v": -0.1145,
-   "speed": 0.1149,
-   "nearest_cell": false
-  },
-  "6.94,79.84": {
-   "u": 0.0918,
-   "v": 0.103,
-   "speed": 0.138,
-   "nearest_cell": false
-  },
-  "8.00,88.00": {
-   "u": 0.3599,
-   "v": -0.0747,
-   "speed": 0.3676,
-   "nearest_cell": false
-  },
-  "29.73,-94.98": {
-   "u": -0.347,
-   "v": -0.0343,
-   "speed": 0.3487,
-   "nearest_cell": true
-  },
-  "26.00,-88.00": {
-   "u": 0.2367,
-   "v": 0.946,
-   "speed": 0.9751,
-   "nearest_cell": false
-  },
-  "40.00,-45.00": {
-   "u": -0.2103,
-   "v": 0.0939,
-   "speed": 0.2303,
-   "nearest_cell": false
-  },
-  "47.60,-122.33": {
-   "u": -0.0272,
-   "v": -0.0778,
-   "speed": 0.0825,
-   "nearest_cell": true
-  },
-  "48.00,-150.00": {
-   "u": 0.0028,
-   "v": 0.0082,
-   "speed": 0.0087,
-   "nearest_cell": false
-  },
-  "45.00,175.00": {
-   "u": 0.0826,
-   "v": 0.0821,
-   "speed": 0.1164,
-   "nearest_cell": false
-  },
-  "36.00,26.00": {
-   "u": 0.0193,
-   "v": 0.07,
-   "speed": 0.0726,
-   "nearest_cell": false
-  },
-  "33.00,28.00": {
-   "u": -0.0697,
-   "v": 0.0325,
-   "speed": 0.0769,
-   "nearest_cell": false
-  },
-  "31.20,29.92": {
-   "u": -0.0646,
-   "v": -0.0303,
-   "speed": 0.0713,
-   "nearest_cell": true
-  },
-  "49.29,-123.11": {
-   "u": 0.0592,
-   "v": -0.0998,
-   "speed": 0.116,
-   "nearest_cell": true
-  },
-  "50.00,-155.00": {
-   "u": 0.0606,
-   "v": 0.0058,
-   "speed": 0.0609,
-   "nearest_cell": false
-  },
-  "45.00,170.00": {
-   "u": 0.1623,
-   "v": 0.0114,
-   "speed": 0.1627,
-   "nearest_cell": false
-  },
-  "40.20,26.40": {
-   "u": 0.0039,
-   "v": 0.1265,
-   "speed": 0.1266,
-   "nearest_cell": true
-  },
-  "39.00,25.00": {
-   "u": 0.0382,
-   "v": -0.0164,
-   "speed": 0.0416,
-   "nearest_cell": false
-  },
-  "34.68,135.20": {
-   "u": -0.1857,
-   "v": 0.355,
-   "speed": 0.4007,
-   "nearest_cell": true
-  },
-  "12.00,115.00": {
-   "u": 0.61,
-   "v": -0.0412,
-   "speed": 0.6114,
-   "nearest_cell": false
-  },
-  "36.13,-5.45": {
-   "u": 0.0296,
-   "v": -0.1298,
-   "speed": 0.1331,
-   "nearest_cell": true
-  },
-  "38.00,-25.00": {
-   "u": 0.0963,
-   "v": -0.0127,
-   "speed": 0.0972,
-   "nearest_cell": false
-  },
-  "42.00,-48.00": {
-   "u": 0.0075,
-   "v": -0.1786,
-   "speed": 0.1788,
-   "nearest_cell": false
-  },
-  "38.92,121.63": {
-   "u": -0.0536,
-   "v": -0.0549,
-   "speed": 0.0767,
-   "nearest_cell": true
-  },
-  "34.00,123.00": {
-   "u": 0.0176,
-   "v": -0.0091,
-   "speed": 0.0198,
-   "nearest_cell": false
-  },
-  "28.00,124.00": {
-   "u": 0.3653,
-   "v": -0.0963,
-   "speed": 0.3778,
-   "nearest_cell": false
-  },
-  "12.00,114.00": {
-   "u": 0.5885,
-   "v": -0.0456,
-   "speed": 0.5903,
-   "nearest_cell": false
-  },
-  "51.96,1.31": {
-   "u": -0.1687,
-   "v": 0.1896,
-   "speed": 0.2538,
-   "nearest_cell": true
-  },
-  "8.00,70.00": {
-   "u": 0.041,
-   "v": 0.0439,
-   "speed": 0.06,
-   "nearest_cell": false
-  },
-  "33.75,-118.19": {
-   "u": -0.1207,
-   "v": 0.1411,
-   "speed": 0.1857,
-   "nearest_cell": true
-  },
-  "44.41,8.93": {
-   "u": 0.0094,
-   "v": 0.0917,
-   "speed": 0.0922,
-   "nearest_cell": true
-  },
-  "40.00,12.00": {
-   "u": -0.0435,
-   "v": -0.0991,
-   "speed": 0.1082,
-   "nearest_cell": false
-  },
-  "36.00,18.00": {
-   "u": 0.0842,
-   "v": 0.0578,
-   "speed": 0.1022,
-   "nearest_cell": false
-  },
-  "-20.31,118.58": {
-   "u": -0.0118,
-   "v": -0.2971,
-   "speed": 0.2974,
-   "nearest_cell": false
-  },
-  "-11.00,123.00": {
-   "u": -0.3769,
-   "v": -0.0821,
-   "speed": 0.3857,
-   "nearest_cell": false
-  },
-  "-2.00,118.00": {
-   "u": 0.1508,
-   "v": 0.2609,
-   "speed": 0.3013,
-   "nearest_cell": false
-  },
-  "10.00,125.00": {
-   "u": -0.1192,
-   "v": -0.0291,
-   "speed": 0.1227,
-   "nearest_cell": false
-  },
-  "-2.56,-44.37": {
-   "u": 0.611,
-   "v": -0.8994,
-   "speed": 1.0873,
-   "nearest_cell": true
-  },
-  "0.00,-30.00": {
-   "u": -0.1658,
-   "v": -0.0881,
-   "speed": 0.1877,
-   "nearest_cell": false
-  },
-  "-35.00,20.00": {
-   "u": -0.0065,
-   "v": -0.043,
-   "speed": 0.0434,
-   "nearest_cell": false
-  },
-  "-25.00,60.00": {
-   "u": 0.0529,
-   "v": -0.049,
-   "speed": 0.0721,
-   "nearest_cell": false
-  },
-  "-32.92,151.78": {
-   "u": -0.3196,
-   "v": -0.2992,
-   "speed": 0.4378,
-   "nearest_cell": true
-  },
-  "-20.00,155.00": {
-   "u": 0.0847,
-   "v": 0.1232,
-   "speed": 0.1495,
-   "nearest_cell": false
-  },
-  "10.00,140.00": {
-   "u": 0.0147,
-   "v": 0.0358,
-   "speed": 0.0387,
-   "nearest_cell": false
-  },
-  "29.95,-90.07": {
-   "u": -0.2082,
-   "v": -0.1273,
-   "speed": 0.244,
-   "nearest_cell": true
-  },
-  "25.00,-88.00": {
-   "u": -0.491,
-   "v": 0.7805,
-   "speed": 0.9221,
-   "nearest_cell": false
-  },
-  "15.00,-110.00": {
-   "u": -0.3415,
-   "v": 0.2102,
-   "speed": 0.401,
-   "nearest_cell": false
-  },
-  "25.00,-160.00": {
-   "u": -0.0568,
-   "v": 0.1906,
-   "speed": 0.1988,
-   "nearest_cell": false
-  },
-  "26.64,50.16": {
-   "u": 0.0286,
-   "v": -0.0798,
-   "speed": 0.0848,
-   "nearest_cell": false
-  },
-  "26.57,56.25": {
-   "u": 0.0923,
-   "v": -0.067,
-   "speed": 0.1141,
-   "nearest_cell": false
-  },
-  "5.00,80.00": {
-   "u": 0.0144,
-   "v": -0.0858,
-   "speed": 0.087,
-   "nearest_cell": false
-  },
-  "29.87,121.55": {
-   "u": 0.0457,
-   "v": 0.03,
-   "speed": 0.0546,
-   "nearest_cell": true
-  },
-  "25.92,51.55": {
-   "u": -0.0298,
-   "v": -0.0169,
-   "speed": 0.0342,
-   "nearest_cell": false
-  },
-  "29.73,-93.87": {
-   "u": -0.2251,
-   "v": 0.0307,
-   "speed": 0.2272,
-   "nearest_cell": true
-  },
-  "24.50,-80.00": {
-   "u": 0.0455,
-   "v": 0.3768,
-   "speed": 0.3795,
-   "nearest_cell": false
-  },
-  "4.45,7.17": {
-   "u": 0.0801,
-   "v": 0.0426,
-   "speed": 0.0908,
-   "nearest_cell": true
-  },
-  "2.00,3.00": {
-   "u": 0.1172,
-   "v": 0.0323,
-   "speed": 0.1216,
-   "nearest_cell": false
-  },
-  "0.00,-5.00": {
-   "u": 0.1429,
-   "v": -0.0697,
-   "speed": 0.159,
-   "nearest_cell": false
-  },
-  "-15.00,-5.00": {
-   "u": -0.082,
-   "v": -0.0228,
-   "speed": 0.0851,
-   "nearest_cell": false
-  },
-  "68.97,33.05": {
-   "u": 0.0628,
-   "v": 0.0006,
-   "speed": 0.0628,
-   "nearest_cell": true
-  },
-  "75.00,65.00": {
-   "u": 0.0053,
-   "v": 0.0522,
-   "speed": 0.0525,
-   "nearest_cell": false
-  },
-  "76.00,125.00": {
-   "u": -0.0023,
-   "v": -0.0791,
-   "speed": 0.0791,
-   "nearest_cell": false
-  },
-  "65.80,-169.00": {
-   "u": 0.0869,
-   "v": 0.378,
-   "speed": 0.3878,
-   "nearest_cell": false
-  },
-  "29.07,48.13": {
-   "u": 0.0286,
-   "v": -0.003,
-   "speed": 0.0288,
-   "nearest_cell": false
-  },
-  "27.00,52.00": {
-   "u": -0.0393,
-   "v": -0.0186,
-   "speed": 0.0435,
-   "nearest_cell": false
-  },
-  "24.00,58.00": {
-   "u": 0.0823,
-   "v": -0.0092,
-   "speed": 0.0828,
-   "nearest_cell": false
-  },
-  "20.00,62.00": {
-   "u": 0.3302,
-   "v": 0.0693,
-   "speed": 0.3374,
-   "nearest_cell": false
-  },
-  "52.50,3.00": {
-   "u": 0.09,
-   "v": -0.0596,
-   "speed": 0.108,
-   "nearest_cell": false
-  },
-  "51.00,1.50": {
-   "u": 0.0504,
-   "v": -0.0134,
-   "speed": 0.0521,
-   "nearest_cell": false
-  },
-  "17.00,41.00": {
-   "u": -0.0694,
-   "v": 0.0856,
-   "speed": 0.1102,
-   "nearest_cell": false
-  },
-  "12.60,43.30": {
-   "u": -0.2294,
-   "v": 0.2111,
-   "speed": 0.3117,
-   "nearest_cell": true
-  },
-  "11.60,43.15": {
-   "u": -0.2553,
-   "v": -0.0003,
-   "speed": 0.2553,
-   "nearest_cell": true
-  },
-  "35.89,-5.50": {
-   "u": 0.0296,
-   "v": -0.1298,
-   "speed": 0.1331,
-   "nearest_cell": false
-  },
-  "40.00,-10.00": {
-   "u": 0.0279,
-   "v": -0.0527,
-   "speed": 0.0596,
-   "nearest_cell": false
-  },
-  "-12.05,-77.15": {
-   "u": 0.0784,
-   "v": -0.0355,
-   "speed": 0.0861,
-   "nearest_cell": false
-  },
-  "-10.00,-100.00": {
-   "u": -0.111,
-   "v": -0.0681,
-   "speed": 0.1302,
-   "nearest_cell": false
-  },
-  "0.00,-140.00": {
-   "u": 0.0261,
-   "v": 0.0073,
-   "speed": 0.0271,
-   "nearest_cell": false
-  },
-  "15.00,135.00": {
-   "u": -0.217,
-   "v": -0.1066,
-   "speed": 0.2418,
-   "nearest_cell": false
-  },
-  "6.44,3.40": {
-   "u": 0.0361,
-   "v": -0.0545,
-   "speed": 0.0653,
-   "nearest_cell": true
-  },
-  "2.00,0.00": {
-   "u": 0.0568,
-   "v": -0.0362,
-   "speed": 0.0673,
-   "nearest_cell": false
-  },
-  "5.00,-15.00": {
-   "u": 0.1026,
-   "v": -0.1099,
-   "speed": 0.1504,
-   "nearest_cell": false
-  },
-  "54.40,18.66": {
-   "u": 0.0152,
-   "v": 0.0136,
-   "speed": 0.0204,
-   "nearest_cell": false
-  },
-  "55.00,15.00": {
-   "u": -0.0204,
-   "v": -0.0022,
-   "speed": 0.0205,
-   "nearest_cell": false
-  },
-  "55.50,11.00": {
-   "u": 0.1761,
-   "v": 0.1384,
-   "speed": 0.224,
-   "nearest_cell": false
-  },
-  "55.00,5.00": {
-   "u": 0.0597,
-   "v": -0.0597,
-   "speed": 0.0844,
-   "nearest_cell": false
-  },
-  "10.77,106.70": {
-   "u": -0.1662,
-   "v": -0.3163,
-   "speed": 0.3573,
-   "nearest_cell": true
-  },
-  "12.00,112.00": {
-   "u": 0.2285,
-   "v": 0.4507,
-   "speed": 0.5053,
-   "nearest_cell": false
-  },
-  "18.00,130.00": {
-   "u": -0.1126,
-   "v": 0.0894,
-   "speed": 0.1438,
-   "nearest_cell": false
-  },
-  "30.00,-175.00": {
-   "u": 0.1543,
-   "v": 0.0143,
-   "speed": 0.155,
-   "nearest_cell": false
-  },
-  "22.30,91.80": {
-   "u": -0.1073,
-   "v": 0.2544,
-   "speed": 0.2761,
-   "nearest_cell": true
-  },
-  "15.00,90.00": {
-   "u": -0.2045,
-   "v": -0.0496,
-   "speed": 0.2104,
-   "nearest_cell": false
-  },
-  "8.00,96.00": {
-   "u": 0.3555,
-   "v": 0.0627,
-   "speed": 0.361,
-   "nearest_cell": false
-  },
-  "19.05,-104.32": {
-   "u": -0.0825,
-   "v": -0.1562,
-   "speed": 0.1767,
-   "nearest_cell": true
-  },
-  "18.00,-120.00": {
-   "u": -0.1623,
-   "v": -0.1063,
-   "speed": 0.194,
-   "nearest_cell": false
-  },
-  "29.00,123.00": {
-   "u": -0.0369,
-   "v": -0.1144,
-   "speed": 0.1202,
-   "nearest_cell": false
-  },
-  "10.00,113.00": {
-   "u": -0.2559,
-   "v": 0.1047,
-   "speed": 0.2765,
-   "nearest_cell": false
-  },
-  "42.00,33.00": {
-   "u": 0.0723,
-   "v": 0.067,
-   "speed": 0.0986,
-   "nearest_cell": false
-  }
- }
+ "currents": {}
 }
