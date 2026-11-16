@@ -1,208 +1,208 @@
 {
  "meta": {
   "source": "NASA_SSH_REF_SIMPLE_GRID_V11 (NASA PO.DAAC)",
-  "file": "NASA-SSH_alt_ref_simple_grid_v1_1_20261026.nc",
-  "data_start": "2026-10-21T00:00:00",
-  "data_end": "2026-10-31T00:00:00",
+  "file": "NASA-SSH_alt_ref_simple_grid_v1_1_20261102.nc",
+  "data_start": "2026-10-28T00:00:00",
+  "data_end": "2026-11-07T00:00:00",
   "grid_resolution_deg": 0.5,
-  "generated_utc": "2026-11-09T15:34:37Z",
+  "generated_utc": "2026-11-16T15:10:46Z",
   "current_note": "Anomaly geostrophic current derived from SSHA gradients (not total current)."
  },
  "points": {
   "41.10,29.05": {
-   "ssha": 0.0073,
-   "counts": 231,
+   "ssha": 0.0133,
+   "counts": 235,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "41.30,29.50": {
-   "ssha": 0.0073,
-   "counts": 231,
+   "ssha": 0.0133,
+   "counts": 235,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "41.80,30.50": {
-   "ssha": -0.0069,
-   "counts": 250,
+   "ssha": 0.0019,
+   "counts": 254,
    "nearest_cell": false,
-   "u": 0.0101,
-   "v": -0.0157,
-   "speed": 0.0187
+   "u": 0.0093,
+   "v": -0.0056,
+   "speed": 0.0108
   },
   "41.60,31.80": {
-   "ssha": -0.0327,
-   "counts": 321,
+   "ssha": -0.0016,
+   "counts": 326,
    "nearest_cell": false,
-   "u": 0.0084,
-   "v": -0.0224,
-   "speed": 0.024
+   "u": 0.0055,
+   "v": -0.0007,
+   "speed": 0.0056
   },
   "42.00,35.10": {
-   "ssha": -0.0388,
-   "counts": 338,
+   "ssha": -0.0188,
+   "counts": 344,
    "nearest_cell": false,
-   "u": -0.0003,
-   "v": 0.0001,
-   "speed": 0.0003
+   "u": 0.0056,
+   "v": -0.0034,
+   "speed": 0.0066
   },
   "41.70,36.20": {
-   "ssha": -0.0441,
-   "counts": 338,
+   "ssha": -0.0194,
+   "counts": 344,
    "nearest_cell": false,
-   "u": 0.0001,
-   "v": -0.0103,
-   "speed": 0.0103
+   "u": 0.0075,
+   "v": -0.0004,
+   "speed": 0.0075
   },
   "41.00,39.73": {
-   "ssha": -0.0384,
-   "counts": 149,
+   "ssha": -0.0278,
+   "counts": 155,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "42.10,33.00": {
-   "ssha": -0.0491,
-   "counts": 328,
+   "ssha": -0.0047,
+   "counts": 333,
    "nearest_cell": false,
-   "u": 0.0017,
-   "v": -0.0073,
-   "speed": 0.0075
+   "u": 0.0043,
+   "v": -0.0024,
+   "speed": 0.0049
   },
   "44.72,37.77": {
-   "ssha": -0.06,
-   "counts": 287,
+   "ssha": -0.0458,
+   "counts": 294,
    "nearest_cell": true,
-   "u": 0.0037,
-   "v": -0.0105,
-   "speed": 0.0111
+   "u": 0.0098,
+   "v": -0.0005,
+   "speed": 0.0098
   },
   "46.48,30.73": {
-   "ssha": -0.0315,
-   "counts": 252,
+   "ssha": -0.0345,
+   "counts": 256,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "44.00,31.00": {
-   "ssha": -0.0346,
-   "counts": 282,
+   "ssha": -0.0211,
+   "counts": 287,
    "nearest_cell": false,
-   "u": 0.0049,
-   "v": -0.0106,
-   "speed": 0.0117
+   "u": 0.0081,
+   "v": 0.0029,
+   "speed": 0.0086
   },
   "42.50,32.00": {
-   "ssha": -0.037,
-   "counts": 322,
+   "ssha": -0.0049,
+   "counts": 327,
    "nearest_cell": false,
-   "u": 0.0068,
-   "v": -0.0193,
-   "speed": 0.0205
+   "u": 0.0065,
+   "v": 0.001,
+   "speed": 0.0066
   },
   "41.65,41.64": {
-   "ssha": -0.0025,
-   "counts": 145,
+   "ssha": -0.0028,
+   "counts": 151,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "42.00,38.00": {
-   "ssha": -0.0555,
-   "counts": 223,
+   "ssha": -0.0234,
+   "counts": 229,
    "nearest_cell": false,
-   "u": 0.0015,
-   "v": -0.0043,
-   "speed": 0.0046
+   "u": 0.0032,
+   "v": -0.0058,
+   "speed": 0.0066
   },
   "42.20,33.00": {
-   "ssha": -0.0491,
-   "counts": 328,
+   "ssha": -0.0047,
+   "counts": 333,
    "nearest_cell": false,
-   "u": 0.0017,
-   "v": -0.0073,
-   "speed": 0.0075
+   "u": 0.0043,
+   "v": -0.0024,
+   "speed": 0.0049
   },
   "44.17,28.65": {
-   "ssha": -0.0243,
-   "counts": 242,
+   "ssha": -0.0258,
+   "counts": 246,
    "nearest_cell": false,
-   "u": 0.0094,
-   "v": -0.0076,
-   "speed": 0.0121
+   "u": 0.0095,
+   "v": -0.0027,
+   "speed": 0.0099
   },
   "41.50,30.00": {
-   "ssha": 0.0036,
-   "counts": 239,
+   "ssha": 0.0097,
+   "counts": 243,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "41.80,32.00": {
-   "ssha": -0.0327,
-   "counts": 321,
+   "ssha": -0.0016,
+   "counts": 326,
    "nearest_cell": false,
-   "u": 0.0084,
-   "v": -0.0224,
-   "speed": 0.0239
+   "u": 0.0055,
+   "v": -0.0007,
+   "speed": 0.0055
   },
   "42.10,34.00": {
-   "ssha": -0.0481,
-   "counts": 338,
+   "ssha": -0.0099,
+   "counts": 344,
    "nearest_cell": false,
-   "u": -0.001,
-   "v": 0.0079,
-   "speed": 0.0079
+   "u": 0.0031,
+   "v": -0.0099,
+   "speed": 0.0104
   },
   "42.00,36.00": {
-   "ssha": -0.0403,
-   "counts": 338,
+   "ssha": -0.0195,
+   "counts": 344,
    "nearest_cell": false,
-   "u": -0.0001,
-   "v": -0.0065,
-   "speed": 0.0065
+   "u": 0.0069,
+   "v": -0.0007,
+   "speed": 0.007
   },
   "45.00,-5.00": {
-   "ssha": 0.1815,
+   "ssha": 0.1463,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0056,
-   "v": -0.0075,
-   "speed": 0.0094
+   "u": 0.0013,
+   "v": 0.0025,
+   "speed": 0.0028
   },
   "48.00,-15.00": {
-   "ssha": 0.1199,
+   "ssha": 0.1043,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0151,
-   "v": 0.0213,
-   "speed": 0.0261
+   "u": 0.0029,
+   "v": 0.0226,
+   "speed": 0.0228
   },
   "50.00,-25.00": {
-   "ssha": 0.0718,
+   "ssha": 0.0632,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0151,
-   "v": 0.017,
-   "speed": 0.0227
+   "u": 0.0097,
+   "v": 0.0203,
+   "speed": 0.0225
   },
   "52.00,-30.00": {
-   "ssha": 0.0775,
+   "ssha": 0.0578,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0125,
-   "v": 0.0065,
-   "speed": 0.0141
+   "u": 0.0119,
+   "v": 0.0048,
+   "speed": 0.0128
   },
   "31.23,121.47": {
-   "ssha": 0.2477,
+   "ssha": 0.1701,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -210,15 +210,15 @@
    "speed": null
   },
   "2.50,101.00": {
-   "ssha": 0.093,
-   "counts": 146,
+   "ssha": 0.1124,
+   "counts": 165,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "5.00,75.00": {
-   "ssha": 0.1073,
+   "ssha": 0.085,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -226,7 +226,7 @@
    "speed": null
   },
   "29.97,32.55": {
-   "ssha": 0.168,
+   "ssha": 0.341,
    "counts": 4,
    "nearest_cell": true,
    "u": null,
@@ -234,127 +234,127 @@
    "speed": null
   },
   "36.00,15.00": {
-   "ssha": 0.1123,
+   "ssha": 0.155,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0019,
-   "v": -0.0086,
-   "speed": 0.0088
+   "u": -0.0144,
+   "v": 0.0171,
+   "speed": 0.0223
   },
   "51.95,4.14": {
-   "ssha": 0.0811,
-   "counts": 420,
+   "ssha": 0.1622,
+   "counts": 419,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "35.00,150.00": {
-   "ssha": 0.3669,
+   "ssha": 0.3265,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0022,
-   "v": 0.1285,
-   "speed": 0.1286
+   "u": -0.0165,
+   "v": 0.1865,
+   "speed": 0.1873
   },
   "38.00,180.00": {
-   "ssha": 0.2829,
+   "ssha": 0.3232,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.074,
-   "v": -0.0096,
-   "speed": 0.0746
+   "u": -0.0719,
+   "v": -0.0629,
+   "speed": 0.0955
   },
   "35.00,-140.00": {
-   "ssha": 0.0736,
+   "ssha": 0.0933,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0033,
-   "v": 0.0042,
-   "speed": 0.0053
+   "u": -0.0008,
+   "v": -0.0077,
+   "speed": 0.0077
   },
   "33.74,-118.27": {
-   "ssha": 0.2154,
-   "counts": 493,
+   "ssha": 0.2303,
+   "counts": 492,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "1.29,103.85": {
-   "ssha": 0.1166,
-   "counts": 310,
+   "ssha": 0.1183,
+   "counts": 329,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "10.00,110.00": {
-   "ssha": 0.0977,
+   "ssha": 0.088,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0442,
-   "v": 0.1142,
-   "speed": 0.1225
+   "u": -0.0145,
+   "v": 0.1576,
+   "speed": 0.1583
   },
   "24.00,119.00": {
-   "ssha": 0.285,
-   "counts": 403,
+   "ssha": 0.0553,
+   "counts": 417,
    "nearest_cell": false,
-   "u": -0.0373,
-   "v": -0.0286,
-   "speed": 0.047
+   "u": 0.0016,
+   "v": -0.0232,
+   "speed": 0.0232
   },
   "50.00,-1.00": {
-   "ssha": 0.2035,
-   "counts": 487,
+   "ssha": 0.1308,
+   "counts": 486,
    "nearest_cell": false,
-   "u": 0.0006,
-   "v": 0.008,
-   "speed": 0.0081
+   "u": 0.0052,
+   "v": -0.015,
+   "speed": 0.0159
   },
   "48.00,-30.00": {
-   "ssha": 0.0821,
+   "ssha": 0.0839,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0215,
-   "v": 0.0136,
-   "speed": 0.0255
+   "u": -0.0188,
+   "v": 0.0071,
+   "speed": 0.02
   },
   "44.00,-50.00": {
-   "ssha": 0.16,
+   "ssha": 0.1703,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0295,
-   "v": -0.0033,
-   "speed": 0.0297
+   "u": 0.0102,
+   "v": -0.0175,
+   "speed": 0.0203
   },
   "40.60,-74.05": {
-   "ssha": 0.2399,
-   "counts": 427,
+   "ssha": 0.2049,
+   "counts": 500,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "-23.98,-46.30": {
-   "ssha": 0.0968,
-   "counts": 456,
+   "ssha": 0.049,
+   "counts": 425,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "-15.00,-30.00": {
-   "ssha": 0.0755,
+   "ssha": 0.0967,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0196,
-   "v": -0.002,
-   "speed": 0.0197
+   "u": 0.035,
+   "v": -0.0289,
+   "speed": 0.0454
   },
   "0.00,-25.00": {
-   "ssha": 0.1109,
+   "ssha": 0.1359,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -362,39 +362,39 @@
    "speed": null
   },
   "28.00,-18.00": {
-   "ssha": 0.1345,
+   "ssha": 0.1202,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0118,
-   "v": 0.0191,
-   "speed": 0.0224
+   "u": 0.0123,
+   "v": 0.0132,
+   "speed": 0.0181
   },
   "25.27,55.30": {
-   "ssha": 0.1629,
-   "counts": 80,
+   "ssha": 0.1618,
+   "counts": 81,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "18.00,62.00": {
-   "ssha": 0.1591,
+   "ssha": 0.1401,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0197,
-   "v": -0.0332,
-   "speed": 0.0386
+   "u": 0.0148,
+   "v": -0.0064,
+   "speed": 0.0161
   },
   "8.00,75.00": {
-   "ssha": 0.0949,
+   "ssha": 0.079,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.047,
-   "v": 0.0704,
-   "speed": 0.0846
+   "u": 0.0075,
+   "v": -0.0191,
+   "speed": 0.0205
   },
   "18.94,72.83": {
-   "ssha": 0.0802,
+   "ssha": 0.0779,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -402,23 +402,23 @@
    "speed": null
   },
   "12.50,45.00": {
-   "ssha": 0.0326,
-   "counts": 91,
+   "ssha": 0.1562,
+   "counts": 90,
    "nearest_cell": false,
-   "u": 0.026,
-   "v": -0.1151,
-   "speed": 0.118
+   "u": 0.052,
+   "v": -0.1704,
+   "speed": 0.1782
   },
   "20.00,38.00": {
-   "ssha": 0.2277,
-   "counts": 65,
+   "ssha": 0.2761,
+   "counts": 66,
    "nearest_cell": false,
-   "u": 0.0104,
-   "v": 0.0084,
-   "speed": 0.0133
+   "u": 0.026,
+   "v": 0.0086,
+   "speed": 0.0274
   },
   "-29.87,31.03": {
-   "ssha": 0.1184,
+   "ssha": 0.0892,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -426,15 +426,15 @@
    "speed": null
   },
   "-20.00,55.00": {
-   "ssha": 0.1384,
+   "ssha": 0.1516,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.018,
-   "v": -0.0234,
-   "speed": 0.0296
+   "u": 0.0225,
+   "v": -0.0028,
+   "speed": 0.0226
   },
   "-5.00,80.00": {
-   "ssha": 0.2417,
+   "ssha": 0.2516,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -442,23 +442,23 @@
    "speed": null
   },
   "9.08,-79.68": {
-   "ssha": 0.0937,
-   "counts": 395,
+   "ssha": 0.0859,
+   "counts": 412,
    "nearest_cell": false,
-   "u": 1.4857,
-   "v": 0.6566,
-   "speed": 1.6243
+   "u": 1.4958,
+   "v": 0.469,
+   "speed": 1.5676
   },
   "15.00,-95.00": {
-   "ssha": 0.3183,
+   "ssha": 0.3338,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0718,
-   "v": 0.0285,
-   "speed": 0.0773
+   "u": -0.1029,
+   "v": 0.0994,
+   "speed": 0.1431
   },
   "25.00,-112.00": {
-   "ssha": 0.3507,
+   "ssha": 0.3401,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -466,7 +466,7 @@
    "speed": null
   },
   "35.65,139.84": {
-   "ssha": 0.2976,
+   "ssha": 0.3218,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -474,103 +474,103 @@
    "speed": null
   },
   "40.00,160.00": {
-   "ssha": 0.2816,
+   "ssha": 0.3069,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0718,
-   "v": -0.0039,
-   "speed": 0.0719
+   "u": -0.0835,
+   "v": 0.0248,
+   "speed": 0.0871
   },
   "42.00,-175.00": {
-   "ssha": 0.2412,
+   "ssha": 0.2535,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0105,
-   "v": -0.0216,
-   "speed": 0.024
+   "u": 0.0176,
+   "v": -0.0162,
+   "speed": 0.0239
   },
   "38.00,-140.00": {
-   "ssha": 0.0913,
+   "ssha": 0.1077,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0121,
-   "v": 0.0006,
-   "speed": 0.0121
+   "u": -0.0084,
+   "v": -0.0156,
+   "speed": 0.0177
   },
   "53.55,9.99": {
-   "ssha": 0.1521,
-   "counts": 414,
+   "ssha": 0.1759,
+   "counts": 412,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "55.00,3.00": {
-   "ssha": 0.1423,
+   "ssha": 0.1764,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0035,
-   "v": 0.0107,
-   "speed": 0.0112
+   "u": -0.0107,
+   "v": 0.003,
+   "speed": 0.0111
   },
   "-37.84,144.92": {
-   "ssha": 0.0168,
-   "counts": 443,
+   "ssha": 0.0127,
+   "counts": 452,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "-18.00,155.00": {
-   "ssha": 0.1328,
+   "ssha": 0.1028,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.087,
-   "v": -0.0299,
-   "speed": 0.092
+   "u": 0.0744,
+   "v": -0.0148,
+   "speed": 0.0758
   },
   "10.00,130.00": {
-   "ssha": -0.1251,
+   "ssha": -0.1263,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0792,
-   "v": 0.014,
-   "speed": 0.0805
+   "u": 0.1082,
+   "v": 0.0129,
+   "speed": 0.109
   },
   "28.00,125.00": {
-   "ssha": 0.2128,
+   "ssha": 0.1465,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0011,
-   "v": -0.0337,
-   "speed": 0.0337
+   "u": -0.0204,
+   "v": -0.0093,
+   "speed": 0.0224
   },
   "21.49,39.19": {
-   "ssha": 0.2217,
-   "counts": 69,
+   "ssha": 0.2593,
+   "counts": 71,
    "nearest_cell": true,
-   "u": 0.0396,
-   "v": 0.0199,
-   "speed": 0.0443
+   "u": 0.0669,
+   "v": 0.0267,
+   "speed": 0.0721
   },
   "25.00,36.00": {
-   "ssha": 0.1687,
-   "counts": 22,
+   "ssha": 0.3122,
+   "counts": 24,
    "nearest_cell": false,
-   "u": 0.0038,
-   "v": 0.0025,
-   "speed": 0.0045
+   "u": -0.0426,
+   "v": -0.0292,
+   "speed": 0.0516
   },
   "36.14,-5.35": {
-   "ssha": 0.1946,
-   "counts": 37,
+   "ssha": 0.224,
+   "counts": 31,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "35.10,129.04": {
-   "ssha": 0.2089,
+   "ssha": 0.2131,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -578,71 +578,71 @@
    "speed": null
   },
   "42.00,160.00": {
-   "ssha": 0.3056,
+   "ssha": 0.3048,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0436,
-   "v": 0.0023,
-   "speed": 0.0437
+   "u": 0.0714,
+   "v": 0.0059,
+   "speed": 0.0717
   },
   "44.00,-175.00": {
-   "ssha": 0.2407,
+   "ssha": 0.2444,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.003,
-   "v": -0.0069,
-   "speed": 0.0075
+   "u": -0.0019,
+   "v": -0.0134,
+   "speed": 0.0135
   },
   "36.50,-2.00": {
-   "ssha": 0.1583,
-   "counts": 80,
+   "ssha": 0.2071,
+   "counts": 74,
    "nearest_cell": false,
-   "u": 0.0091,
-   "v": -0.0197,
-   "speed": 0.0217
+   "u": 0.0096,
+   "v": -0.0136,
+   "speed": 0.0167
   },
   "38.50,8.00": {
-   "ssha": 0.1217,
-   "counts": 485,
+   "ssha": 0.1154,
+   "counts": 486,
    "nearest_cell": false,
-   "u": -0.0022,
-   "v": 0.0002,
-   "speed": 0.0022
+   "u": -0.0085,
+   "v": -0.0112,
+   "speed": 0.0141
   },
   "37.50,18.00": {
-   "ssha": 0.0982,
+   "ssha": 0.1552,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.006,
-   "v": 0.0044,
-   "speed": 0.0075
+   "u": 0.0023,
+   "v": -0.0131,
+   "speed": 0.0133
   },
   "37.94,23.65": {
-   "ssha": 0.1841,
-   "counts": 343,
+   "ssha": 0.2008,
+   "counts": 342,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "22.30,114.17": {
-   "ssha": 0.2946,
+   "ssha": 0.2317,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0103,
-   "v": -0.0775,
-   "speed": 0.0782
+   "u": 0.0008,
+   "v": 0.0023,
+   "speed": 0.0025
   },
   "15.00,113.00": {
-   "ssha": 0.0827,
+   "ssha": 0.0805,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0047,
-   "v": 0.0078,
-   "speed": 0.0092
+   "u": 0.0158,
+   "v": 0.0332,
+   "speed": 0.0368
   },
   "4.00,108.00": {
-   "ssha": 0.0915,
+   "ssha": 0.0865,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -650,15 +650,15 @@
    "speed": null
   },
   "20.00,-65.00": {
-   "ssha": 0.2309,
+   "ssha": 0.2451,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0256,
-   "v": 0.0462,
-   "speed": 0.0528
+   "u": 0.0191,
+   "v": 0.0434,
+   "speed": 0.0475
   },
   "0.00,-40.00": {
-   "ssha": 0.1553,
+   "ssha": 0.1418,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -666,7 +666,7 @@
    "speed": null
   },
   "-33.91,18.42": {
-   "ssha": 0.1244,
+   "ssha": 0.1232,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -674,15 +674,15 @@
    "speed": null
   },
   "-25.00,50.00": {
-   "ssha": 0.1025,
+   "ssha": 0.1266,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.02,
-   "v": -0.0748,
-   "speed": 0.0774
+   "u": 0.0227,
+   "v": -0.0918,
+   "speed": 0.0946
   },
   "35.44,139.64": {
-   "ssha": 0.3045,
+   "ssha": 0.3532,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -690,87 +690,87 @@
    "speed": null
   },
   "20.00,130.00": {
-   "ssha": 0.1936,
+   "ssha": 0.1651,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.1132,
-   "v": 0.0808,
-   "speed": 0.139
+   "u": -0.0417,
+   "v": 0.0804,
+   "speed": 0.0906
   },
   "10.00,115.00": {
-   "ssha": 0.1673,
+   "ssha": 0.145,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.1394,
-   "v": -0.0246,
-   "speed": 0.1415
+   "u": -0.0844,
+   "v": -0.0282,
+   "speed": 0.089
   },
   "51.24,4.42": {
-   "ssha": 0.071,
-   "counts": 337,
+   "ssha": 0.1615,
+   "counts": 334,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "50.00,-2.00": {
-   "ssha": 0.1892,
+   "ssha": 0.1464,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0011,
-   "v": 0.0196,
-   "speed": 0.0197
+   "u": 0.0055,
+   "v": -0.0184,
+   "speed": 0.0192
   },
   "47.00,-35.00": {
-   "ssha": 0.1005,
+   "ssha": 0.0649,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.049,
-   "v": 0.0086,
-   "speed": 0.0497
+   "u": 0.0425,
+   "v": 0.0098,
+   "speed": 0.0436
   },
   "39.44,-0.32": {
-   "ssha": 0.1527,
-   "counts": 246,
+   "ssha": 0.1884,
+   "counts": 243,
    "nearest_cell": false,
-   "u": -0.0093,
-   "v": 0.0111,
-   "speed": 0.0145
+   "u": -0.0089,
+   "v": 0.0003,
+   "speed": 0.0089
   },
   "38.00,5.00": {
-   "ssha": 0.1737,
+   "ssha": 0.1711,
    "counts": 381,
    "nearest_cell": false,
-   "u": -0.0052,
-   "v": -0.024,
-   "speed": 0.0245
+   "u": -0.0034,
+   "v": -0.0184,
+   "speed": 0.0187
   },
   "35.00,20.00": {
-   "ssha": 0.109,
+   "ssha": 0.138,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0007,
-   "v": 0.023,
-   "speed": 0.023
+   "u": -0.004,
+   "v": 0.0139,
+   "speed": 0.0144
   },
   "36.07,120.38": {
-   "ssha": 0.3386,
-   "counts": 236,
+   "ssha": 0.2056,
+   "counts": 277,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "30.00,124.00": {
-   "ssha": 0.2379,
+   "ssha": 0.1734,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0011,
-   "v": -0.0353,
-   "speed": 0.0353
+   "u": 0.0024,
+   "v": 0.0014,
+   "speed": 0.0027
   },
   "6.94,79.84": {
-   "ssha": 0.1426,
+   "ssha": 0.0721,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -778,251 +778,251 @@
    "speed": null
   },
   "8.00,88.00": {
-   "ssha": 0.1052,
+   "ssha": 0.1025,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0122,
-   "v": -0.1224,
-   "speed": 0.123
+   "u": 0.0666,
+   "v": -0.0675,
+   "speed": 0.0948
   },
   "29.73,-94.98": {
-   "ssha": 0.1938,
-   "counts": 419,
+   "ssha": 0.225,
+   "counts": 421,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "26.00,-88.00": {
-   "ssha": 0.1774,
+   "ssha": 0.1564,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0372,
-   "v": -0.0087,
-   "speed": 0.0382
+   "u": 0.0439,
+   "v": 0.0031,
+   "speed": 0.044
   },
   "40.00,-45.00": {
-   "ssha": 0.2858,
+   "ssha": 0.3089,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0028,
-   "v": -0.0784,
-   "speed": 0.0784
+   "u": 0.0174,
+   "v": -0.1039,
+   "speed": 0.1053
   },
   "47.60,-122.33": null,
   "48.00,-150.00": {
-   "ssha": 0.1398,
+   "ssha": 0.1571,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.005,
+   "u": 0.0034,
    "v": 0.0051,
-   "speed": 0.0072
+   "speed": 0.0061
   },
   "45.00,175.00": {
-   "ssha": 0.2799,
+   "ssha": 0.2558,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.017,
-   "v": -0.0074,
-   "speed": 0.0185
+   "u": 0.0117,
+   "v": -0.0056,
+   "speed": 0.013
   },
   "36.00,26.00": {
-   "ssha": 0.0282,
-   "counts": 429,
+   "ssha": 0.0609,
+   "counts": 430,
    "nearest_cell": false,
-   "u": 0.0065,
-   "v": -0.0232,
-   "speed": 0.0241
+   "u": 0.002,
+   "v": -0.0007,
+   "speed": 0.0021
   },
   "33.00,28.00": {
-   "ssha": 0.0903,
-   "counts": 395,
+   "ssha": 0.125,
+   "counts": 393,
    "nearest_cell": false,
-   "u": 0.0157,
-   "v": 0.0239,
-   "speed": 0.0286
+   "u": 0.0183,
+   "v": 0.0218,
+   "speed": 0.0285
   },
   "31.20,29.92": {
-   "ssha": 0.1185,
-   "counts": 359,
+   "ssha": 0.1611,
+   "counts": 358,
    "nearest_cell": false,
-   "u": 0.0054,
-   "v": -0.0011,
-   "speed": 0.0055
+   "u": 0.0127,
+   "v": 0.0043,
+   "speed": 0.0134
   },
   "49.29,-123.11": null,
   "50.00,-155.00": {
-   "ssha": 0.1355,
+   "ssha": 0.1448,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0062,
-   "v": 0.0011,
-   "speed": 0.0063
+   "u": 0.018,
+   "v": 0.0057,
+   "speed": 0.0189
   },
   "45.00,170.00": {
-   "ssha": 0.2681,
+   "ssha": 0.253,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0032,
-   "v": 0.0275,
-   "speed": 0.0277
+   "u": 0.0102,
+   "v": 0.0243,
+   "speed": 0.0263
   },
   "40.20,26.40": null,
   "39.00,25.00": null,
   "34.68,135.20": {
-   "ssha": 0.246,
-   "counts": 361,
+   "ssha": 0.3103,
+   "counts": 376,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "12.00,115.00": {
-   "ssha": 0.1904,
+   "ssha": 0.1624,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0809,
-   "v": -0.0303,
-   "speed": 0.0864
+   "u": 0.0447,
+   "v": -0.0661,
+   "speed": 0.0798
   },
   "36.13,-5.45": {
-   "ssha": 0.1946,
-   "counts": 37,
+   "ssha": 0.224,
+   "counts": 31,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "38.00,-25.00": {
-   "ssha": 0.1541,
+   "ssha": 0.1326,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0018,
-   "v": 0.0247,
-   "speed": 0.0248
+   "u": -0.014,
+   "v": 0.0132,
+   "speed": 0.0192
   },
   "42.00,-48.00": {
-   "ssha": 0.2609,
+   "ssha": 0.2692,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.072,
-   "v": -0.0003,
-   "speed": 0.072
+   "u": 0.0819,
+   "v": 0.0306,
+   "speed": 0.0874
   },
   "38.92,121.63": {
-   "ssha": 0.2353,
-   "counts": 194,
+   "ssha": 0.1754,
+   "counts": 207,
    "nearest_cell": false,
-   "u": -0.0031,
-   "v": -0.0523,
-   "speed": 0.0524
+   "u": 0.0038,
+   "v": -0.0054,
+   "speed": 0.0066
   },
   "34.00,123.00": {
-   "ssha": 0.2191,
+   "ssha": 0.2176,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0005,
-   "v": 0.0044,
-   "speed": 0.0044
+   "u": -0.0034,
+   "v": 0.0054,
+   "speed": 0.0064
   },
   "28.00,124.00": {
-   "ssha": 0.2322,
+   "ssha": 0.1631,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0141,
-   "v": -0.0239,
-   "speed": 0.0277
+   "u": -0.0193,
+   "v": -0.0365,
+   "speed": 0.0413
   },
   "12.00,114.00": {
-   "ssha": 0.2,
+   "ssha": 0.1866,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.1067,
-   "v": -0.0295,
-   "speed": 0.1107
+   "u": 0.0626,
+   "v": -0.0725,
+   "speed": 0.0958
   },
   "51.96,1.31": {
-   "ssha": 0.1048,
-   "counts": 431,
+   "ssha": 0.1547,
+   "counts": 428,
    "nearest_cell": false,
-   "u": -0.0215,
-   "v": -0.0161,
-   "speed": 0.0269
+   "u": 0.0025,
+   "v": 0.0028,
+   "speed": 0.0037
   },
   "8.00,70.00": {
-   "ssha": 0.0352,
+   "ssha": 0.0252,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0582,
-   "v": 0.0419,
-   "speed": 0.0717
+   "u": 0.0439,
+   "v": 0.0387,
+   "speed": 0.0586
   },
   "33.75,-118.19": {
-   "ssha": 0.2154,
-   "counts": 493,
+   "ssha": 0.2303,
+   "counts": 492,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "44.41,8.93": {
-   "ssha": 0.1699,
-   "counts": 236,
+   "ssha": 0.1408,
+   "counts": 235,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "40.00,12.00": {
-   "ssha": 0.141,
-   "counts": 482,
+   "ssha": 0.1474,
+   "counts": 483,
    "nearest_cell": false,
-   "u": 0.0007,
-   "v": 0.0015,
-   "speed": 0.0016
+   "u": -0.006,
+   "v": -0.0014,
+   "speed": 0.0062
   },
   "36.00,18.00": {
-   "ssha": 0.0944,
+   "ssha": 0.15,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0014,
-   "v": -0.0058,
-   "speed": 0.0059
+   "u": -0.0102,
+   "v": -0.0175,
+   "speed": 0.0202
   },
   "-20.31,118.58": {
-   "ssha": -0.0166,
+   "ssha": 0.0171,
    "counts": 460,
    "nearest_cell": false,
-   "u": 0.0097,
-   "v": 0.0038,
-   "speed": 0.0104
+   "u": 0.0169,
+   "v": -0.014,
+   "speed": 0.0219
   },
   "-11.00,123.00": {
-   "ssha": -0.0164,
+   "ssha": -0.0213,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0059,
-   "v": 0.0431,
-   "speed": 0.0435
+   "u": -0.0359,
+   "v": 0.0304,
+   "speed": 0.0471
   },
   "-2.00,118.00": {
-   "ssha": 0.0184,
-   "counts": 169,
+   "ssha": 0.0384,
+   "counts": 168,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "10.00,125.00": {
-   "ssha": -0.0611,
-   "counts": 414,
+   "ssha": -0.0582,
+   "counts": 413,
    "nearest_cell": false,
-   "u": 0.2968,
-   "v": -0.3438,
-   "speed": 0.4542
+   "u": 0.2772,
+   "v": -0.3195,
+   "speed": 0.423
   },
   "-2.56,-44.37": {
-   "ssha": 0.1534,
+   "ssha": 0.1071,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1030,7 +1030,7 @@
    "speed": null
   },
   "0.00,-30.00": {
-   "ssha": 0.1284,
+   "ssha": 0.1479,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1038,7 +1038,7 @@
    "speed": null
   },
   "-35.00,20.00": {
-   "ssha": 0.0901,
+   "ssha": 0.1131,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1046,15 +1046,15 @@
    "speed": null
   },
   "-25.00,60.00": {
-   "ssha": 0.1541,
+   "ssha": 0.1641,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0577,
-   "v": 0.0399,
-   "speed": 0.0701
+   "u": 0.0754,
+   "v": 0.027,
+   "speed": 0.0801
   },
   "-32.92,151.78": {
-   "ssha": -0.0068,
+   "ssha": -0.1495,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1062,23 +1062,23 @@
    "speed": null
   },
   "-20.00,155.00": {
-   "ssha": 0.0647,
+   "ssha": 0.03,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0316,
-   "v": -0.0195,
-   "speed": 0.0371
+   "u": 0.0239,
+   "v": -0.025,
+   "speed": 0.0346
   },
   "10.00,140.00": {
-   "ssha": -0.1175,
+   "ssha": -0.1209,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.1793,
-   "v": 0.0149,
-   "speed": 0.1799
+   "u": 0.1859,
+   "v": 0.0338,
+   "speed": 0.1889
   },
   "29.95,-90.07": {
-   "ssha": 0.2627,
+   "ssha": 0.2237,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1086,47 +1086,47 @@
    "speed": null
   },
   "25.00,-88.00": {
-   "ssha": 0.2141,
+   "ssha": 0.1908,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0658,
-   "v": 0.0765,
-   "speed": 0.1009
+   "u": 0.0494,
+   "v": 0.0754,
+   "speed": 0.0901
   },
   "15.00,-110.00": {
-   "ssha": 0.2587,
+   "ssha": 0.2552,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0377,
-   "v": 0.0277,
-   "speed": 0.0468
+   "u": -0.0262,
+   "v": 0.01,
+   "speed": 0.028
   },
   "25.00,-160.00": {
-   "ssha": 0.0856,
+   "ssha": 0.0912,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0421,
-   "v": 0.0021,
-   "speed": 0.0422
+   "u": -0.0296,
+   "v": 0.0146,
+   "speed": 0.033
   },
   "26.64,50.16": {
-   "ssha": 0.2297,
+   "ssha": 0.2021,
    "counts": 63,
    "nearest_cell": false,
-   "u": 0.003,
-   "v": 0.0031,
-   "speed": 0.0043
+   "u": -0.0031,
+   "v": 0.0008,
+   "speed": 0.0032
   },
   "26.57,56.25": {
-   "ssha": 0.0826,
-   "counts": 77,
+   "ssha": 0.0805,
+   "counts": 78,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "5.00,80.00": {
-   "ssha": 0.1336,
+   "ssha": 0.0792,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1134,47 +1134,47 @@
    "speed": null
   },
   "29.87,121.55": {
-   "ssha": 0.2668,
-   "counts": 494,
+   "ssha": 0.2047,
+   "counts": 500,
    "nearest_cell": true,
    "u": null,
    "v": null,
    "speed": null
   },
   "25.92,51.55": {
-   "ssha": 0.2285,
+   "ssha": 0.2057,
    "counts": 65,
    "nearest_cell": false,
-   "u": -0.0048,
-   "v": -0.0045,
-   "speed": 0.0066
+   "u": 0.0053,
+   "v": 0.0129,
+   "speed": 0.0139
   },
   "29.73,-93.87": {
-   "ssha": 0.1836,
-   "counts": 435,
+   "ssha": 0.2501,
+   "counts": 436,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "24.50,-80.00": {
-   "ssha": 0.1549,
-   "counts": 361,
+   "ssha": 0.1554,
+   "counts": 360,
    "nearest_cell": false,
-   "u": -0.0197,
-   "v": -0.0417,
-   "speed": 0.0461
+   "u": -0.0119,
+   "v": -0.0397,
+   "speed": 0.0415
   },
   "4.45,7.17": {
-   "ssha": 0.1779,
-   "counts": 224,
+   "ssha": 0.1513,
+   "counts": 253,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "2.00,3.00": {
-   "ssha": 0.1221,
+   "ssha": 0.1228,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1182,7 +1182,7 @@
    "speed": null
   },
   "0.00,-5.00": {
-   "ssha": 0.1291,
+   "ssha": 0.13,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1190,114 +1190,114 @@
    "speed": null
   },
   "-15.00,-5.00": {
-   "ssha": 0.0655,
+   "ssha": 0.0677,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0261,
-   "v": 0.0241,
-   "speed": 0.0356
+   "u": -0.0247,
+   "v": 0.0155,
+   "speed": 0.0292
   },
   "68.97,33.05": null,
   "75.00,65.00": null,
   "76.00,125.00": null,
   "65.80,-169.00": {
-   "ssha": 0.2746,
+   "ssha": 0.2036,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0152,
-   "v": 0.0012,
-   "speed": 0.0153
+   "u": -0.0139,
+   "v": 0.0038,
+   "speed": 0.0144
   },
   "29.07,48.13": {
-   "ssha": 0.1722,
+   "ssha": 0.1502,
    "counts": 50,
    "nearest_cell": false,
-   "u": 0.0192,
-   "v": 0.0188,
-   "speed": 0.0269
+   "u": 0.021,
+   "v": 0.0194,
+   "speed": 0.0286
   },
   "27.00,52.00": {
-   "ssha": 0.2307,
+   "ssha": 0.2039,
    "counts": 63,
    "nearest_cell": false,
-   "u": -0.0013,
-   "v": -0.001,
-   "speed": 0.0016
+   "u": -0.0004,
+   "v": 0.0055,
+   "speed": 0.0055
   },
   "24.00,58.00": {
-   "ssha": 0.0368,
-   "counts": 281,
+   "ssha": 0.0358,
+   "counts": 284,
    "nearest_cell": false,
-   "u": -0.006,
-   "v": -0.0099,
-   "speed": 0.0116
+   "u": -0.0023,
+   "v": 0.009,
+   "speed": 0.0093
   },
   "20.00,62.00": {
-   "ssha": 0.0895,
+   "ssha": 0.1173,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0814,
-   "v": -0.0289,
-   "speed": 0.0863
+   "u": 0.0356,
+   "v": 0.0038,
+   "speed": 0.0359
   },
   "52.50,3.00": {
-   "ssha": 0.1033,
-   "counts": 498,
+   "ssha": 0.158,
+   "counts": 493,
    "nearest_cell": false,
-   "u": -0.0231,
-   "v": -0.0108,
-   "speed": 0.0255
+   "u": -0.0011,
+   "v": 0.0042,
+   "speed": 0.0043
   },
   "51.00,1.50": {
-   "ssha": 0.084,
-   "counts": 276,
+   "ssha": 0.1593,
+   "counts": 274,
    "nearest_cell": false,
-   "u": -0.0074,
-   "v": -0.0142,
-   "speed": 0.016
+   "u": 0.0034,
+   "v": 0.0021,
+   "speed": 0.004
   },
   "17.00,41.00": {
-   "ssha": 0.2726,
+   "ssha": 0.2742,
    "counts": 48,
    "nearest_cell": false,
-   "u": 0.0225,
-   "v": 0.0021,
-   "speed": 0.0226
+   "u": 0.0172,
+   "v": -0.0029,
+   "speed": 0.0175
   },
   "12.60,43.30": {
-   "ssha": 0.0792,
-   "counts": 108,
+   "ssha": 0.2182,
+   "counts": 106,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "11.60,43.15": {
-   "ssha": 0.0841,
-   "counts": 94,
+   "ssha": 0.2307,
+   "counts": 92,
    "nearest_cell": false,
-   "u": 0.013,
-   "v": -0.0585,
-   "speed": 0.0599
+   "u": 0.0347,
+   "v": -0.0833,
+   "speed": 0.0903
   },
   "35.89,-5.50": {
-   "ssha": 0.1966,
-   "counts": 32,
+   "ssha": 0.225,
+   "counts": 26,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "40.00,-10.00": {
-   "ssha": 0.1399,
+   "ssha": 0.1155,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0003,
-   "v": 0.0134,
-   "speed": 0.0134
+   "u": 0.014,
+   "v": 0.0009,
+   "speed": 0.0141
   },
   "-12.05,-77.15": {
-   "ssha": 0.2841,
+   "ssha": 0.337,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1305,15 +1305,15 @@
    "speed": null
   },
   "-10.00,-100.00": {
-   "ssha": 0.1441,
+   "ssha": 0.1345,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0154,
-   "v": 0.0259,
-   "speed": 0.0302
+   "u": 0.0482,
+   "v": 0.0132,
+   "speed": 0.0499
   },
   "0.00,-140.00": {
-   "ssha": 0.5275,
+   "ssha": 0.4894,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1321,23 +1321,23 @@
    "speed": null
   },
   "15.00,135.00": {
-   "ssha": -0.17,
+   "ssha": -0.1649,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.1375,
-   "v": -0.0973,
-   "speed": 0.1685
+   "u": -0.1791,
+   "v": -0.0873,
+   "speed": 0.1992
   },
   "6.44,3.40": {
-   "ssha": 0.1046,
-   "counts": 387,
+   "ssha": 0.1373,
+   "counts": 368,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "2.00,0.00": {
-   "ssha": 0.1285,
+   "ssha": 0.1313,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1345,7 +1345,7 @@
    "speed": null
   },
   "5.00,-15.00": {
-   "ssha": 0.1123,
+   "ssha": 0.1232,
    "counts": 500,
    "nearest_cell": false,
    "u": null,
@@ -1353,39 +1353,39 @@
    "speed": null
   },
   "54.40,18.66": {
-   "ssha": 0.151,
-   "counts": 59,
+   "ssha": 0.2732,
+   "counts": 58,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "55.00,15.00": {
-   "ssha": 0.1466,
-   "counts": 54,
+   "ssha": 0.2826,
+   "counts": 53,
    "nearest_cell": false,
-   "u": -0.001,
-   "v": 0.0018,
-   "speed": 0.002
+   "u": 0.0032,
+   "v": -0.003,
+   "speed": 0.0044
   },
   "55.50,11.00": {
-   "ssha": 0.1422,
+   "ssha": 0.2869,
    "counts": 34,
    "nearest_cell": false,
-   "u": -0.0002,
-   "v": 0.0015,
-   "speed": 0.0015
+   "u": 0.0014,
+   "v": -0.0016,
+   "speed": 0.0022
   },
   "55.00,5.00": {
-   "ssha": 0.1515,
+   "ssha": 0.1807,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0024,
-   "v": 0.0018,
-   "speed": 0.003
+   "u": -0.0065,
+   "v": 0.0016,
+   "speed": 0.0067
   },
   "10.77,106.70": {
-   "ssha": 0.1453,
+   "ssha": 0.1726,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1393,55 +1393,55 @@
    "speed": null
   },
   "12.00,112.00": {
-   "ssha": 0.1843,
+   "ssha": 0.1826,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.1183,
-   "v": 0.1181,
-   "speed": 0.1672
+   "u": 0.1185,
+   "v": 0.124,
+   "speed": 0.1715
   },
   "18.00,130.00": {
-   "ssha": 0.0099,
+   "ssha": 0.0969,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.139,
-   "v": 0.0356,
-   "speed": 0.1435
+   "u": -0.0839,
+   "v": -0.064,
+   "speed": 0.1055
   },
   "30.00,-175.00": {
-   "ssha": 0.1377,
+   "ssha": 0.1532,
    "counts": 500,
    "nearest_cell": false,
-   "u": 0.0186,
-   "v": 0.0232,
-   "speed": 0.0297
+   "u": 0.0199,
+   "v": -0.0008,
+   "speed": 0.0199
   },
   "22.30,91.80": {
-   "ssha": 0.1194,
-   "counts": 271,
+   "ssha": 0.1099,
+   "counts": 303,
    "nearest_cell": false,
    "u": null,
    "v": null,
    "speed": null
   },
   "15.00,90.00": {
-   "ssha": 0.0343,
+   "ssha": 0.0628,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.067,
-   "v": 0.0577,
-   "speed": 0.0884
+   "u": -0.0798,
+   "v": -0.0005,
+   "speed": 0.0798
   },
   "8.00,96.00": {
-   "ssha": -0.0156,
-   "counts": 473,
+   "ssha": 0.0185,
+   "counts": 482,
    "nearest_cell": false,
-   "u": -0.0365,
-   "v": -0.0307,
-   "speed": 0.0477
+   "u": 0.0237,
+   "v": 0.0089,
+   "speed": 0.0253
   },
   "19.05,-104.32": {
-   "ssha": 0.2637,
+   "ssha": 0.3273,
    "counts": 500,
    "nearest_cell": true,
    "u": null,
@@ -1449,110 +1449,110 @@
    "speed": null
   },
   "18.00,-120.00": {
-   "ssha": 0.1629,
+   "ssha": 0.162,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0107,
-   "v": 0.0391,
-   "speed": 0.0406
+   "u": -0.0091,
+   "v": 0.0211,
+   "speed": 0.023
   },
   "29.00,123.00": {
-   "ssha": 0.2545,
+   "ssha": 0.1913,
    "counts": 500,
    "nearest_cell": false,
-   "u": -0.0053,
-   "v": -0.0174,
-   "speed": 0.0182
+   "u": 0.0111,
+   "v": -0.0257,
+   "speed": 0.028
   }
  },
  "zones": {
   "26.57,56.25": {
    "name": "Hormuz Strait",
-   "ssha": 0.0826,
-   "counts": 77,
+   "ssha": 0.0805,
+   "counts": 78,
    "nearest_cell": false
   },
   "2.50,101.00": {
    "name": "Malacca Strait",
-   "ssha": 0.093,
-   "counts": 146,
+   "ssha": 0.1124,
+   "counts": 165,
    "nearest_cell": false
   },
   "12.60,43.30": {
    "name": "Bab el-Mandeb",
-   "ssha": 0.0792,
-   "counts": 108,
+   "ssha": 0.2182,
+   "counts": 106,
    "nearest_cell": false
   },
   "24.00,119.00": {
    "name": "Taiwan Strait",
-   "ssha": 0.285,
-   "counts": 403,
+   "ssha": 0.0553,
+   "counts": 417,
    "nearest_cell": false
   },
   "48.00,-30.00": {
    "name": "North Atlantic",
-   "ssha": 0.0821,
+   "ssha": 0.0839,
    "counts": 500,
    "nearest_cell": false
   },
   "42.00,-175.00": {
    "name": "Mid Pacific",
-   "ssha": 0.2412,
+   "ssha": 0.2535,
    "counts": 500,
    "nearest_cell": false
   },
   "-35.00,20.00": {
    "name": "Cape Good Hope",
-   "ssha": 0.0901,
+   "ssha": 0.1131,
    "counts": 500,
    "nearest_cell": false
   },
   "18.00,62.00": {
    "name": "Arabian Sea",
-   "ssha": 0.1591,
+   "ssha": 0.1401,
    "counts": 500,
    "nearest_cell": false
   },
   "10.00,113.00": {
    "name": "South China Sea",
-   "ssha": 0.1874,
+   "ssha": 0.1816,
    "counts": 500,
    "nearest_cell": false
   },
   "26.00,-88.00": {
    "name": "Gulf of Mexico",
-   "ssha": 0.1774,
+   "ssha": 0.1564,
    "counts": 500,
    "nearest_cell": false
   },
   "36.00,15.00": {
    "name": "Mediterranean",
-   "ssha": 0.1123,
+   "ssha": 0.155,
    "counts": 500,
    "nearest_cell": false
   },
   "42.00,33.00": {
    "name": "Black Sea",
-   "ssha": -0.0477,
-   "counts": 328,
+   "ssha": -0.0025,
+   "counts": 333,
    "nearest_cell": false
   },
   "51.00,1.50": {
    "name": "Dover Strait",
-   "ssha": 0.084,
-   "counts": 276,
+   "ssha": 0.1593,
+   "counts": 274,
    "nearest_cell": false
   },
   "15.00,90.00": {
    "name": "Bay of Bengal",
-   "ssha": 0.0343,
+   "ssha": 0.0628,
    "counts": 500,
    "nearest_cell": false
   },
   "29.97,32.55": {
    "name": "Suez Canal",
-   "ssha": 0.168,
+   "ssha": 0.341,
    "counts": 4,
    "nearest_cell": true
   }
