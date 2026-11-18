@@ -31,6 +31,7 @@ What Batimetrix currently offers:
 | 60 trade routes, 15 vessel classes, fleet dashboard | Implemented |
 | Live SSH inputs at route waypoints | Implemented (NASA-SSH simple grid, weekly, 0.5°; 181/188 waypoints) |
 | Surface currents | Implemented: total surface current from NASA OSCAR (daily, 0.25°; 188/190 points), shown in the telemetry table; not yet a model input |
+| Validation of satellite currents against real ship speeds (AIS) | Done: Florida Straits, 11 days in 2025, see Early Validation |
 | Validation against real vessel fuel data | Planned (seeking pilot shipowner) |
 | Open source | Yes |
 
@@ -61,6 +62,26 @@ What Batimetrix currently offers:
 | OSCAR v2.0 NRT (ESR / NASA) | Total surface current, 0.25° | Daily (refreshed weekly) | Current speed at 188/190 points, shown in telemetry |
 
 The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea. Other sources are currently monitored for data availability; integrating them as live model inputs is part of the roadmap.
+
+---
+
+## Early Validation: Satellite Currents vs. Real Ship Speeds
+
+**Question:** Do satellite-derived surface currents (NASA OSCAR) explain real changes in vessel speed?
+
+**Data:** NOAA MarineCadastre AIS (U.S. waters, 2025, 1-minute positions) in the Florida Straits (23.5-27.5 N, 81.5-79 W), where the Gulf Stream flows north at up to about 2 m/s, and OSCAR v2.0 daily surface currents (0.25 deg).
+
+**Method:** Large cargo ships and tankers (100 m or longer, AIS types 70-89) under way at 8-25 kn, excluding positions within 15 km of major ports. For each position, the current component along the ship's course was computed. Within each vessel, deviations in speed over ground were regressed on deviations in along-track current, so every ship is compared only with itself. One day per month, January-November 2025.
+
+**Results:**
+- On all 11 days the effect has the expected sign: 0.42-0.85 kn of speed change per 1 kn of current (all days: 0.59, r = 0.41, 330,966 positions, 78-125 vessels per day).
+- Northbound ships (with the Gulf Stream) were 1.2-3.4 kn faster than southbound ships on every day; the gap was among the smallest on the day with the weakest current (Oct 15).
+
+![Validation chart](docs/validation_slope_2025.png)
+
+Full table: `validation/results_2025.csv`. Code: `validation/validate_currents.py`.
+
+**Interpretation and limits:** A slope below 1 is expected because OSCAR smooths currents (0.25 deg, daily, top 30 m) and ships adjust engine settings. This validates the importance of satellite currents for vessel speed; it does not yet measure fuel savings. Consecutive AIS positions are correlated, so statistical precision is overstated; the consistency across 11 days is the main evidence. The Gulf Stream is exceptionally strong, so effects in the Black Sea and Baltic will be smaller.
 
 ---
 
@@ -118,7 +139,7 @@ Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max devia
 
 Batimetrix is an early-stage research platform. Known limitations:
 
-- **No real-world validation yet.** Training targets are generated from the physics model; the network has not been validated against measured vessel drag or fuel consumption. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
+- **No fuel validation yet.** Satellite currents have been validated against real ship speeds (see Early Validation), but the drag model itself has not yet been validated against measured vessel drag or fuel consumption; its training targets are generated from the physics model. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
 - **Coarse SSH resolution.** Route waypoints now use live sea surface height anomaly from the NASA-SSH simple gridded product (weekly, 0.5°). This resolution cannot resolve narrow straits or coastal areas; 7 of 188 waypoints fall back to reference values. Next step: higher-resolution SWOT data near straits.
 - **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Total surface currents now come from NASA OSCAR v2.0 (geostrophic + Ekman + thermal wind, top 30 m, daily, 0.25°). They are shown per waypoint but are not yet a model input. Next step: retrain the model with current as an input.
 - **SSH sensitivity and training assumptions.** The model takes SSH anomaly (ssha) as input, normalized as (ssha + 2) / 4. Real anomalies are typically within +/-0.1 m, so this input varies very little and has only a small effect on predictions. In the training data, wave height was estimated from SSH with an assumed relation (1.5 + 0.3 * |ssha|) rather than measured. Next step: retrain using measured significant wave height (swh_karin from SWOT) and a normalization matched to the real SSH range.
@@ -159,3 +180,4 @@ Independent Researcher | ASU Online Student Turkey
 - Sea surface height: NASA-SSH Simple Gridded SSH (NASA PO.DAAC), CC BY 4.0.
 - Surface currents: OSCAR v2.0 Near Real Time, Earth & Space Research / NASA PO.DAAC, doi:10.5067/OSCAR-25N20.
 - SWOT data: NASA / CNES via NASA PO.DAAC.
+- AIS (validation): Office for Coastal Management, Nationwide Automatic Identification System 2025, https://www.fisheries.noaa.gov/inport/item/77594 (accessed November 2026).
