@@ -1,0 +1,29 @@
+name: Validate currents
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'Comma-separated dates (2025)'
+        required: true
+        default: '2025-01-15,2025-02-15,2025-03-15,2025-04-15,2025-05-15,2025-06-15,2025-07-15,2025-08-15,2025-09-15,2025-10-15,2025-11-15'
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install earthaccess xarray h5netcdf h5py numpy pandas zstandard requests
+      - name: Run validation
+        env:
+          EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
+          EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
+        run: python validation/validate_currents.py "${{ inputs.days }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validation-results
+          path: results/
