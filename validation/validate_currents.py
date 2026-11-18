@@ -29,7 +29,7 @@ for day in days:
 
     res = earthaccess.search_data(short_name='OSCAR_L4_OC_NRT_V2.0', temporal=(day, day))
     f = earthaccess.download(res[:1], local_path='oscar')[0]
-    od = xr.open_dataset(f, engine='h5netcdf')
+    od = xr.open_dataset(f, engine='h5netcdf', decode_times=False)
     olat, olon = od['lat'].values, od['lon'].values
     U, V = od['u'].values[0], od['v'].values[0]
     ii = np.clip(np.rint(((big['longitude'].values % 360) - olon[0]) / (olon[1] - olon[0])).astype(int), 0, len(olon) - 1)
