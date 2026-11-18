@@ -1,0 +1,28 @@
+name: Fetch OSCAR day
+
+on:
+  workflow_dispatch:
+    inputs:
+      day:
+        description: 'Date (YYYY-MM-DD)'
+        required: true
+        default: '2025-06-15'
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install earthaccess
+      - name: Download OSCAR file
+        env:
+          EARTHDATA_USERNAME: ${{ secrets.EARTHDATA_USERNAME }}
+          EARTHDATA_PASSWORD: ${{ secrets.EARTHDATA_PASSWORD }}
+        run: |
+          python -c "import earthaccess; earthaccess.login(strategy='environment'); d='${{ inputs.day }}'; r=earthaccess.search_data(short_name='OSCAR_L4_OC_NRT_V2.0', temporal=(d, d)); print(earthaccess.download(r[:1], local_path='oscar'))"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: oscar-${{ inputs.day }}
+          path: oscar/
