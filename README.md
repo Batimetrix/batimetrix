@@ -99,6 +99,22 @@ The model was fine-tuned on **296,526 real SWOT measurements** over the Black Se
 
 Table: `validation/stw_2025.csv`.
 
+### Replication: Cape Hatteras (North Carolina)
+
+The same analysis was repeated in a second, independent region where the
+Gulf Stream leaves the U.S. coast (33.5-36.5 N, 77-74 W), same 11 days.
+
+- Slope positive on all 11 days: 0.4 to 1.47
+  kn per kn of current (mean of days 0.82).
+- Cross-validated within-vessel speed variance reduction: 23.4%
+  on average; clearly positive on 9 of 11 days, near zero on the rest.
+- Fewer vessels than in the Florida Straits (23-40
+  per day), so day-to-day results are noisier. The Gulf Stream meanders
+  strongly here; on days with a small north-south speed gap ships were
+  probably outside its core.
+
+Table: `validation/hatteras_2025.csv`.
+
 Full table: `validation/results_2025.csv`. Code: `validation/validate_currents.py`.
 
 **Interpretation and limits:** A slope below 1 is expected because OSCAR smooths currents (0.25 deg, daily, top 30 m) and ships adjust engine settings. This validates the importance of satellite currents for vessel speed; it does not yet measure fuel savings. Consecutive AIS positions are correlated, so statistical precision is overstated; the consistency across 11 days is the main evidence. The Gulf Stream is exceptionally strong, so effects in the Black Sea and Baltic will be smaller.
