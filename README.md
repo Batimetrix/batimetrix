@@ -79,6 +79,26 @@ The model was fine-tuned on **296,526 real SWOT measurements** over the Black Se
 
 ![Validation chart](docs/validation_slope_2025.png)
 
+### Speed through water (speed over ground minus satellite current)
+
+- **North-south gap:** northbound ships were on average 2.5 kn faster
+  over ground; after subtracting the OSCAR along-track current the gap is
+  0.7 kn (mean absolute, 11 days). About 73% of the gap is explained
+  by the satellite current.
+- **Full subtraction over-corrects:** on 9 of 11 days southbound ships
+  then appear faster. This matches the slope below 1. One possible cause
+  (not yet tested): 0.25 deg OSCAR cells blur the sharp western edge of the
+  Gulf Stream, which southbound ships tend to avoid.
+- **Within-vessel speed variance:** subtracting the full current reduces it by
+  8.3% on average (range -9.4 to 37.0%). Subtracting a
+  scaled current, with the scale learned on the other 10 days
+  (leave-one-day-out), reduces it by 15.9%
+  (range 8.9 to 33.8%).
+- **Implication:** currents should enter the drag model as a learned input,
+  not as a direct subtraction.
+
+Table: `validation/stw_2025.csv`.
+
 Full table: `validation/results_2025.csv`. Code: `validation/validate_currents.py`.
 
 **Interpretation and limits:** A slope below 1 is expected because OSCAR smooths currents (0.25 deg, daily, top 30 m) and ships adjust engine settings. This validates the importance of satellite currents for vessel speed; it does not yet measure fuel savings. Consecutive AIS positions are correlated, so statistical precision is overstated; the consistency across 11 days is the main evidence. The Gulf Stream is exceptionally strong, so effects in the Black Sea and Baltic will be smaller.
