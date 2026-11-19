@@ -99,7 +99,7 @@ print('Zones with SSH  :', len(zones))
 currents = {}
 try:
     of = sorted(glob.glob('oscar_data/*.nc'))[-1]
-    od = xr.open_dataset(open(of, 'rb'), engine='h5netcdf')
+    od = xr.open_dataset(open(of, 'rb'), engine='h5netcdf', decode_times=False)
     olat = od['lat'].values
     olon = od['lon'].values
     U = od['u'].values[0]
@@ -136,7 +136,7 @@ try:
     meta['currents_date'] = od.attrs.get('time_coverage_start')
     print('Currents with data:', sum(1 for c in currents.values() if c), '/', len(currents))
 except Exception as e:
-    print('OSCAR not added:', e)
+    print('::warning::OSCAR not added: ' + str(e))
 json.dump({'meta': meta, 'points': points, 'zones': zones, 'currents': currents}, open('ssh_live.json', 'w', encoding='utf-8'), indent=1)
 
 print('Unique waypoints:', total)
