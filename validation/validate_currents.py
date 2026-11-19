@@ -1,7 +1,12 @@
 import io, os, sys, requests, zstandard as zstd, numpy as np, pandas as pd, xarray as xr, earthaccess
 
-days = sys.argv[1].split(',')
-PORTS = [(25.77, -80.17), (26.09, -80.12), (26.77, -80.05), (24.56, -81.80)]
+arg = sys.argv[1]
+REGION = arg.split(':')[0] if ':' in arg else 'florida'
+days = arg.split(':')[-1].split(',')
+BOX = {'florida': (23.5, 27.5, -81.5, -79.0),
+       'hatteras': (33.5, 36.5, -77.0, -74.0)}[REGION]
+PORTS = {'florida': [(25.77, -80.17), (26.09, -80.12), (26.77, -80.05), (24.56, -81.80)],
+         'hatteras': [(34.72, -76.71)]}[REGION]
 cols = ['mmsi', 'latitude', 'longitude', 'sog', 'cog', 'vessel_type', 'length', 'status']
 earthaccess.login(strategy="environment")
 os.makedirs('results', exist_ok=True)
@@ -20,7 +25,7 @@ for day in days:
         for ch in pd.read_csv(text, chunksize=500_000, low_memory=False, usecols=cols):
             for c in cols[1:]:
                 ch[c] = pd.to_numeric(ch[c], errors='coerce')
-            parts.append(ch[ch['latitude'].between(23.5, 27.5) & ch['longitude'].between(-81.5, -79.0)])
+            parts.append(ch[ch['latitude'].between(BOX[0], BOX[1]) & ch['longitude'].between(BOX[2], BOX[3])])
     df = pd.concat(parts, ignore_index=True)
     big = df[df['vessel_type'].between(70, 89) & (df['length'] >= 100) & df['sog'].between(8, 25)
              & df['cog'].between(0, 360) & ((df['status'] == 0) | df['status'].isna())].copy()
@@ -47,6 +52,9 @@ for day in days:
     nb = big[(big['cog'] >= 315) | (big['cog'] <= 45)]
     sb = big[big['cog'].between(135, 225)]
     w = big[big.groupby('mmsi')['sog'].transform('size') >= 20].copy()
+    if w['mmsi'].nunique() < 3:
+        print(day, 'too few vessels', flush=True)
+        continue
     w['sog_anom'] = w['sog'] - w.groupby('mmsi')['sog'].transform('mean')
     w['cur_anom'] = w['cur_kn'] - w.groupby('mmsi')['cur_kn'].transform('mean')
     w['stw_anom'] = w['sog_anom'] - w['cur_anom']
@@ -74,7 +82,7 @@ for d in out['day']:
     k = np.polyfit(tr['cur_anom'], tr['sog_anom'], 1)[0]
     cv.append(red(te['sog_anom'], te['sog_anom'] - k * te['cur_anom']))
 out['var_red_cv'] = cv
-out.to_csv('results/validation_days.csv', index=False)
+out.to_csv(f'results/validation_days_{REGION}.csv', index=False)
 s_all = np.polyfit(P['cur_anom'], P['sog_anom'], 1)[0]
 r_all = np.corrcoef(P['cur_anom'], P['sog_anom'])[0, 1]
 pd.set_option('display.width', 250)
