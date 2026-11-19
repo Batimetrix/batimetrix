@@ -5,7 +5,7 @@
 🌐 **Live Demo: [batimetrix.onrender.com](https://batimetrix.onrender.com)**
 📦 **GitHub: [github.com/Batimetrix/batimetrix](https://github.com/Batimetrix/batimetrix)**
 
-Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using a physics-informed neural network fine-tuned on real NASA SWOT measurements, uses live NASA sea surface height and surface current data at every route waypoint (updated automatically each week), and monitors **10 NASA satellite data sources** for data availability.
+Batimetrix predicts hydrodynamic drag 3 nautical miles ahead of a vessel's position using a physics-informed neural network trained on physics-based synthetic data, with live NASA sea surface height and surface current inputs, uses live NASA sea surface height and surface current data at every route waypoint (updated automatically each week), and monitors **10 NASA satellite data sources** for data availability.
 
 **Target: 8-12% net fuel savings and measurable IMO CII rating improvements.**
 
@@ -25,12 +25,12 @@ What Batimetrix currently offers:
 
 | Component | Status |
 |---|---|
-| Physics-informed neural network (ITTC 1957, Reynolds, shallow-water terms) | Implemented, fine-tuned on real SWOT data |
+| Physics-informed neural network (ITTC 1957, Reynolds, shallow-water terms) | Implemented; trained on physics-based synthetic data (v3 adds surface current) |
 | NASA satellite data source monitoring (10 sources) | Implemented |
 | IMO CII / EU ETS / FuelEU calculators | Implemented (based on estimated savings) |
 | 60 trade routes, 15 vessel classes, fleet dashboard | Implemented |
 | Live SSH inputs at route waypoints | Implemented (NASA-SSH simple grid, weekly, 0.5°; 181/188 waypoints) |
-| Surface currents | Implemented: total surface current from NASA OSCAR (daily, 0.25°; 188/190 points), shown in the telemetry table; not yet a model input |
+| Surface currents | Implemented: total surface current from NASA OSCAR (daily, 0.25°; 188/190 points), used as a model input via PINN v3 (along-track current) and shown in the telemetry table |
 | Validation of satellite currents against real ship speeds (AIS) | Done: Florida Straits, 11 days in 2025, see Early Validation |
 | Validation against real vessel fuel data | Planned (seeking pilot shipowner) |
 | Open source | Yes |
@@ -61,7 +61,7 @@ What Batimetrix currently offers:
 | NASA-SSH Simple Gridded SSH (V1.1) | Sea surface height anomaly, 0.5° | Weekly | SSH input at 181/188 waypoints and 15/16 Ocean Intel zones |
 | OSCAR v2.0 NRT (ESR / NASA) | Total surface current, 0.25° | Daily (refreshed weekly) | Current speed at 188/190 points, shown in telemetry |
 
-The model was fine-tuned on **296,526 real SWOT measurements** over the Black Sea. Other sources are currently monitored for data availability; integrating them as live model inputs is part of the roadmap.
+SWOT data (296,526 measurements over the Black Sea) was used in an early training step; see Model Architecture for its limits. Other sources are currently monitored for data availability; integrating them as live model inputs is part of the roadmap.
 
 ---
 
@@ -129,6 +129,19 @@ Full table: `validation/results_2025.csv`. Code: `validation/validate_currents.p
 - 6 residual blocks, 512 neurons each, GELU activation, LayerNorm
 - Output: normalized drag score in [0, 1]
 
+**PINN v3: current-aware (November 2026)**: `training_v3.py`, `batimetrix_v3_current.pt`
+- Adds an 8th input: surface current along the ship's track (kn).
+- Target: drag per nautical mile over ground, `drag x STW / SOG`, with `SOG = STW + k x current`.
+- `k = 0.7` was measured from real AIS data against NASA OSCAR currents (Florida Straits 0.59,
+  Cape Hatteras 0.82; see Early Validation). It is a calibration for OSCAR currents, not a physical
+  constant, and may partly reflect ships adjusting engine power.
+- Physics constraint in the loss: more following current must not increase drag per nm.
+- An unphysical latitude factor was removed from the synthetic training targets.
+- In the platform, v3 provides a current adjustment factor (drag with current / drag with zero
+  current) that multiplies the existing drag score, so existing thresholds remain valid.
+- Check against the formula: the model gets the direction right at all tested currents but
+  overestimates the effect of following currents (about -15% instead of -10% at +2 kn).
+
 Physics constraints in the loss function:
 - ITTC 1957 friction line: `Cf = 0.075 / (log10(Re) - 2)^2`
 - Reynolds number scaling
@@ -136,9 +149,9 @@ Physics constraints in the loss function:
 - Shallow-water resistance term
 - Incompressibility (continuity) penalty
 
-Training: 100,000 synthetic samples (100 epochs, AdamW, CosineAnnealingLR) + fine-tuning on 296,526 real NASA SWOT measurements.
+Training (v2): 100,000 synthetic samples generated from the physics formulas above (100 epochs, AdamW, CosineAnnealingLR). A second step used 10,000 points sampled from 296,526 SWOT measurements over the Black Sea, but its targets were computed from the same formula with fixed speed, draft and depth, so it adds little real-world information. All training targets are synthetic; the model has not yet been trained on measured vessel data.
 
-Deployment: Exported to ONNX (12.2 KB graph + 6.6 MB external weights, max deviation vs PyTorch: 2.98e-08).
+Deployment: the live platform runs the PyTorch models directly. An ONNX export (12.2 KB graph + 6.6 MB external weights, max deviation vs PyTorch 2.98e-08) exists but is not used in production.
 
 ---
 
@@ -177,7 +190,7 @@ Batimetrix is an early-stage research platform. Known limitations:
 
 - **No fuel validation yet.** Satellite currents have been validated against real ship speeds (see Early Validation), but the drag model itself has not yet been validated against measured vessel drag or fuel consumption; its training targets are generated from the physics model. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
 - **Coarse SSH resolution.** Route waypoints now use live sea surface height anomaly from the NASA-SSH simple gridded product (weekly, 0.5°). This resolution cannot resolve narrow straits or coastal areas; 7 of 188 waypoints fall back to reference values. Next step: higher-resolution SWOT data near straits.
-- **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Total surface currents now come from NASA OSCAR v2.0 (geostrophic + Ekman + thermal wind, top 30 m, daily, 0.25°). They are shown per waypoint but are not yet a model input. Next step: retrain the model with current as an input.
+- **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Total surface currents now come from NASA OSCAR v2.0 (geostrophic + Ekman + thermal wind, top 30 m, daily, 0.25°). Since PINN v3 they enter the drag estimate as along-track current. OSCAR (0.25 deg) cannot resolve narrow straits: at the Istanbul Strait it shows a weak northward current, while the real surface flow is southward.
 - **SSH sensitivity and training assumptions.** The model takes SSH anomaly (ssha) as input, normalized as (ssha + 2) / 4. Real anomalies are typically within +/-0.1 m, so this input varies very little and has only a small effect on predictions. In the training data, wave height was estimated from SSH with an assumed relation (1.5 + 0.3 * |ssha|) rather than measured. Next step: retrain using measured significant wave height (swh_karin from SWOT) and a normalization matched to the real SSH range.
 - **NISAR.** SAR-based vessel wake detection and surface roughness estimation are planned, using calibrated NISAR L-band products now publicly available through the ASF DAAC.
 
