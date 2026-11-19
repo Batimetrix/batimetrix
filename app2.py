@@ -73,6 +73,30 @@ model.load_state_dict(torch.load("batimetrix_swot_real.pt", weights_only=True))
 model.eval()
 print("Model yuklendi! BATIMETRIX V3 PRO")
 
+import math
+class PINNv3(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.input_layer = nn.Sequential(nn.Linear(8, 512), nn.LayerNorm(512), nn.GELU())
+        self.layers = nn.ModuleList([nn.Sequential(nn.Linear(512, 512), nn.LayerNorm(512),
+                                     nn.GELU(), nn.Dropout(0.05)) for _ in range(6)])
+        self.output_layer = nn.Sequential(nn.Linear(512, 128), nn.GELU(), nn.Linear(128, 32),
+                                          nn.GELU(), nn.Linear(32, 1), nn.Sigmoid())
+    def forward(self, x):
+        h = self.input_layer(x)
+        for k in self.layers:
+            h = h + k(h)
+        return self.output_layer(h)
+
+try:
+    model_v3 = PINNv3()
+    model_v3.load_state_dict(torch.load("batimetrix_v3_current.pt", weights_only=True))
+    model_v3.eval()
+    print("Current-aware PINN v3 loaded")
+except Exception as e:
+    model_v3 = None
+    print("PINN v3 not loaded:", e)
+
 CII_REF = {
     "Aframax Tanker": {"a": 5247.0, "c": 0.61, "d": [0.82,0.93,1.08,1.28]},
     "Suezmax Tanker": {"a": 5247.0, "c": 0.61, "d": [0.82,0.93,1.08,1.28]},
@@ -692,6 +716,26 @@ ROUTES = {
         ]
     },
 }
+
+def current_factor(lat, lon, depth, ssh, swh, speed, draft, cur_kn):
+    # Ratio of drag per nm with the along-track current vs. zero current (PINN v3)
+    if model_v3 is None or cur_kn is None:
+        return 1.0
+    base = [(lat+70)/150, (lon+180)/360, depth/6000, (ssh+2)/4, swh/20, speed/25, draft/22]
+    c = (max(-4.0, min(4.0, cur_kn)) + 4) / 8
+    x = torch.tensor([base + [c], base + [0.5]]).float()
+    with torch.no_grad():
+        y = model_v3(x).squeeze()
+    return float(y[0] / y[1])
+
+def along_track_kn(cur, lat1, lon1, lat2, lon2):
+    if not cur or cur.get("u") is None or cur.get("v") is None:
+        return None
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dl = math.radians(lon2 - lon1)
+    brg = math.atan2(math.sin(dl) * math.cos(p2),
+                     math.cos(p1) * math.sin(p2) - math.sin(p1) * math.cos(p2) * math.cos(dl))
+    return (cur["u"] * math.sin(brg) + cur["v"] * math.cos(brg)) * 1.94384
 
 def predict_drag(lat,lon,depth,ssh,swh,speed,draft):
     inp = torch.tensor([[
@@ -2653,7 +2697,7 @@ function renderResults(data){
       "<td><span class='wp-dot "+cls+"'></span>"+w.name+"</td>"+
       "<td>"+w.depth+"m</td>"+
       "<td>"+w.ssh.toFixed(3)+"</td>"+
-      "<td title='"+(w.current_source||"")+"'>"+(w.current_speed!=null?w.current_speed.toFixed(2):"-")+"</td>"+
+      "<td title='"+(w.current_source||"")+"'>"+(w.current_speed!=null?w.current_speed.toFixed(2):"-")+(w.current_along_kn!=null?" <span style='color:"+(w.current_along_kn>=0?"#27AE60":"#E74C3C")+"'>("+(w.current_along_kn>=0?"+":"")+w.current_along_kn.toFixed(1)+" kn)</span>":"")+"</td>"+
       "<td>"+w.swh.toFixed(1)+"</td>"+
       "<td style='color:"+color+";font-weight:700'>"+w.drag.toFixed(4)+"</td>"+
       "<td style='color:#00E5B0'>"+w.savings.toFixed(1)+"%</td>"+
@@ -4257,20 +4301,26 @@ def analyze():
 
     result_wps = []
     drag_total = 0
-    for wp in route["waypoints"]:
+    wps_list = route["waypoints"]
+    for i, wp in enumerate(wps_list):
         _live = SSH_LIVE.get(f"{wp['lat']:.2f},{wp['lon']:.2f}")
         ssh_val = _live["ssha"] if _live else wp["ssh"]
         ssh_src = "live" if _live else "reference"
         _cur = SSH_CURRENTS.get(f"{wp['lat']:.2f},{wp['lon']:.2f}")
         cur_spd = _cur["speed"] if _cur else (_live.get("speed") if _live else None)
         cur_src = "oscar_total" if _cur else ("ssha_anomaly" if (_live and _live.get("speed") is not None) else None)
-        drag = predict_drag(wp["lat"],wp["lon"],wp["depth"],ssh_val,swh,speed,draft)
+        nxt = wps_list[i+1] if i + 1 < len(wps_list) else None
+        prv = wps_list[i-1] if i > 0 else None
+        a, b = (wp, nxt) if nxt else (prv, wp)
+        cur_along = along_track_kn(_cur, a["lat"], a["lon"], b["lat"], b["lon"]) if (a and b) else None
+        cf = current_factor(wp["lat"],wp["lon"],wp["depth"],ssh_val,swh,speed,draft,cur_along)
+        drag = min(1.0, predict_drag(wp["lat"],wp["lon"],wp["depth"],ssh_val,swh,speed,draft) * cf)
         sav = max(0, min(15, (1 - drag) * 18))
         drag_total += drag
         result_wps.append({
             "name":wp["name"],"lat":wp["lat"],"lon":wp["lon"],
             "depth":wp["depth"],"ssh":ssh_val,"ssh_source":ssh_src,"current_speed":cur_spd,"current_source":cur_src,"swh":swh,
-            "drag":round(drag,4),"savings":round(sav,1)
+            "drag":round(drag,4),"savings":round(sav,1),"current_along_kn":(round(cur_along,2) if cur_along is not None else None),"current_factor":round(cf,3)
         })
 
     avg_drag = drag_total / len(route["waypoints"])
