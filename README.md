@@ -1,4 +1,4 @@
-﻿# BATIMETRIX &mdash; Thalassa Maritime Intelligence Platform
+# BATIMETRIX &mdash; Thalassa Maritime Intelligence Platform
 
 **Proactive Hydrodynamic Drag Prediction Engine for Maritime Fuel Optimization**
 
@@ -25,8 +25,8 @@ Built from scratch by an 18-year-old independent researcher from T&uuml;rkiye.
   (cross-validated).
 - **Replication, Cape Hatteras (AIS, same 11 days):** positive effect on all 11 days; 23.4%
   variability reduction.
-- **Fuel, one cruise ship (FuelCast, 12 months):** accounting for the along-track current reduces
-  the fuel prediction error by about 21-23%.
+- **Fuel, three vessels (FuelCast):** accounting for the along-track current reduced the fuel
+  prediction error on all three (by 3-27%; largest where currents were strongest).
 
 Details and limits: see [Early Validation](#early-validation-real-ship-data).
 
@@ -53,7 +53,7 @@ What Batimetrix currently offers:
 | Live SSH inputs at route waypoints | Implemented (NASA-SSH simple grid, weekly, 0.5&deg;; 181/188 waypoints) |
 | Surface currents | Implemented: NASA OSCAR total surface current (daily, 0.25&deg;), model input via PINN v3 and shown in telemetry |
 | Validation of satellite currents against real ship speeds (AIS) | Done: Florida Straits and Cape Hatteras, 11 days each in 2025 |
-| Validation against real vessel fuel data | First test on one public cruise ship dataset (FuelCast, research-only licence); pilot shipowner still needed |
+| Validation against real vessel fuel data | First tests on three vessels from a public dataset (FuelCast, research-only licence); pilot shipowner still needed |
 | IMO CII / EU ETS / FuelEU calculators | Implemented (based on estimated savings) |
 | 60 trade routes, 15 vessel classes, fleet dashboard | Implemented |
 | Data source monitoring (10 sources) | Implemented (availability status only) |
@@ -124,7 +124,7 @@ U.S. coast (33.5-36.5 N, 77-74 W), same 11 days.
 
 Table: `validation/hatteras_2025.csv`.
 
-### 4. First fuel test: one cruise ship (FuelCast dataset)
+### 4. Fuel tests: FuelCast dataset
 
 **Data:** CPS Poseidon from the public FuelCast dataset (Krohne Digital; Hugging Face
 `krohnedigital/FuelCast`; licence CC BY-NC-ND 4.0, used here for non-commercial research only and
@@ -150,7 +150,21 @@ Accounting for the current reduced the fuel prediction error by about 21-23% wit
 Current-corrected SOG did slightly better than the speed log, which reads on average 0.23 m/s
 above SOG; this probably reflects speed log bias rather than better-than-perfect information.
 
-**Limits:** one cruise ship; total fuel includes hotel load; currents from Open-Meteo, not NASA
+**Replication on two more vessels** (same fuel model, fixed k, speed log not needed; under-way
+records with SOG above 3 m/s; code `fuelcast_three_ships.py`):
+
+| Vessel | Type | Records | Median along-track current (m/s) | Fuel error, k = 0 | k = 0.7 | k = 1.0 |
+|---|---|---|---|---|---|---|
+| CPS Poseidon | Cruise ship | 60,415 | 0.15 | 11.57% | 9.18% (-20.7%) | 8.91% (-23.0%) |
+| CPS Triton | Cruise ship | 18,271 | 0.07 | 12.26% | 11.92% (-2.8%) | 11.81% (-3.7%) |
+| OSS Ceto | Offshore vessel | 6,453 | 0.21 | 43.28% | 35.83% (-17.2%) | 31.68% (-26.8%) |
+
+The error fell on all three vessels. The gain was smallest on Triton, which sailed in the weakest
+currents. Ceto's fuel use is poorly explained by speed alone (43% error), possibly because offshore
+vessels often operate at low speed or hold position; its along-track current uses course over
+ground because no heading was available.
+
+**Limits:** three vessels from one dataset; total fuel includes hotel load; currents from Open-Meteo, not NASA
 OSCAR; position unknown; current units assumed. Open question: propulsion shaft power did not show
 the same improvement (errors about 38% for all speed inputs, dominated by other factors).
 Code: `fuelcast_test.py`, `fuelcast_robust.py`.
@@ -274,7 +288,7 @@ measured vessel data.
 
 Batimetrix is an early-stage research platform. Known limitations:
 
-- **Limited fuel validation.** A first test on one cruise ship (FuelCast) shows that
+- **Limited fuel validation.** Tests on three vessels (FuelCast) show that
   current-corrected speed improves fuel prediction, but the drag model itself has not been
   validated against measured vessel drag or fuel consumption. Next step: noon-report data (daily
   position, speed, fuel) from a pilot shipowner.
