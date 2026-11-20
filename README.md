@@ -32,7 +32,7 @@ What Batimetrix currently offers:
 | Live SSH inputs at route waypoints | Implemented (NASA-SSH simple grid, weekly, 0.5°; 181/188 waypoints) |
 | Surface currents | Implemented: total surface current from NASA OSCAR (daily, 0.25°; 188/190 points), used as a model input via PINN v3 (along-track current) and shown in the telemetry table |
 | Validation of satellite currents against real ship speeds (AIS) | Done: Florida Straits, 11 days in 2025, see Early Validation |
-| Validation against real vessel fuel data | Planned (seeking pilot shipowner) |
+| Validation against real vessel fuel data | First test on one public cruise ship dataset (FuelCast, research-only licence); pilot shipowner still needed |
 | Open source | Yes |
 
 
@@ -115,6 +115,37 @@ Gulf Stream leaves the U.S. coast (33.5-36.5 N, 77-74 W), same 11 days.
 
 Table: `validation/hatteras_2025.csv`.
 
+### First fuel test: one cruise ship (FuelCast dataset)
+
+**Data:** CPS Poseidon from the public FuelCast dataset (Krohne Digital; Hugging Face
+`krohnedigital/FuelCast`; licence CC BY-NC-ND 4.0, used here for non-commercial research only and
+not redistributed). 12 months of 5-minute onboard data: flowmeter fuel consumption, GPS speed over
+ground (SOG), speed log speed through water (STW), heading, and model ocean currents from Open-Meteo.
+60,318 under-way records. Vessel position is not included.
+
+**Test 1, current check:** the current measured by the ship (SOG - STW) correlates with the
+Open-Meteo along-track current: r = 0.60, slope 0.62 (assuming current in m/s).
+
+**Test 2, fuel prediction:** fuel rate modelled from speed and wave height (cubic in speed),
+cross-validated over 5 consecutive time blocks:
+
+| Speed used | Fuel error (RMSE, % of mean) |
+|---|---|
+| SOG only | 11.57% |
+| SOG - 0.7 x along-track current (fixed k, as in the platform) | 9.18% |
+| SOG - 1.0 x along-track current (fixed k, physics) | 8.91% |
+| SOG - k x current, k fitted per block (0.90-0.95) | 8.93% |
+| Measured STW (speed log) | 9.24% |
+
+Accounting for the current reduced the fuel prediction error by about 21-23% without fitting k.
+Current-corrected SOG did slightly better than the speed log, which reads on average 0.23 m/s
+above SOG; this probably reflects speed log bias rather than better-than-perfect information.
+
+**Limits:** one cruise ship; total fuel includes hotel load; currents from Open-Meteo, not NASA
+OSCAR; position unknown; current units assumed. Open question: propulsion shaft power did not
+show the same improvement (errors about 38% for all speed inputs, dominated by other factors).
+Code: `fuelcast_test.py`, `fuelcast_robust.py`.
+
 Full table: `validation/results_2025.csv`. Code: `validation/validate_currents.py`.
 
 **Interpretation and limits:** A slope below 1 is expected because OSCAR smooths currents (0.25 deg, daily, top 30 m) and ships adjust engine settings. This validates the importance of satellite currents for vessel speed; it does not yet measure fuel savings. Consecutive AIS positions are correlated, so statistical precision is overstated; the consistency across 11 days is the main evidence. The Gulf Stream is exceptionally strong, so effects in the Black Sea and Baltic will be smaller.
@@ -188,7 +219,7 @@ Deployment: the live platform runs the PyTorch models directly. An ONNX export (
 
 Batimetrix is an early-stage research platform. Known limitations:
 
-- **No fuel validation yet.** Satellite currents have been validated against real ship speeds (see Early Validation), but the drag model itself has not yet been validated against measured vessel drag or fuel consumption; its training targets are generated from the physics model. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
+- **Limited fuel validation.** A first test on one cruise ship (FuelCast) shows that current-corrected speed improves fuel prediction. Satellite currents have been validated against real ship speeds (see Early Validation), but the drag model itself has not yet been validated against measured vessel drag or fuel consumption; its training targets are generated from the physics model. Next step: validation against ship noon-report data (daily position, speed, fuel) from a pilot shipowner.
 - **Coarse SSH resolution.** Route waypoints now use live sea surface height anomaly from the NASA-SSH simple gridded product (weekly, 0.5°). This resolution cannot resolve narrow straits or coastal areas; 7 of 188 waypoints fall back to reference values. Next step: higher-resolution SWOT data near straits.
 - **Physical interpretation.** SSH itself has a small direct effect on hull resistance; the meaningful link is through SSH gradients, which indicate geostrophic surface currents. Total surface currents now come from NASA OSCAR v2.0 (geostrophic + Ekman + thermal wind, top 30 m, daily, 0.25°). Since PINN v3 they enter the drag estimate as along-track current. OSCAR (0.25 deg) cannot resolve narrow straits: at the Istanbul Strait it shows a weak northward current, while the real surface flow is southward.
 - **SSH sensitivity and training assumptions.** The model takes SSH anomaly (ssha) as input, normalized as (ssha + 2) / 4. Real anomalies are typically within +/-0.1 m, so this input varies very little and has only a small effect on predictions. In the training data, wave height was estimated from SSH with an assumed relation (1.5 + 0.3 * |ssha|) rather than measured. Next step: retrain using measured significant wave height (swh_karin from SWOT) and a normalization matched to the real SSH range.

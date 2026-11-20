@@ -14,3 +14,12 @@ venv/
 # Temp files
 *.log
 *.tmpc
+
+fuelcast/
+
+noaa_data/
+results_*/
+.dodsrc
+patch_token.py
+test_ais*.py
+app2_backup_*.py
