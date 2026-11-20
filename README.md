@@ -30,6 +30,8 @@ Built from scratch by an 18-year-old independent researcher from T&uuml;rkiye.
 
 Details and limits: see [Early Validation](#early-validation-real-ship-data).
 
+**Technical note (draft, not peer reviewed):** [Batimetrix Technical Note 1 (PDF)](docs/Batimetrix_Technical_Note_1_v2.pdf)
+
 ---
 
 ## Positioning & Related Work
@@ -353,4 +355,4 @@ NASA satellite data, physics-informed AI and ocean analytics.*
   Environmental Sustainability in Maritime Shipping. *Sustainability* 12(9), 3649.
 - Ship Routing Through Altimetry-Derived Ocean Currents (1999). *Transportation Science* 33(1),
   49-67.
-- ESA (2015). ESA helps faster, cleaner shipping (Globcurrent project).
+- ESA. ESA helps faster, cleaner shipping (Globcurrent project).
